@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trải Nghiệm | La Mer Collection</title>
+    <meta
+      name="description"
+      content="Trải nghiệm ẩm thực, spa và hoạt động ngoài trời tại La Mer Collection, Vĩnh Hy Bay."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/tokens.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/navigation.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+    <link rel="stylesheet" href="../css/pages/experience.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="nav scrolled" aria-label="Main navigation">
+      <a href="../index.html" class="nav__logo">La Mer</a>
+      <div class="nav__links">
+        <a href="../index.html" class="nav__link">Trang Chủ</a>
+        <a href="collection.html" class="nav__link">Bộ Sưu Tập</a>
+        <a href="experience.html" class="nav__link nav__link--active"
+          >Trải Nghiệm</a
+        >
+        <a href="story.html" class="nav__link">Câu Chuyện</a>
+        <a href="vinh-hy.html" class="nav__link">Vĩnh Hy</a>
+        <a href="gallery.html" class="nav__link">Thư Viện</a>
+        <a href="lien-he.html" class="nav__link">Liên Hệ</a>
+      </div>
+      <button class="nav__hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div class="nav__overlay">
+      <a href="../index.html" class="nav__overlay-link">Trang Chủ</a>
+      <a href="collection.html" class="nav__overlay-link">Bộ Sưu Tập</a>
+      <a href="experience.html" class="nav__overlay-link">Trải Nghiệm</a>
+      <a href="story.html" class="nav__overlay-link">Câu Chuyện</a>
+      <a href="vinh-hy.html" class="nav__overlay-link">Vĩnh Hy</a>
+      <a href="gallery.html" class="nav__overlay-link">Thư Viện</a>
+      <a href="lien-he.html" class="nav__overlay-link">Liên Hệ</a>
+    </div>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+      <div
+        class="page-hero__bg"
+        style="
+          background: linear-gradient(
+            135deg,
+            #1a4a63 0%,
+            #c9a87c 60%,
+            #0d2b3e 100%
+          );
+        "
+      ></div>
+      <div class="page-hero__overlay"></div>
+      <div class="page-hero__content">
+        <p class="page-hero__subtitle">Experiences</p>
+        <h1 class="page-hero__title">Trải Nghiệm</h1>
+      </div>
+    </section>
+
+    <!-- Dining Section -->
+    <section class="dining">
+      <div class="dining__content reveal">
+        <p class="section-subtitle">Ẩm Thực</p>
+        <h2 class="section-title">Hương Vị Vĩnh Hy</h2>
+        <p class="dining__text">
+          Nhà hàng và quán cà phê của La Mer mang đến những hương vị tươi ngon
+          nhất từ biển cả &mdash; hải sản đánh bắt mỗi sáng, rau xanh từ vườn
+          địa phương, và cà phê rang xay thủ công.
+        </p>
+      </div>
+
+      <!-- Horizontal gallery strip -->
+      <div class="dining__gallery reveal" data-delay="200">
+        <div
+          class="dining__gallery-item"
+          style="background: linear-gradient(135deg, #c9a87c, #b8945a)"
+        ></div>
+        <div
+          class="dining__gallery-item"
+          style="background: linear-gradient(135deg, #1a4a63, #2c5f7a)"
+        ></div>
+        <div
+          class="dining__gallery-item"
+          style="background: linear-gradient(135deg, #b8945a, #8a6d3b)"
+        ></div>
+        <div
+          class="dining__gallery-item"
+          style="background: linear-gradient(135deg, #0d2b3e, #1a4a63)"
+        ></div>
+        <div
+          class="dining__gallery-item"
+          style="background: linear-gradient(135deg, #d4b088, #c9a87c)"
+        ></div>
+      </div>
+    </section>
+
+    <!-- Spa Section -->
+    <section class="spa">
+      <div class="spa__overlay"></div>
+      <div class="spa__content reveal-left">
+        <p class="section-subtitle" style="color: var(--color-sand)">
+          Spa & Wellness
+        </p>
+        <h2 class="spa__title">Thư Giãn Toàn Diện</h2>
+        <p class="spa__text">
+          Spa tại La Mer kết hợp liệu pháp truyền thống Việt Nam với kỹ thuật
+          hiện đại. Hãy để cơ thể hòa mình vào nhịp thở của sóng biển và hương
+          thảo mộc tự nhiên.
+        </p>
+        <a href="#" class="btn btn--white">Đặt Lịch Spa</a>
+      </div>
+    </section>
+
+    <!-- Activities Grid -->
+    <section class="activities">
+      <div class="text-center reveal" style="margin-bottom: var(--space-12)">
+        <p class="section-subtitle">Hoạt Động</p>
+        <h2 class="section-title">Khám Phá Vĩnh Hy</h2>
+      </div>
+
+      <div class="activities__grid">
+        <div class="activity-card reveal" data-delay="0">
+          <div
+            class="activity-card__bg"
+            style="
+              background: linear-gradient(180deg, #2c8fa0 0%, #1a4a63 100%);
+            "
+          ></div>
+          <div class="activity-card__overlay"></div>
+          <div class="activity-card__content">
+            <svg
+              class="activity-card__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              width="32"
+              height="32"
+            >
+              <path d="M3 17l2-2h14l2 2M5 15V9a7 7 0 0114 0v6" />
+            </svg>
+            <h3 class="activity-card__title">Chèo Kayak</h3>
+            <p class="activity-card__desc">Khám phá vịnh trên thuyền kayak</p>
+          </div>
+        </div>
+
+        <div class="activity-card reveal" data-delay="150">
+          <div
+            class="activity-card__bg"
+            style="
+              background: linear-gradient(180deg, #1a6a8a 0%, #0d2b3e 100%);
+            "
+          ></div>
+          <div class="activity-card__overlay"></div>
+          <div class="activity-card__content">
+            <svg
+              class="activity-card__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              width="32"
+              height="32"
+            >
+              <path
+                d="M2 20c2-1 4-1 6 0s4 1 6 0 4-1 6 0M12 16V4m-4 4l4-4 4 4"
+              />
+            </svg>
+            <h3 class="activity-card__title">Lặn Ngắm San Hô</h3>
+            <p class="activity-card__desc">Thế giới dưới đáy biển Vĩnh Hy</p>
+          </div>
+        </div>
+
+        <div class="activity-card reveal" data-delay="300">
+          <div
+            class="activity-card__bg"
+            style="
+              background: linear-gradient(180deg, #3a7a5a 0%, #1a4a3a 100%);
+            "
+          ></div>
+          <div class="activity-card__overlay"></div>
+          <div class="activity-card__content">
+            <svg
+              class="activity-card__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              width="32"
+              height="32"
+            >
+              <path d="M18 4l-4 8h6l-4 8M6 4v16M6 12c3 0 5-2 5-4S9 4 6 4" />
+            </svg>
+            <h3 class="activity-card__title">Câu Cá</h3>
+            <p class="activity-card__desc">Câu cá cùng ngư dân địa phương</p>
+          </div>
+        </div>
+
+        <div class="activity-card reveal" data-delay="450">
+          <div
+            class="activity-card__bg"
+            style="
+              background: linear-gradient(180deg, #c97a4a 0%, #8a4a2a 100%);
+            "
+          ></div>
+          <div class="activity-card__overlay"></div>
+          <div class="activity-card__content">
+            <svg
+              class="activity-card__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              width="32"
+              height="32"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="M3 20h18M12 2v2m7.07 2.93l-1.41 1.41M22 12h-2M4 12H2m3.34-5.66L3.93 4.93"
+              />
+            </svg>
+            <h3 class="activity-card__title">Du Thuyền Hoàng Hôn</h3>
+            <p class="activity-card__desc">Ngắm hoàng hôn trên thuyền gỗ</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-banner">
+      <div class="reveal">
+        <h2 class="cta-banner__title">Bắt Đầu Hành Trình</h2>
+        <p class="cta-banner__text">
+          Liên hệ với chúng tôi để lên kế hoạch cho kỳ nghỉ hoàn hảo tại Vĩnh Hy
+          Bay.
+        </p>
+        <a href="lien-he.html" class="btn btn--white">Liên Hệ Ngay</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer__grid">
+        <div>
+          <p class="footer__brand-name">La Mer Collection</p>
+          <p class="footer__brand-desc">
+            Sống Trong Lòng Vịnh &mdash; Bộ sưu tập nghỉ dưỡng độc đáo tại Vĩnh
+            Hy, Ninh Thuận, Việt Nam.
+          </p>
+        </div>
+        <div>
+          <h4 class="footer__heading">Liên Kết</h4>
+          <a href="../index.html" class="footer__link">Trang Chủ</a>
+          <a href="collection.html" class="footer__link">Bộ Sưu Tập</a>
+          <a href="experience.html" class="footer__link">Trải Nghiệm</a>
+          <a href="story.html" class="footer__link">Câu Chuyện</a>
+          <a href="lien-he.html" class="footer__link">Liên Hệ</a>
+        </div>
+        <div>
+          <h4 class="footer__heading">Liên Hệ</h4>
+          <a href="tel:+84259123456" class="footer__link">+84 259 123 456</a>
+          <a href="mailto:hello@lamercollection.vn" class="footer__link"
+            >hello@lamercollection.vn</a
+          >
+          <p class="footer__link">Vĩnh Hy, Ninh Hải, Ninh Thuận, Việt Nam</p>
+        </div>
+      </div>
+      <hr class="footer__divider" />
+      <p class="footer__copyright">
+        &copy; 2026 La Mer Collection. All rights reserved.
+      </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/navigation.js"></script>
+    <script src="../js/scroll-animations.js"></script>
+  </body>
+</html>

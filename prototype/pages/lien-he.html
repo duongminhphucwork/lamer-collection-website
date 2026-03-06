@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liên Hệ | La Mer Collection</title>
+    <meta
+      name="description"
+      content="Liên hệ đặt phòng tại La Mer Collection, Vĩnh Hy Bay, Ninh Thuận."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/tokens.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/navigation.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+    <link rel="stylesheet" href="../css/pages/contact.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="nav scrolled" aria-label="Main navigation">
+      <a href="../index.html" class="nav__logo">La Mer</a>
+      <div class="nav__links">
+        <a href="../index.html" class="nav__link">Trang Chủ</a>
+        <a href="collection.html" class="nav__link">Bộ Sưu Tập</a>
+        <a href="experience.html" class="nav__link">Trải Nghiệm</a>
+        <a href="story.html" class="nav__link">Câu Chuyện</a>
+        <a href="vinh-hy.html" class="nav__link">Vĩnh Hy</a>
+        <a href="gallery.html" class="nav__link">Thư Viện</a>
+        <a href="lien-he.html" class="nav__link nav__link--active">Liên Hệ</a>
+      </div>
+      <button class="nav__hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div class="nav__overlay">
+      <a href="../index.html" class="nav__overlay-link">Trang Chủ</a>
+      <a href="collection.html" class="nav__overlay-link">Bộ Sưu Tập</a>
+      <a href="experience.html" class="nav__overlay-link">Trải Nghiệm</a>
+      <a href="story.html" class="nav__overlay-link">Câu Chuyện</a>
+      <a href="vinh-hy.html" class="nav__overlay-link">Vĩnh Hy</a>
+      <a href="gallery.html" class="nav__overlay-link">Thư Viện</a>
+      <a href="lien-he.html" class="nav__overlay-link">Liên Hệ</a>
+    </div>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+      <div
+        class="page-hero__bg"
+        style="
+          background: linear-gradient(
+            135deg,
+            #0d2b3e 0%,
+            #1a4a63 60%,
+            #c9a87c 100%
+          );
+        "
+      ></div>
+      <div class="page-hero__overlay"></div>
+      <div class="page-hero__content">
+        <p class="page-hero__subtitle">Contact</p>
+        <h1 class="page-hero__title">Liên Hệ</h1>
+      </div>
+    </section>
+
+    <!-- Contact Grid -->
+    <section class="contact">
+      <div class="contact__grid">
+        <!-- Form -->
+        <div class="contact__form-wrap reveal">
+          <h2 class="section-title">Đặt Phòng</h2>
+          <p class="contact__intro">
+            Vui lòng điền thông tin bên dưới, đội ngũ của chúng tôi sẽ liên hệ
+            lại trong vòng 24 giờ.
+          </p>
+          <form class="contact-form" id="contact-form">
+            <div class="contact-form__row">
+              <div class="contact-form__field">
+                <label for="name" class="contact-form__label">Họ tên</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  class="contact-form__input"
+                  required
+                />
+              </div>
+              <div class="contact-form__field">
+                <label for="email" class="contact-form__label">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="contact-form__input"
+                  required
+                />
+              </div>
+            </div>
+            <div class="contact-form__row">
+              <div class="contact-form__field">
+                <label for="phone" class="contact-form__label"
+                  >Số điện thoại</label
+                >
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  class="contact-form__input"
+                />
+              </div>
+              <div class="contact-form__field">
+                <label for="guests" class="contact-form__label">Số khách</label>
+                <input
+                  type="number"
+                  id="guests"
+                  name="guests"
+                  min="1"
+                  max="20"
+                  class="contact-form__input"
+                />
+              </div>
+            </div>
+            <div class="contact-form__row">
+              <div class="contact-form__field">
+                <label for="checkin" class="contact-form__label"
+                  >Ngày đến</label
+                >
+                <input
+                  type="date"
+                  id="checkin"
+                  name="checkin"
+                  class="contact-form__input"
+                />
+              </div>
+              <div class="contact-form__field">
+                <label for="checkout" class="contact-form__label"
+                  >Ngày đi</label
+                >
+                <input
+                  type="date"
+                  id="checkout"
+                  name="checkout"
+                  class="contact-form__input"
+                />
+              </div>
+            </div>
+            <div class="contact-form__field">
+              <label for="room-type" class="contact-form__label"
+                >Loại phòng</label
+              >
+              <select
+                id="room-type"
+                name="room-type"
+                class="contact-form__input"
+              >
+                <option value="">-- Chọn loại phòng --</option>
+                <option value="heritage">Villa Di Sản</option>
+                <option value="mediterranean">Villa Địa Trung Hải</option>
+                <option value="vietnamese">Villa Việt Nam</option>
+                <option value="hotel">Phòng Khách Sạn</option>
+              </select>
+            </div>
+            <div class="contact-form__field">
+              <label for="message" class="contact-form__label">Tin nhắn</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                class="contact-form__textarea"
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn--filled">Gửi Yêu Cầu</button>
+          </form>
+        </div>
+
+        <!-- Info -->
+        <div class="contact__info reveal" data-delay="200">
+          <h3 class="contact__info-title">Thông Tin Liên Hệ</h3>
+          <div class="contact__info-item">
+            <span class="contact__info-label">Điện thoại</span>
+            <a href="tel:+84259123456" class="contact__info-value"
+              >+84 259 123 456</a
+            >
+          </div>
+          <div class="contact__info-item">
+            <span class="contact__info-label">Email</span>
+            <a
+              href="mailto:hello@lamercollection.com"
+              class="contact__info-value"
+              >hello@lamercollection.com</a
+            >
+          </div>
+          <div class="contact__info-item">
+            <span class="contact__info-label">Zalo</span>
+            <span class="contact__info-value">0259 123 456</span>
+          </div>
+          <div class="contact__info-item">
+            <span class="contact__info-label">Địa chỉ</span>
+            <span class="contact__info-value"
+              >Vĩnh Hy, Ninh Hải, Ninh Thuận, Việt Nam</span
+            >
+          </div>
+          <div class="contact__hours">
+            <h4 class="contact__hours-title">Giờ Làm Việc</h4>
+            <p class="contact__hours-text">
+              Thứ Hai &ndash; Chủ Nhật: 07:00 &ndash; 22:00
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map Placeholder -->
+    <section class="map-placeholder">
+      <div class="map-placeholder__content">
+        <p class="map-placeholder__title">Vĩnh Hy Bay</p>
+        <p class="map-placeholder__subtitle">Ninh Thuận, Việt Nam</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer__grid">
+        <div>
+          <p class="footer__brand-name">La Mer Collection</p>
+          <p class="footer__brand-desc">
+            Sống Trong Lòng Vịnh &mdash; Bộ sưu tập nghỉ dưỡng độc đáo tại Vĩnh
+            Hy, Ninh Thuận, Việt Nam.
+          </p>
+        </div>
+        <div>
+          <h4 class="footer__heading">Liên Kết</h4>
+          <a href="../index.html" class="footer__link">Trang Chủ</a>
+          <a href="collection.html" class="footer__link">Bộ Sưu Tập</a>
+          <a href="experience.html" class="footer__link">Trải Nghiệm</a>
+          <a href="story.html" class="footer__link">Câu Chuyện</a>
+          <a href="lien-he.html" class="footer__link">Liên Hệ</a>
+        </div>
+        <div>
+          <h4 class="footer__heading">Liên Hệ</h4>
+          <a href="tel:+84259123456" class="footer__link">+84 259 123 456</a>
+          <a href="mailto:hello@lamercollection.vn" class="footer__link"
+            >hello@lamercollection.vn</a
+          >
+          <p class="footer__link">Vĩnh Hy, Ninh Hải, Ninh Thuận, Việt Nam</p>
+        </div>
+      </div>
+      <hr class="footer__divider" />
+      <p class="footer__copyright">
+        &copy; 2026 La Mer Collection. All rights reserved.
+      </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/navigation.js"></script>
+    <script src="../js/scroll-animations.js"></script>
+  </body>
+</html>

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Câu Chuyện | La Mer Collection</title>
+    <meta
+      name="description"
+      content="Câu chuyện về La Mer Collection - hành trình bảo tồn di sản và cộng đồng tại Vĩnh Hy Bay."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/tokens.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/navigation.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+    <link rel="stylesheet" href="../css/pages/story.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="nav scrolled" aria-label="Main navigation">
+      <a href="../index.html" class="nav__logo">La Mer</a>
+      <div class="nav__links">
+        <a href="../index.html" class="nav__link">Trang Chủ</a>
+        <a href="collection.html" class="nav__link">Bộ Sưu Tập</a>
+        <a href="experience.html" class="nav__link">Trải Nghiệm</a>
+        <a href="story.html" class="nav__link nav__link--active">Câu Chuyện</a>
+        <a href="vinh-hy.html" class="nav__link">Vĩnh Hy</a>
+        <a href="gallery.html" class="nav__link">Thư Viện</a>
+        <a href="lien-he.html" class="nav__link">Liên Hệ</a>
+      </div>
+      <button class="nav__hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div class="nav__overlay">
+      <a href="../index.html" class="nav__overlay-link">Trang Chủ</a>
+      <a href="collection.html" class="nav__overlay-link">Bộ Sưu Tập</a>
+      <a href="experience.html" class="nav__overlay-link">Trải Nghiệm</a>
+      <a href="story.html" class="nav__overlay-link">Câu Chuyện</a>
+      <a href="vinh-hy.html" class="nav__overlay-link">Vĩnh Hy</a>
+      <a href="gallery.html" class="nav__overlay-link">Thư Viện</a>
+      <a href="lien-he.html" class="nav__overlay-link">Liên Hệ</a>
+    </div>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+      <div
+        class="page-hero__bg"
+        style="
+          background: linear-gradient(
+            135deg,
+            #0d2b3e 0%,
+            #1a4a63 40%,
+            #c9a87c 100%
+          );
+        "
+      ></div>
+      <div class="page-hero__overlay"></div>
+      <div class="page-hero__content">
+        <p class="page-hero__subtitle">Our Story</p>
+        <h1 class="page-hero__title">Câu Chuyện</h1>
+      </div>
+    </section>
+
+    <!-- Origin Story -->
+    <section class="origin">
+      <div class="origin__grid">
+        <div class="origin__text reveal">
+          <p class="section-subtitle">Khởi Nguồn</p>
+          <h2 class="section-title">Nơi Tất Cả Bắt Đầu</h2>
+          <p class="origin__desc">
+            La Mer Collection ra đời từ một tình yêu sâu sắc dành cho Vĩnh Hy
+            &mdash; vịnh biển nhỏ bé nằm giữa núi rừng và đại dương, nơi cuộc
+            sống trôi chậm theo nhịp thở của sóng.
+          </p>
+          <p class="origin__desc">
+            Chúng tôi không xây dựng một khu resort biệt lập. Thay vào đó, chúng
+            tôi tìm kiếm, trùng tu và tái sinh những ngôi nhà có lịch sử &mdash;
+            biến chúng thành không gian nghỉ dưỡng sang trọng mà vẫn giữ nguyên
+            linh hồn của nơi chốn.
+          </p>
+        </div>
+        <div
+          class="origin__image reveal"
+          data-delay="200"
+          style="background: linear-gradient(135deg, #1a4a63 0%, #c9a87c 100%)"
+        ></div>
+      </div>
+    </section>
+
+    <!-- Heritage Section -->
+    <section class="heritage">
+      <div class="heritage__overlay"></div>
+      <div class="heritage__content reveal">
+        <p class="section-subtitle" style="color: var(--color-sand)">Di Sản</p>
+        <h2 class="heritage__title">Bảo Tồn Kiến Trúc Bản Địa</h2>
+        <p class="heritage__text">
+          Mỗi căn villa trong bộ sưu tập đều mang dấu ấn thời gian. Những ngôi
+          nhà cổ của cư dân địa phương được trùng tu tỉ mỉ, giữ nguyên kết cấu
+          gỗ, mái ngói và khoảng sân vườn &mdash; đồng thời nâng cấp tiện nghi
+          đạt chuẩn quốc tế.
+        </p>
+      </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="community">
+      <div class="text-center reveal" style="margin-bottom: var(--space-12)">
+        <p class="section-subtitle">Cộng Đồng</p>
+        <h2 class="section-title">Sống Cùng Vĩnh Hy</h2>
+      </div>
+      <div class="community__grid">
+        <div class="community__card reveal" data-delay="0">
+          <div
+            class="community__icon"
+            style="
+              background: linear-gradient(180deg, #2c8fa0 0%, #1a4a63 100%);
+            "
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              width="28"
+              height="28"
+            >
+              <path
+                d="M2 20c2-1 4-1 6 0s4 1 6 0 4-1 6 0M5 17V9a7 7 0 0114 0v8"
+              />
+            </svg>
+          </div>
+          <h3 class="community__card-title">Ngư Dân</h3>
+          <p class="community__card-desc">
+            Cùng ngư dân ra khơi đánh bắt mỗi sáng sớm, tìm hiểu nghề biển
+            truyền thống đã tồn tại hàng trăm năm tại Vĩnh Hy.
+          </p>
+        </div>
+        <div class="community__card reveal" data-delay="150">
+          <div
+            class="community__icon"
+            style="
+              background: linear-gradient(180deg, #c97a4a 0%, #8a4a2a 100%);
+            "
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              width="28"
+              height="28"
+            >
+              <path
+                d="M3 12h18M5 12a7 7 0 0114 0M5 12v4a7 7 0 0014 0v-4M12 8V5m-3 3V6m6 2V6"
+              />
+            </svg>
+          </div>
+          <h3 class="community__card-title">Ẩm Thực</h3>
+          <p class="community__card-desc">
+            Hải sản tươi sống từ biển Vĩnh Hy, chế biến theo công thức gia
+            truyền của những gia đình ngư dân lâu đời tại vịnh.
+          </p>
+        </div>
+        <div class="community__card reveal" data-delay="300">
+          <div
+            class="community__icon"
+            style="
+              background: linear-gradient(180deg, #3a7a5a 0%, #1a4a3a 100%);
+            "
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              width="28"
+              height="28"
+            >
+              <path
+                d="M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          </div>
+          <h3 class="community__card-title">Văn Hóa</h3>
+          <p class="community__card-desc">
+            Trải nghiệm văn hóa Chăm Pa và Raglai bản địa qua lễ hội, âm nhạc và
+            những câu chuyện kể từ cộng đồng địa phương.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Philosophy -->
+    <section class="philosophy">
+      <div class="reveal">
+        <blockquote class="philosophy__quote">
+          &ldquo;Chúng tôi tin rằng du lịch bền vững không phải là cách ly du
+          khách khỏi cộng đồng, mà là kết nối họ &mdash; để mỗi chuyến đi đều để
+          lại giá trị cho cả hai phía.&rdquo;
+        </blockquote>
+        <p class="philosophy__author">La Mer Collection</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer__grid">
+        <div>
+          <p class="footer__brand-name">La Mer Collection</p>
+          <p class="footer__brand-desc">
+            Sống Trong Lòng Vịnh &mdash; Bộ sưu tập nghỉ dưỡng độc đáo tại Vĩnh
+            Hy, Ninh Thuận, Việt Nam.
+          </p>
+        </div>
+        <div>
+          <h4 class="footer__heading">Liên Kết</h4>
+          <a href="../index.html" class="footer__link">Trang Chủ</a>
+          <a href="collection.html" class="footer__link">Bộ Sưu Tập</a>
+          <a href="experience.html" class="footer__link">Trải Nghiệm</a>
+          <a href="story.html" class="footer__link">Câu Chuyện</a>
+          <a href="lien-he.html" class="footer__link">Liên Hệ</a>
+        </div>
+        <div>
+          <h4 class="footer__heading">Liên Hệ</h4>
+          <a href="tel:+84259123456" class="footer__link">+84 259 123 456</a>
+          <a href="mailto:hello@lamercollection.vn" class="footer__link"
+            >hello@lamercollection.vn</a
+          >
+          <p class="footer__link">Vĩnh Hy, Ninh Hải, Ninh Thuận, Việt Nam</p>
+        </div>
+      </div>
+      <hr class="footer__divider" />
+      <p class="footer__copyright">
+        &copy; 2026 La Mer Collection. All rights reserved.
+      </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/navigation.js"></script>
+    <script src="../js/scroll-animations.js"></script>
+  </body>
+</html>

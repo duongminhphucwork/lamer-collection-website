@@ -1,0 +1,147 @@
+/* ========== Filter Nav (shared with collection) ========== */
+.filter-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-12) var(--container-padding) var(--space-8);
+}
+
+.filter-nav__pill {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: var(--space-2) var(--space-6);
+  border: 1px solid rgba(201, 168, 124, 0.4);
+  color: var(--color-text-light);
+  border-radius: 100px;
+  transition: all var(--duration-fast);
+  cursor: pointer;
+  background: none;
+}
+
+.filter-nav__pill:hover,
+.filter-nav__pill.is-active {
+  background-color: var(--color-sand);
+  border-color: var(--color-sand);
+  color: var(--color-ocean);
+}
+
+/* ========== Gallery Grid ========== */
+.gallery {
+  padding: 0 var(--container-padding) var(--space-24);
+}
+
+.gallery__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  max-width: var(--container-max);
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gallery__item--wide {
+    grid-column: span 2;
+  }
+
+  .gallery__item--tall {
+    grid-row: span 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gallery__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.gallery__item {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.gallery__item--tall {
+  aspect-ratio: 3 / 5;
+}
+
+.gallery__item--wide {
+  aspect-ratio: 16 / 7;
+}
+
+.gallery__item.is-hidden {
+  display: none;
+}
+
+.gallery__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(13, 43, 62, 0.7) 0%,
+    transparent 50%
+  );
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-6);
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.gallery__item:hover .gallery__overlay {
+  opacity: 1;
+}
+
+.gallery__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  color: var(--color-white);
+  font-weight: 500;
+}
+
+/* ========== Lightbox ========== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(13, 43, 62, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.lightbox.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-6);
+  font-size: var(--text-2xl);
+  color: var(--color-white);
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 201;
+  line-height: 1;
+}
+
+.lightbox__content {
+  width: 80vw;
+  height: 70vh;
+  max-width: 1000px;
+  border-radius: 2px;
+}

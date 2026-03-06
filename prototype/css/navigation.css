@@ -1,0 +1,123 @@
+/* ========== Navigation ========== */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: var(--space-4) var(--container-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition:
+    background-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
+}
+
+.nav.scrolled {
+  background-color: var(--color-ocean);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+}
+
+.nav__logo {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  color: var(--color-white);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.nav__links {
+  display: none;
+  gap: var(--space-8);
+}
+
+.nav__link {
+  font-size: var(--text-xs);
+  color: var(--color-white);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color var(--duration-fast);
+  font-weight: 400;
+}
+
+.nav__link:hover {
+  color: var(--color-sand);
+}
+
+.nav__link--active {
+  color: var(--color-sand);
+}
+
+/* Hamburger */
+.nav__hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-2);
+}
+
+.nav__hamburger span {
+  display: block;
+  width: 28px;
+  height: 1.5px;
+  background-color: var(--color-white);
+  transition:
+    transform var(--duration-normal) var(--ease-out),
+    opacity var(--duration-fast);
+}
+
+.nav__hamburger.is-active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav__hamburger.is-active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav__hamburger.is-active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Mobile Menu Overlay */
+.nav__overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--color-overlay-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-out);
+  z-index: 99;
+}
+
+.nav__overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.nav__overlay-link {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  color: var(--color-white);
+  letter-spacing: 0.1em;
+  transition: color var(--duration-fast);
+}
+
+.nav__overlay-link:hover {
+  color: var(--color-sand);
+}
+
+@media (min-width: 1024px) {
+  .nav__links {
+    display: flex;
+  }
+  .nav__hamburger {
+    display: none;
+  }
+}
