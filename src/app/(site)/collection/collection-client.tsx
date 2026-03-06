@@ -18,11 +18,11 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 const CATEGORY_DESCRIPTIONS: Record<string, string> = {
   heritage:
-    "Những ngôi nhà cũ của người dân địa phương tại Vĩnh Hy được cải tạo thành không gian nghỉ dưỡng — giữ nguyên hồn cốt kiến trúc bản địa, mái ngói, tường đá, hòa quyện cùng thiên nhiên.",
+    "Nhà cũ của cư dân Vĩnh Hy, được phục dựng và cải tạo cẩn thận — nơi di sản kiến trúc bản địa gặp gỡ sự tinh tế của nghỉ dưỡng đương đại.",
   mediterranean:
-    "Phong cách Địa Trung Hải giữa lòng vịnh biển — những đường cong mềm mại, tone màu ấm áp, và tầm nhìn trọn vẹn ra đại dương.",
+    "Đường nét Địa Trung Hải hòa vào khung cảnh vịnh biển — không gian thoáng đãng, sắc ấm của đá và gỗ, mở ra tầm nhìn không giới hạn.",
   hotel:
-    "Phòng khách sạn tiêu chuẩn với tầm nhìn hướng biển, thiết kế hiện đại kết hợp chất liệu tự nhiên của vùng Ninh Thuận.",
+    "Phòng nghỉ hướng biển với thiết kế tối giản, tận dụng ánh sáng tự nhiên và chất liệu địa phương cho trải nghiệm nghỉ dưỡng trọn vẹn.",
 };
 
 const CATEGORY_GRADIENTS: Record<string, string> = {
@@ -101,6 +101,7 @@ export default function CollectionClient({
 
       {filter !== "all" && CATEGORY_DESCRIPTIONS[filter] && (
         <div
+          className="text-center"
           style={{
             padding: "0 var(--container-padding)",
             maxWidth: "var(--container-max)",
@@ -109,11 +110,13 @@ export default function CollectionClient({
           }}
         >
           <p
+            className="font-heading font-normal italic"
             style={{
               fontSize: "var(--text-base)",
               color: "var(--color-text-light)",
               lineHeight: 1.8,
-              maxWidth: "700px",
+              maxWidth: "640px",
+              marginInline: "auto",
             }}
           >
             {CATEGORY_DESCRIPTIONS[filter]}
