@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
-import Navigation from "@/components/layout/navigation";
-import Footer from "@/components/layout/footer";
 import { SITE } from "@/lib/constants";
 import "./globals.css";
 
@@ -33,6 +31,7 @@ export const metadata: Metadata = {
   },
 };
 
+/** Root layout - fonts and globals only, no nav/footer */
 export default function RootLayout({
   children,
 }: {
@@ -40,11 +39,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi" className={`${cormorant.variable} ${inter.variable}`}>
-      <body className="font-body">
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
-      </body>
+      <body className="font-body">{children}</body>
     </html>
   );
 }
