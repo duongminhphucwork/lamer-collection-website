@@ -107,8 +107,8 @@ export default async function ExperiencePage() {
               scrollbarColor: "var(--color-sand) transparent",
             }}
           >
-            {(dining?.images?.length
-              ? dining.images
+            {((dining?.images?.length ?? 0) >= 3
+              ? dining!.images!
               : DINING_GALLERY_BG.map((bg) => ({ bg }))
             ).map((item, i) => (
               <div
