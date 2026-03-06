@@ -107,8 +107,10 @@ export default function GalleryPage() {
           onClick={closeLightbox}
         >
           <button
-            className="absolute top-6 right-6 z-[201] leading-none"
+            className="absolute z-[201] leading-none"
             style={{
+              top: "var(--space-6)",
+              right: "var(--space-6)",
               fontSize: "var(--text-2xl)",
               color: "var(--color-white)",
             }}

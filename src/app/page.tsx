@@ -229,8 +229,9 @@ export default function HomePage() {
         }}
       >
         <div
-          className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-16"
+          className="grid grid-cols-1 md:grid-cols-2 items-center"
           style={{
+            gap: "var(--space-8)",
             maxWidth: "var(--container-max)",
             marginInline: "auto",
           }}

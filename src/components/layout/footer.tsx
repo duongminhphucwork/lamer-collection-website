@@ -124,7 +124,6 @@ export default function Footer() {
           border: "none",
           borderTop: "1px solid rgba(247, 242, 234, 0.1)",
           marginTop: "var(--space-16)",
-          paddingTop: "var(--space-6)",
         }}
       />
       <p
@@ -132,6 +131,7 @@ export default function Footer() {
           textAlign: "center",
           fontSize: "var(--text-xs)",
           color: "rgba(247, 242, 234, 0.4)",
+          paddingTop: "var(--space-6)",
         }}
       >
         &copy; {new Date().getFullYear()} {SITE.name}. All rights reserved.

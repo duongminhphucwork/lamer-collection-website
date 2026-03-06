@@ -25,28 +25,42 @@ export default function Navigation() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-[100] flex items-center justify-between transition-all duration-[400ms] ease-smooth container-padding py-4 ${
+        className={`fixed top-0 left-0 w-full z-[100] flex items-center justify-between ${
           scrolled ? "bg-ocean shadow-[0_2px_20px_rgba(0,0,0,0.15)]" : ""
         }`}
+        style={{
+          padding: "var(--space-4) var(--container-padding)",
+          transition:
+            "background-color var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out)",
+        }}
         aria-label="Main navigation"
       >
         <Link
           href="/"
-          className="font-heading text-fluid-xl font-normal text-white tracking-[0.15em] uppercase"
+          className="font-heading font-normal text-white uppercase"
+          style={{
+            fontSize: "var(--text-xl)",
+            letterSpacing: "0.15em",
+          }}
         >
           La Mer
         </Link>
 
-        <div className="hidden lg:flex gap-8">
+        <div className="hidden lg:flex" style={{ gap: "var(--space-8)" }}>
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`text-fluid-xs tracking-[0.1em] uppercase transition-colors duration-200 font-normal ${
+              className={`uppercase font-normal transition-colors ${
                 pathname === link.href
                   ? "text-sand"
                   : "text-white hover:text-sand"
               }`}
+              style={{
+                fontSize: "var(--text-xs)",
+                letterSpacing: "0.1em",
+                transitionDuration: "var(--duration-fast)",
+              }}
             >
               {link.label}
             </Link>
@@ -54,7 +68,8 @@ export default function Navigation() {
         </div>
 
         <button
-          className="flex lg:hidden flex-col gap-[6px] p-2"
+          className="flex lg:hidden flex-col"
+          style={{ gap: "6px", padding: "var(--space-2)" }}
           aria-label="Toggle menu"
           onClick={() => setMenuOpen(!menuOpen)}
         >

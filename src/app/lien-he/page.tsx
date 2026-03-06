@@ -54,7 +54,10 @@ export default function ContactPage() {
             </p>
 
             {submitted ? (
-              <div className="py-12 text-center">
+              <div
+                className="text-center"
+                style={{ paddingBlock: "var(--space-12)" }}
+              >
                 <p
                   className="font-heading"
                   style={{

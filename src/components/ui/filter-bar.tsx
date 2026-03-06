@@ -19,7 +19,9 @@ export default function FilterBar({
     <div
       className="flex flex-wrap justify-center"
       style={{
-        padding: "var(--space-8) var(--container-padding)",
+        padding: isSquare
+          ? "var(--space-8) var(--container-padding)"
+          : "var(--space-12) var(--container-padding) var(--space-8)",
         gap: "var(--space-3)",
         maxWidth: "var(--container-max)",
         marginInline: "auto",

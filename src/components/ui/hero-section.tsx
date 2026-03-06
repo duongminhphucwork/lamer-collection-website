@@ -23,6 +23,16 @@ export default function HeroSection({
         style={{ backgroundColor: "var(--color-overlay)" }}
       />
       <div className="relative z-[2] text-center text-white">
+        <h1
+          className="font-heading font-normal"
+          style={{
+            fontSize: "var(--text-3xl)",
+            fontWeight: 400,
+            letterSpacing: "0.1em",
+          }}
+        >
+          {title}
+        </h1>
         <p
           className="uppercase"
           style={{
@@ -34,15 +44,6 @@ export default function HeroSection({
         >
           {subtitle}
         </p>
-        <h1
-          className="font-heading font-normal"
-          style={{
-            fontSize: "var(--text-3xl)",
-            letterSpacing: "0.1em",
-          }}
-        >
-          {title}
-        </h1>
       </div>
     </section>
   );
