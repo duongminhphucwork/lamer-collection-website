@@ -4,6 +4,11 @@ import HeroSection from "@/components/ui/hero-section";
 import SectionHeading from "@/components/ui/section-heading";
 import ScrollReveal from "@/components/shared/scroll-reveal";
 import CtaBanner from "@/components/ui/cta-banner";
+import {
+  fetchPageContent,
+  getSection,
+  type ContentItem,
+} from "@/sanity/fetch-page-content";
 
 export const metadata: Metadata = {
   title: "Trải Nghiệm",
@@ -11,30 +16,30 @@ export const metadata: Metadata = {
     "Trải nghiệm ẩm thực, spa và hoạt động ngoài trời tại La Mer Collection, Vĩnh Hy Bay.",
 };
 
-const ACTIVITIES = [
+const DEFAULT_ACTIVITIES: ContentItem[] = [
   {
     title: "Chèo Kayak",
-    desc: "Khám phá vịnh trên thuyền kayak",
-    bg: "linear-gradient(180deg, #2c8fa0 0%, #1a4a63 100%)",
+    description: "Khám phá vịnh trên thuyền kayak",
+    gradient: "linear-gradient(180deg, #2c8fa0 0%, #1a4a63 100%)",
     iconPath: "M3 17l2-2h14l2 2M5 15V9a7 7 0 0114 0v6",
   },
   {
     title: "Lặn Ngắm San Hô",
-    desc: "Thế giới dưới đáy biển Vĩnh Hy",
-    bg: "linear-gradient(180deg, #1a6a8a 0%, #0d2b3e 100%)",
+    description: "Thế giới dưới đáy biển Vĩnh Hy",
+    gradient: "linear-gradient(180deg, #1a6a8a 0%, #0d2b3e 100%)",
     iconPath: "M2 20c2-1 4-1 6 0s4 1 6 0 4-1 6 0M12 16V4m-4 4l4-4 4 4",
   },
   {
     title: "Câu Cá",
-    desc: "Câu cá cùng ngư dân địa phương",
-    bg: "linear-gradient(180deg, #3a7a5a 0%, #1a4a3a 100%)",
+    description: "Câu cá cùng ngư dân địa phương",
+    gradient: "linear-gradient(180deg, #3a7a5a 0%, #1a4a3a 100%)",
     iconPath: "M18 4l-4 8h6l-4 8M6 4v16M6 12c3 0 5-2 5-4S9 4 6 4",
   },
   {
     title: "Du Thuyền Hoàng Hôn",
-    desc: "Ngắm hoàng hôn trên thuyền gỗ",
-    bg: "linear-gradient(180deg, #c97a4a 0%, #8a4a2a 100%)",
-    iconCircle: { cx: 12, cy: 12, r: 4 },
+    description: "Ngắm hoàng hôn trên thuyền gỗ",
+    gradient: "linear-gradient(180deg, #c97a4a 0%, #8a4a2a 100%)",
+    iconCircle: "12,12,4",
     iconPath:
       "M3 20h18M12 2v2m7.07 2.93l-1.41 1.41M22 12h-2M4 12H2m3.34-5.66L3.93 4.93",
   },
@@ -48,12 +53,21 @@ const DINING_GALLERY_BG = [
   "linear-gradient(135deg, #d4b088 0%, #c9a87c 100%)",
 ];
 
-export default function ExperiencePage() {
+export default async function ExperiencePage() {
+  const cms = await fetchPageContent("experience");
+  const dining = getSection(cms, "dining");
+  const spa = getSection(cms, "spa");
+  const activities = getSection(cms, "activities");
+  const activityItems = activities?.items?.length
+    ? activities.items
+    : DEFAULT_ACTIVITIES;
+
   return (
     <>
       <HeroSection
-        subtitle="Experiences"
-        title="Trải Nghiệm"
+        subtitle={cms?.heroSubtitle || "Experiences"}
+        title={cms?.heroTitle || "Trải Nghiệm"}
+        backgroundImage={cms?.heroBackground?.asset?.url}
         backgroundStyle="linear-gradient(135deg, #1a4a63 0%, #c9a87c 60%, #0d2b3e 100%)"
       />
 
@@ -66,7 +80,10 @@ export default function ExperiencePage() {
           className="max-w-container mx-auto"
           style={{ marginBottom: "var(--space-12)" }}
         >
-          <SectionHeading subtitle="Ẩm Thực" title="Hương Vị Vĩnh Hy" />
+          <SectionHeading
+            subtitle={dining?.subtitle || "Ẩm Thực"}
+            title={dining?.title || "Hương Vị Vĩnh Hy"}
+          />
           <p
             style={{
               fontSize: "var(--text-base)",
@@ -76,9 +93,8 @@ export default function ExperiencePage() {
               marginBottom: "var(--space-8)",
             }}
           >
-            Nhà hàng và quán cà phê của La Mer mang đến những hương vị tươi ngon
-            nhất từ biển cả &mdash; hải sản đánh bắt mỗi sáng, rau xanh từ vườn
-            địa phương, và cà phê rang xay thủ công.
+            {dining?.body ||
+              "Nhà hàng và quán cà phê của La Mer mang đến những hương vị tươi ngon nhất từ biển cả \u2014 hải sản đánh bắt mỗi sáng, rau xanh từ vườn địa phương, và cà phê rang xay thủ công."}
           </p>
         </ScrollReveal>
         <ScrollReveal delay={0.2}>
@@ -91,12 +107,29 @@ export default function ExperiencePage() {
               scrollbarColor: "var(--color-sand) transparent",
             }}
           >
-            {DINING_GALLERY_BG.map((bg, i) => (
+            {(dining?.images?.length
+              ? dining.images
+              : DINING_GALLERY_BG.map((bg) => ({ bg }))
+            ).map((item, i) => (
               <div
                 key={i}
-                className="flex-none w-[280px] md:w-[400px] snap-start rounded-sm overflow-hidden"
-                style={{ aspectRatio: "3/2", background: bg }}
-              />
+                className="flex-none w-[280px] md:w-[400px] snap-start rounded-sm overflow-hidden relative"
+                style={{
+                  aspectRatio: "3/2",
+                  background:
+                    "bg" in item
+                      ? (item as { bg: string }).bg
+                      : "var(--color-ocean)",
+                }}
+              >
+                {"asset" in item && item.asset?.url && (
+                  <img
+                    src={item.asset.url}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                )}
+              </div>
             ))}
           </div>
         </ScrollReveal>
@@ -121,8 +154,8 @@ export default function ExperiencePage() {
         >
           <ScrollReveal className="text-white">
             <SectionHeading
-              subtitle="Spa & Wellness"
-              title="Thư Giãn Toàn Diện"
+              subtitle={spa?.subtitle || "Spa & Wellness"}
+              title={spa?.title || "Thư Giãn Toàn Diện"}
               light
               subtitleColor="text-sand"
             />
@@ -134,9 +167,8 @@ export default function ExperiencePage() {
                 marginBottom: "var(--space-8)",
               }}
             >
-              Spa tại La Mer kết hợp liệu pháp truyền thống Việt Nam với kỹ
-              thuật hiện đại. Hãy để cơ thể hòa mình vào nhịp thở của sóng biển
-              và hương thảo mộc tự nhiên.
+              {spa?.body ||
+                "Spa tại La Mer kết hợp liệu pháp truyền thống Việt Nam với kỹ thuật hiện đại. Hãy để cơ thể hòa mình vào nhịp thở của sóng biển và hương thảo mộc tự nhiên."}
             </p>
             <Link
               href="#"
@@ -164,8 +196,8 @@ export default function ExperiencePage() {
           style={{ marginBottom: "var(--space-12)" }}
         >
           <SectionHeading
-            subtitle="Hoạt Động"
-            title="Khám Phá Vĩnh Hy"
+            subtitle={activities?.subtitle || "Hoạt Động"}
+            title={activities?.title || "Khám Phá Vĩnh Hy"}
             center
           />
         </ScrollReveal>
@@ -173,66 +205,78 @@ export default function ExperiencePage() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-container mx-auto"
           style={{ gap: "var(--space-6)" }}
         >
-          {ACTIVITIES.map((a, i) => (
-            <ScrollReveal key={a.title} delay={i * 0.15}>
-              <div
-                className="group relative overflow-hidden rounded-sm"
-                style={{ aspectRatio: "3/4" }}
-              >
+          {activityItems.map((a, i) => {
+            const circle = a.iconCircle?.split(",").map(Number);
+            return (
+              <ScrollReveal key={a.title || i} delay={i * 0.15}>
                 <div
-                  className="absolute inset-0 transition-transform duration-[800ms] ease-smooth group-hover:scale-[1.08]"
-                  style={{ background: a.bg }}
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(to top, rgba(13,43,62,0.8) 0%, transparent 60%)",
-                  }}
-                />
-                <div
-                  className="absolute bottom-0 left-0 right-0 text-white z-[2]"
-                  style={{ padding: "var(--space-6)" }}
+                  className="group relative overflow-hidden rounded-sm"
+                  style={{ aspectRatio: "3/4" }}
                 >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    width="32"
-                    height="32"
-                    style={{ marginBottom: "var(--space-3)" }}
+                  <div
+                    className="absolute inset-0 transition-transform duration-[800ms] ease-smooth group-hover:scale-[1.08]"
+                    style={{
+                      background:
+                        a.gradient ||
+                        "linear-gradient(180deg, #1a4a63 0%, #0d2b3e 100%)",
+                    }}
+                  />
+                  {a.image?.asset?.url && (
+                    <img
+                      src={a.image.asset.url}
+                      alt={a.title || ""}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  )}
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(to top, rgba(13,43,62,0.8) 0%, transparent 60%)",
+                    }}
+                  />
+                  <div
+                    className="absolute bottom-0 left-0 right-0 text-white z-[2]"
+                    style={{ padding: "var(--space-6)" }}
                   >
-                    {a.iconCircle && (
-                      <circle
-                        cx={a.iconCircle.cx}
-                        cy={a.iconCircle.cy}
-                        r={a.iconCircle.r}
-                      />
+                    {a.iconPath && (
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        width="32"
+                        height="32"
+                        style={{ marginBottom: "var(--space-3)" }}
+                      >
+                        {circle && circle.length === 3 && (
+                          <circle cx={circle[0]} cy={circle[1]} r={circle[2]} />
+                        )}
+                        <path d={a.iconPath} />
+                      </svg>
                     )}
-                    <path d={a.iconPath} />
-                  </svg>
-                  <h3
-                    className="font-heading font-medium"
-                    style={{
-                      fontSize: "var(--text-lg)",
-                      marginBottom: "var(--space-2)",
-                    }}
-                  >
-                    {a.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: "var(--text-sm)",
-                      color: "rgba(255,255,255,0.7)",
-                    }}
-                  >
-                    {a.desc}
-                  </p>
+                    <h3
+                      className="font-heading font-medium"
+                      style={{
+                        fontSize: "var(--text-lg)",
+                        marginBottom: "var(--space-2)",
+                      }}
+                    >
+                      {a.title}
+                    </h3>
+                    <p
+                      style={{
+                        fontSize: "var(--text-sm)",
+                        color: "rgba(255,255,255,0.7)",
+                      }}
+                    >
+                      {a.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </ScrollReveal>
-          ))}
+              </ScrollReveal>
+            );
+          })}
         </div>
       </section>
 

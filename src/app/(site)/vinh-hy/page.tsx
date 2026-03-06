@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import HeroSection from "@/components/ui/hero-section";
 import SectionHeading from "@/components/ui/section-heading";
 import ScrollReveal from "@/components/shared/scroll-reveal";
+import {
+  fetchPageContent,
+  getSection,
+  type ContentItem,
+} from "@/sanity/fetch-page-content";
 
 export const metadata: Metadata = {
   title: "Vĩnh Hy Bay",
@@ -9,53 +14,68 @@ export const metadata: Metadata = {
     "Khám phá Vĩnh Hy Bay - một trong bốn vịnh đẹp nhất Việt Nam tại Ninh Thuận.",
 };
 
-const HIGHLIGHTS = [
+const DEFAULT_HIGHLIGHTS: ContentItem[] = [
   {
     title: "Biển Xanh",
-    desc: "Làn nước trong vắt nhìn thấy đáy, thích hợp bơi lội và lặn ngắm",
-    bg: "linear-gradient(180deg, #2c8fa0 0%, #1a4a63 100%)",
+    description:
+      "Làn nước trong vắt nhìn thấy đáy, thích hợp bơi lội và lặn ngắm",
+    gradient: "linear-gradient(180deg, #2c8fa0 0%, #1a4a63 100%)",
   },
   {
     title: "Rạn San Hô",
-    desc: "Hệ sinh thái san hô phong phú với hàng trăm loài cá nhiệt đới",
-    bg: "linear-gradient(180deg, #1a6a8a 0%, #0d2b3e 100%)",
+    description:
+      "Hệ sinh thái san hô phong phú với hàng trăm loài cá nhiệt đới",
+    gradient: "linear-gradient(180deg, #1a6a8a 0%, #0d2b3e 100%)",
   },
   {
     title: "Làng Chài",
-    desc: "Làng chài truyền thống với cuộc sống bình dị bên bờ vịnh",
-    bg: "linear-gradient(180deg, #c97a4a 0%, #8a4a2a 100%)",
+    description: "Làng chài truyền thống với cuộc sống bình dị bên bờ vịnh",
+    gradient: "linear-gradient(180deg, #c97a4a 0%, #8a4a2a 100%)",
   },
   {
     title: "Núi Rừng",
-    desc: "Rừng nguyên sinh bao quanh vịnh, tuyệt đẹp khi nhìn từ biển",
-    bg: "linear-gradient(180deg, #3a7a5a 0%, #1a4a3a 100%)",
+    description: "Rừng nguyên sinh bao quanh vịnh, tuyệt đẹp khi nhìn từ biển",
+    gradient: "linear-gradient(180deg, #3a7a5a 0%, #1a4a3a 100%)",
   },
 ];
 
-const TRANSPORT = [
+const DEFAULT_TRANSPORT: ContentItem[] = [
   {
     title: "Sân Bay Cam Ranh",
-    distance: "~60 km",
-    desc: "Khoảng 1.5 giờ lái xe qua cung đường biển tuyệt đẹp",
+    extraField: "~60 km",
+    description: "Khoảng 1.5 giờ lái xe qua cung đường biển tuyệt đẹp",
   },
   {
     title: "TP. Phan Rang",
-    distance: "~40 km",
-    desc: "Khoảng 45 phút lái xe từ trung tâm thành phố Phan Rang",
+    extraField: "~40 km",
+    description: "Khoảng 45 phút lái xe từ trung tâm thành phố Phan Rang",
   },
   {
     title: "Đón Tận Nơi",
-    distance: "La Mer",
-    desc: "Dịch vụ đưa đón từ sân bay hoặc ga tàu với xe riêng",
+    extraField: "La Mer",
+    description: "Dịch vụ đưa đón từ sân bay hoặc ga tàu với xe riêng",
   },
 ];
 
-export default function VinhHyPage() {
+export default async function VinhHyPage() {
+  const cms = await fetchPageContent("vinh-hy");
+  const intro = getSection(cms, "intro");
+  const highlights = getSection(cms, "highlights");
+  const transport = getSection(cms, "transport");
+  const cuisine = getSection(cms, "cuisine");
+  const highlightItems = highlights?.items?.length
+    ? highlights.items
+    : DEFAULT_HIGHLIGHTS;
+  const transportItems = transport?.items?.length
+    ? transport.items
+    : DEFAULT_TRANSPORT;
+
   return (
     <>
       <HeroSection
-        subtitle="Destination"
-        title="Vĩnh Hy Bay"
+        subtitle={cms?.heroSubtitle || "Destination"}
+        title={cms?.heroTitle || "Vĩnh Hy Bay"}
+        backgroundImage={cms?.heroBackground?.asset?.url}
         backgroundStyle="linear-gradient(135deg, #1a4a63 0%, #2c8fa0 50%, #0d2b3e 100%)"
       />
 
@@ -73,7 +93,7 @@ export default function VinhHyPage() {
               marginBottom: "var(--space-4)",
             }}
           >
-            Viên Ngọc Của Ninh Thuận
+            {intro?.title || "Viên Ngọc Của Ninh Thuận"}
           </h2>
           <p
             style={{
@@ -82,9 +102,8 @@ export default function VinhHyPage() {
               lineHeight: 1.8,
             }}
           >
-            Vĩnh Hy là một trong bốn vịnh đẹp nhất Việt Nam, nơi núi rừng ôm
-            trọn lấy biển xanh. Với vẻ đẹp hoang sơ chưa bị thương mại hóa, Vĩnh
-            Hy mang đến sự yên bình hiếm có giữa thiên nhiên hùng vĩ.
+            {intro?.body ||
+              "Vĩnh Hy là một trong bốn vịnh đẹp nhất Việt Nam, nơi núi rừng ôm trọn lấy biển xanh. Với vẻ đẹp hoang sơ chưa bị thương mại hóa, Vĩnh Hy mang đến sự yên bình hiếm có giữa thiên nhiên hùng vĩ."}
           </p>
         </ScrollReveal>
       </section>
@@ -102,8 +121,8 @@ export default function VinhHyPage() {
           style={{ marginBottom: "var(--space-12)" }}
         >
           <SectionHeading
-            subtitle="Điểm Nổi Bật"
-            title="Thiên Nhiên Vĩnh Hy"
+            subtitle={highlights?.subtitle || "Điểm Nổi Bật"}
+            title={highlights?.title || "Thiên Nhiên Vĩnh Hy"}
             center
           />
         </ScrollReveal>
@@ -111,16 +130,27 @@ export default function VinhHyPage() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-container mx-auto"
           style={{ gap: "var(--space-6)" }}
         >
-          {HIGHLIGHTS.map((h, i) => (
-            <ScrollReveal key={h.title} delay={i * 0.15}>
+          {highlightItems.map((h, i) => (
+            <ScrollReveal key={h.title || i} delay={i * 0.15}>
               <div
                 className="group relative overflow-hidden rounded-sm"
                 style={{ aspectRatio: "3/4" }}
               >
                 <div
                   className="absolute inset-0 transition-transform duration-[800ms] ease-smooth group-hover:scale-[1.08]"
-                  style={{ background: h.bg }}
+                  style={{
+                    background:
+                      h.gradient ||
+                      "linear-gradient(180deg, #1a4a63 0%, #0d2b3e 100%)",
+                  }}
                 />
+                {h.image?.asset?.url && (
+                  <img
+                    src={h.image.asset.url}
+                    alt={h.title || ""}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[800ms] ease-smooth group-hover:scale-[1.08]"
+                  />
+                )}
                 <div
                   className="absolute inset-0"
                   style={{
@@ -147,7 +177,7 @@ export default function VinhHyPage() {
                       color: "rgba(255,255,255,0.7)",
                     }}
                   >
-                    {h.desc}
+                    {h.description}
                   </p>
                 </div>
               </div>
@@ -166,8 +196,8 @@ export default function VinhHyPage() {
           style={{ marginBottom: "var(--space-12)" }}
         >
           <SectionHeading
-            subtitle="Di Chuyển"
-            title="Đường Đến Vĩnh Hy"
+            subtitle={transport?.subtitle || "Di Chuyển"}
+            title={transport?.title || "Đường Đến Vĩnh Hy"}
             center
           />
         </ScrollReveal>
@@ -175,8 +205,8 @@ export default function VinhHyPage() {
           className="grid grid-cols-1 md:grid-cols-3 max-w-container mx-auto"
           style={{ gap: "var(--space-6)" }}
         >
-          {TRANSPORT.map((t, i) => (
-            <ScrollReveal key={t.title} delay={i * 0.15}>
+          {transportItems.map((t, i) => (
+            <ScrollReveal key={t.title || i} delay={i * 0.15}>
               <div
                 className="text-center rounded-sm"
                 style={{
@@ -203,7 +233,7 @@ export default function VinhHyPage() {
                     marginBottom: "var(--space-4)",
                   }}
                 >
-                  {t.distance}
+                  {t.extraField}
                 </p>
                 <p
                   style={{
@@ -212,7 +242,7 @@ export default function VinhHyPage() {
                     lineHeight: 1.6,
                   }}
                 >
-                  {t.desc}
+                  {t.description}
                 </p>
               </div>
             </ScrollReveal>
@@ -239,8 +269,8 @@ export default function VinhHyPage() {
         >
           <ScrollReveal>
             <SectionHeading
-              subtitle="Ẩm Thực Địa Phương"
-              title="Hương Vị Ninh Thuận"
+              subtitle={cuisine?.subtitle || "Ẩm Thực Địa Phương"}
+              title={cuisine?.title || "Hương Vị Ninh Thuận"}
               center
               light
               subtitleColor="text-sand"
@@ -252,10 +282,8 @@ export default function VinhHyPage() {
                 lineHeight: 1.8,
               }}
             >
-              Ninh Thuận nổi tiếng với hải sản tươi sống từ biển Vĩnh Hy, nho
-              Ninh Thuận ngọt thanh, thịt cừu Ninh Thuận thơm nức &mdash; và vô
-              số đặc sản khác chỉ có thể thưởng thức tại vùng đất đầy nắng gió
-              này.
+              {cuisine?.body ||
+                "Ninh Thuận nổi tiếng với hải sản tươi sống từ biển Vĩnh Hy, nho Ninh Thuận ngọt thanh, thịt cừu Ninh Thuận thơm nức \u2014 và vô số đặc sản khác chỉ có thể thưởng thức tại vùng đất đầy nắng gió này."}
             </p>
           </ScrollReveal>
         </div>

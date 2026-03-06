@@ -1,8 +1,44 @@
 import Link from "next/link";
 import ScrollReveal from "@/components/shared/scroll-reveal";
 import SectionHeading from "@/components/ui/section-heading";
+import {
+  fetchPageContent,
+  getSection,
+  type ContentItem,
+} from "@/sanity/fetch-page-content";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const cms = await fetchPageContent("home");
+  const intro = getSection(cms, "intro");
+  const collection = getSection(cms, "collection");
+  const experience = getSection(cms, "experience");
+  const location = getSection(cms, "location");
+
+  const DEFAULT_COLLECTION_CARDS: ContentItem[] = [
+    {
+      title: "Heritage Villa",
+      extraField: "Villa Di Sản",
+      description: "Kiến trúc truyền thống Việt Nam, hồn cốt Vĩnh Hy",
+      gradient: "linear-gradient(180deg, #1a4a63 0%, #0d2b3e 100%)",
+    },
+    {
+      title: "Mediterranean Villa",
+      extraField: "Villa Địa Trung Hải",
+      description: "Phong cách Địa Trung Hải giữa lòng vịnh biển",
+      gradient: "linear-gradient(180deg, #c9a87c 0%, #b8945a 100%)",
+    },
+    {
+      title: "Ocean View Room",
+      extraField: "Phòng Khách Sạn",
+      description: "Tầm nhìn trọn vẹn ra đại dương xanh thẳm",
+      gradient: "linear-gradient(180deg, #2c5f7a 0%, #1a4a63 100%)",
+    },
+  ];
+
+  const collectionCards = collection?.items?.length
+    ? collection.items
+    : DEFAULT_COLLECTION_CARDS;
+
   return (
     <>
       {/* Hero */}
@@ -15,11 +51,19 @@ export default function HomePage() {
             "linear-gradient(135deg, #0a1f2e 0%, #0d2b3e 30%, #1a4a63 60%, #0d2b3e 100%)",
         }}
       >
+        {cms?.heroBackground?.asset?.url && (
+          <img
+            src={cms.heroBackground.asset.url}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "radial-gradient(ellipse at 50% 80%, rgba(26,74,99,0.4) 0%, rgba(13,43,62,0.8) 70%)",
+            background: cms?.heroBackground?.asset?.url
+              ? "linear-gradient(to bottom, rgba(10,31,46,0.4) 0%, rgba(13,43,62,0.7) 100%)"
+              : "radial-gradient(ellipse at 50% 80%, rgba(26,74,99,0.4) 0%, rgba(13,43,62,0.8) 70%)",
           }}
         />
         <div
@@ -34,7 +78,7 @@ export default function HomePage() {
               marginBottom: "var(--space-6)",
             }}
           >
-            La Mer Collection
+            {cms?.heroTitle || "La Mer Collection"}
           </h1>
           <p
             className="font-heading font-normal italic"
@@ -45,7 +89,7 @@ export default function HomePage() {
               marginBottom: "var(--space-2)",
             }}
           >
-            Sống Trong Lòng Vịnh
+            {cms?.heroSubtitle || "Sống Trong Lòng Vịnh"}
           </p>
           <p
             className="uppercase"
@@ -90,7 +134,7 @@ export default function HomePage() {
       <section
         className="text-center"
         style={{
-          padding: "var(--space-32) var(--container-padding)",
+          padding: "var(--space-32) var(--container-padding) var(--space-16)",
         }}
       >
         <ScrollReveal>
@@ -104,9 +148,8 @@ export default function HomePage() {
               marginInline: "auto",
             }}
           >
-            Một tập hợp những không gian nghỉ dưỡng hoà quyện với đời sống và di
-            sản của Vĩnh Hy &mdash; không phải một khu resort biệt lập, mà là
-            một bộ sưu tập trải nghiệm sống.
+            {intro?.body ||
+              "Một tập hợp những không gian nghỉ dưỡng hoà quyện với đời sống và di sản của Vĩnh Hy \u2014 không phải một khu resort biệt lập, mà là một bộ sưu tập trải nghiệm sống."}
           </p>
           <span
             style={{
@@ -128,8 +171,8 @@ export default function HomePage() {
       >
         <ScrollReveal className="text-center">
           <SectionHeading
-            subtitle="Bộ Sưu Tập"
-            title="Những Không Gian Đặc Biệt"
+            subtitle={collection?.subtitle || "Bộ Sưu Tập"}
+            title={collection?.title || "Những Không Gian Đặc Biệt"}
             center
           />
         </ScrollReveal>
@@ -142,47 +185,39 @@ export default function HomePage() {
             marginTop: "var(--space-12)",
           }}
         >
-          {[
-            {
-              cat: "Villa Di Sản",
-              title: "Heritage Villa",
-              desc: "Kiến trúc truyền thống Việt Nam, hồn cốt Vĩnh Hy",
-              bg: "linear-gradient(180deg, #1a4a63 0%, #0d2b3e 100%)",
-              delay: 0,
-            },
-            {
-              cat: "Villa Địa Trung Hải",
-              title: "Mediterranean Villa",
-              desc: "Phong cách Địa Trung Hải giữa lòng vịnh biển",
-              bg: "linear-gradient(180deg, #c9a87c 0%, #b8945a 100%)",
-              delay: 0.15,
-            },
-            {
-              cat: "Phòng Khách Sạn",
-              title: "Ocean View Room",
-              desc: "Tầm nhìn trọn vẹn ra đại dương xanh thẳm",
-              bg: "linear-gradient(180deg, #2c5f7a 0%, #1a4a63 100%)",
-              delay: 0.3,
-            },
-          ].map((item) => (
-            <ScrollReveal key={item.title} delay={item.delay}>
+          {collectionCards.map((item, idx) => (
+            <ScrollReveal key={item.title || idx} delay={idx * 0.15}>
               <div
                 className="group relative overflow-hidden"
                 style={{ borderRadius: "2px" }}
               >
                 <div
-                  className="w-full transition-transform duration-[800ms] group-hover:scale-105"
+                  className="w-full transition-transform duration-[800ms] group-hover:scale-105 relative"
                   style={{
                     aspectRatio: "3/4",
-                    background: item.bg,
+                    background:
+                      item.gradient ||
+                      "linear-gradient(180deg, #1a4a63 0%, #0d2b3e 100%)",
                     transitionTimingFunction: "var(--ease-out)",
                   }}
-                />
+                >
+                  {(item.image?.asset?.url ||
+                    collection?.images?.[idx]?.asset?.url) && (
+                    <img
+                      src={
+                        item.image?.asset?.url ||
+                        collection?.images?.[idx]?.asset?.url
+                      }
+                      alt={item.title || ""}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  )}
+                </div>
                 <div
                   className="absolute inset-0 flex flex-col justify-end"
                   style={{
                     background:
-                      "linear-gradient(to top, rgba(13,43,62,0.7), transparent 60%)",
+                      "linear-gradient(to top, rgba(13,43,62,0.95) 0%, rgba(13,43,62,0.55) 25%, transparent 48%)",
                     padding: "var(--space-6)",
                   }}
                 >
@@ -195,7 +230,7 @@ export default function HomePage() {
                       marginBottom: "var(--space-2)",
                     }}
                   >
-                    {item.cat}
+                    {item.extraField}
                   </span>
                   <h3
                     className="font-heading font-medium"
@@ -213,7 +248,7 @@ export default function HomePage() {
                       marginTop: "var(--space-2)",
                     }}
                   >
-                    {item.desc}
+                    {item.description}
                   </p>
                 </div>
               </div>
@@ -238,18 +273,27 @@ export default function HomePage() {
         >
           <ScrollReveal direction="left">
             <div
+              className="relative overflow-hidden"
               style={{
                 aspectRatio: "4/3",
                 background: "linear-gradient(135deg, #1a4a63 0%, #c9a87c 100%)",
                 borderRadius: "2px",
               }}
-            />
+            >
+              {experience?.image?.asset?.url && (
+                <img
+                  src={experience.image.asset.url}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              )}
+            </div>
           </ScrollReveal>
           <ScrollReveal direction="right">
             <div style={{ padding: "var(--space-8) 0" }}>
               <SectionHeading
-                subtitle="Trải Nghiệm"
-                title="Ẩm Thực & Nghỉ Dưỡng"
+                subtitle={experience?.subtitle || "Trải Nghiệm"}
+                title={experience?.title || "Ẩm Thực & Nghỉ Dưỡng"}
                 subtitleColor="text-sand"
               />
               <p
@@ -260,9 +304,8 @@ export default function HomePage() {
                   marginBottom: "var(--space-8)",
                 }}
               >
-                Từ nhà hàng hải sản tươi sống bên bờ vịnh đến spa thư giãn với
-                liệu pháp truyền thống &mdash; mỗi khoảnh khắc tại La Mer đều là
-                một trải nghiệm đáng nhớ.
+                {experience?.body ||
+                  "Từ nhà hàng hải sản tươi sống bên bờ vịnh đến spa thư giãn với liệu pháp truyền thống \u2014 mỗi khoảnh khắc tại La Mer đều là một trải nghiệm đáng nhớ."}
               </p>
               <Link
                 href="/experience"
@@ -297,7 +340,7 @@ export default function HomePage() {
           style={{
             position: "relative",
             zIndex: 2,
-            maxWidth: "700px",
+            maxWidth: "900px",
             marginInline: "auto",
           }}
         >
@@ -310,7 +353,7 @@ export default function HomePage() {
               marginBottom: "var(--space-4)",
             }}
           >
-            Vĩnh Hy Bay
+            {location?.subtitle || "Vĩnh Hy Bay"}
           </p>
           <h2
             className="font-heading font-normal"
@@ -319,7 +362,7 @@ export default function HomePage() {
               marginBottom: "var(--space-6)",
             }}
           >
-            Viên Ngọc Ẩn Mình Của Ninh Thuận
+            {location?.title || "Viên Ngọc Ẩn Mình Của Ninh Thuận"}
           </h2>
           <p
             style={{
@@ -329,9 +372,8 @@ export default function HomePage() {
               marginBottom: "var(--space-8)",
             }}
           >
-            Nằm giữa những ngọn núi và biển xanh, Vĩnh Hy là một trong bốn vịnh
-            đẹp nhất Việt Nam &mdash; nơi thiên nhiên còn giữ nguyên vẻ hoang sơ
-            và quyến rũ.
+            {location?.body ||
+              "Nằm giữa những ngọn núi và biển xanh, Vĩnh Hy là một trong bốn vịnh đẹp nhất Việt Nam \u2014 nơi thiên nhiên còn giữ nguyên vẻ hoang sơ và quyến rũ."}
           </p>
           <Link
             href="/vinh-hy"

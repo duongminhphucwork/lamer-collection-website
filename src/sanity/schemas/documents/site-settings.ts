@@ -14,6 +14,12 @@ export const siteSettings = defineType({
     defineField({ name: "zaloUrl", title: "Zalo URL", type: "url" }),
     defineField({ name: "address", title: "Address", type: "localizedText" }),
     defineField({
+      name: "hours",
+      title: "Business Hours",
+      type: "string",
+      description: 'e.g. "Thứ Hai – Chủ Nhật: 07:00 – 22:00"',
+    }),
+    defineField({
       name: "socialLinks",
       title: "Social Links",
       type: "object",

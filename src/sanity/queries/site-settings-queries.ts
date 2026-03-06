@@ -4,7 +4,7 @@ import { groq } from "next-sanity";
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0] {
     siteName, tagline, phone, email, zaloUrl,
-    address, socialLinks, googleMapsEmbed,
+    address, hours, socialLinks, googleMapsEmbed,
     logo{ asset->{ url } },
     defaultSeo
   }

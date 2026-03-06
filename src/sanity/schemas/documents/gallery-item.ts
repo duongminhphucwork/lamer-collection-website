@@ -31,10 +31,10 @@ export const galleryItem = defineType({
       type: "string",
       options: {
         list: [
-          { title: "Villas", value: "villas" },
-          { title: "Views", value: "views" },
-          { title: "Dining", value: "dining" },
-          { title: "Activities", value: "activities" },
+          { title: "Villa", value: "villa" },
+          { title: "Trải Nghiệm", value: "experience" },
+          { title: "Vĩnh Hy", value: "vinh-hy" },
+          { title: "Ẩm Thực", value: "cuisine" },
         ],
       },
     }),

@@ -1,7 +1,15 @@
 import Link from "next/link";
 import { SITE, FOOTER_LINKS } from "@/lib/constants";
+import { fetchSiteSettings } from "@/sanity/fetch-site-settings";
 
-export default function Footer() {
+export default async function Footer() {
+  const settings = await fetchSiteSettings();
+
+  const siteName = settings?.siteName || SITE.name;
+  const phone = settings?.phone || SITE.phone;
+  const email = settings?.email || SITE.email;
+  const address = settings?.address?.vi || SITE.address;
+
   return (
     <footer
       style={{
@@ -26,7 +34,7 @@ export default function Footer() {
               marginBottom: "var(--space-4)",
             }}
           >
-            {SITE.name}
+            {siteName}
           </p>
           <p
             style={{
@@ -82,7 +90,7 @@ export default function Footer() {
             Liên Hệ
           </h4>
           <a
-            href={`tel:${SITE.phone.replace(/\s/g, "")}`}
+            href={`tel:${phone.replace(/\s/g, "")}`}
             style={{
               display: "block",
               fontSize: "var(--text-sm)",
@@ -92,10 +100,10 @@ export default function Footer() {
             }}
             className="hover:text-sand"
           >
-            {SITE.phone}
+            {phone}
           </a>
           <a
-            href={`mailto:${SITE.email}`}
+            href={`mailto:${email}`}
             style={{
               display: "block",
               fontSize: "var(--text-sm)",
@@ -105,7 +113,7 @@ export default function Footer() {
             }}
             className="hover:text-sand"
           >
-            {SITE.email}
+            {email}
           </a>
           <p
             style={{
@@ -114,7 +122,7 @@ export default function Footer() {
               marginBottom: "var(--space-3)",
             }}
           >
-            {SITE.address}
+            {address}
           </p>
         </div>
       </div>
@@ -134,7 +142,7 @@ export default function Footer() {
           marginTop: "var(--space-6)",
         }}
       >
-        &copy; {new Date().getFullYear()} {SITE.name}. All rights reserved.
+        &copy; {new Date().getFullYear()} {siteName}. All rights reserved.
       </p>
     </footer>
   );
