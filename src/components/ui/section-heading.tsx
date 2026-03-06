@@ -14,18 +14,31 @@ export default function SectionHeading({
   subtitleColor,
 }: SectionHeadingProps) {
   return (
-    <div className={center ? "text-center" : ""}>
+    <div style={{ textAlign: center ? "center" : undefined }}>
       <p
-        className={`text-fluid-sm tracking-[0.15em] uppercase mb-4 ${
-          subtitleColor ?? (light ? "text-sand" : "text-[#6b6b6b]")
-        }`}
+        style={{
+          fontSize: "var(--text-sm)",
+          letterSpacing: "0.15em",
+          textTransform: "uppercase",
+          marginBottom: "var(--space-4)",
+          color: subtitleColor
+            ? undefined
+            : light
+              ? "var(--color-sand)"
+              : "var(--color-text-light)",
+        }}
+        className={subtitleColor ?? ""}
       >
         {subtitle}
       </p>
       <h2
-        className={`font-heading text-fluid-2xl font-normal mb-4 ${
-          light ? "text-white" : "text-ocean"
-        }`}
+        className="font-heading"
+        style={{
+          fontSize: "var(--text-2xl)",
+          fontWeight: 400,
+          marginBottom: "var(--space-4)",
+          color: light ? "var(--color-white)" : "var(--color-ocean)",
+        }}
       >
         {title}
       </h2>
