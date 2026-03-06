@@ -18,11 +18,11 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 const CATEGORY_DESCRIPTIONS: Record<string, string> = {
   heritage:
-    "Nhà cũ của cư dân Vĩnh Hy, được phục dựng và cải tạo cẩn thận — nơi di sản kiến trúc bản địa gặp gỡ sự tinh tế của nghỉ dưỡng đương đại.",
+    "Những ngôi nhà cũ của cư dân Vĩnh Hy, được giữ gìn và cải tạo — mái ngói vẫn cũ, tường đá vẫn còn, nhưng bên trong là một câu chuyện nghỉ dưỡng hoàn toàn mới.",
   mediterranean:
-    "Đường nét Địa Trung Hải hòa vào khung cảnh vịnh biển — không gian thoáng đãng, sắc ấm của đá và gỗ, mở ra tầm nhìn không giới hạn.",
+    "Sắc ấm của đá và gỗ, đường cong mềm mại giữa lòng vịnh — nơi Địa Trung Hải và Vĩnh Hy cùng chia sẻ một đường chân trời.",
   hotel:
-    "Phòng nghỉ hướng biển với thiết kế tối giản, tận dụng ánh sáng tự nhiên và chất liệu địa phương cho trải nghiệm nghỉ dưỡng trọn vẹn.",
+    "Tối giản nhưng trọn vẹn — phòng nghỉ hướng biển, ánh sáng tự nhiên, và tiếng sóng ngay bên cửa sổ.",
 };
 
 const CATEGORY_GRADIENTS: Record<string, string> = {
