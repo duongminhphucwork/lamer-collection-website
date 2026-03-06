@@ -14,16 +14,21 @@ const COMMUNITY_ITEMS = [
     title: "Ngư Dân",
     desc: "Cùng ngư dân ra khơi đánh bắt mỗi sáng sớm, tìm hiểu nghề biển truyền thống đã tồn tại hàng trăm năm tại Vĩnh Hy.",
     iconBg: "linear-gradient(180deg, #2c8fa0 0%, #1a4a63 100%)",
+    iconPath: "M2 20c2-1 4-1 6 0s4 1 6 0 4-1 6 0M5 17V9a7 7 0 0114 0v8",
   },
   {
     title: "Ẩm Thực",
     desc: "Hải sản tươi sống từ biển Vĩnh Hy, chế biến theo công thức gia truyền của những gia đình ngư dân lâu đời tại vịnh.",
     iconBg: "linear-gradient(180deg, #c97a4a 0%, #8a4a2a 100%)",
+    iconPath:
+      "M3 12h18M5 12a7 7 0 0114 0M5 12v4a7 7 0 0014 0v-4M12 8V5m-3 3V6m6 2V6",
   },
   {
     title: "Văn Hóa",
     desc: "Trải nghiệm văn hóa Chăm Pa và Raglai bản địa qua lễ hội, âm nhạc và những câu chuyện kể từ cộng đồng địa phương.",
     iconBg: "linear-gradient(180deg, #3a7a5a 0%, #1a4a3a 100%)",
+    iconPath:
+      "M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z",
   },
 ];
 
@@ -171,7 +176,7 @@ export default function StoryPage() {
                     width="28"
                     height="28"
                   >
-                    <path d="M12 2v20M2 12h20" />
+                    <path d={item.iconPath} />
                   </svg>
                 </div>
                 <h3

@@ -131,7 +131,7 @@ export default function Footer() {
           textAlign: "center",
           fontSize: "var(--text-xs)",
           color: "rgba(247, 242, 234, 0.4)",
-          paddingTop: "var(--space-6)",
+          marginTop: "var(--space-6)",
         }}
       >
         &copy; {new Date().getFullYear()} {SITE.name}. All rights reserved.

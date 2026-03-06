@@ -317,7 +317,6 @@ export default function HomePage() {
             style={{
               fontSize: "var(--text-2xl)",
               marginBottom: "var(--space-6)",
-              whiteSpace: "nowrap",
             }}
           >
             Viên Ngọc Ẩn Mình Của Ninh Thuận

@@ -16,21 +16,27 @@ const ACTIVITIES = [
     title: "Chèo Kayak",
     desc: "Khám phá vịnh trên thuyền kayak",
     bg: "linear-gradient(180deg, #2c8fa0 0%, #1a4a63 100%)",
+    iconPath: "M3 17l2-2h14l2 2M5 15V9a7 7 0 0114 0v6",
   },
   {
     title: "Lặn Ngắm San Hô",
     desc: "Thế giới dưới đáy biển Vĩnh Hy",
     bg: "linear-gradient(180deg, #1a6a8a 0%, #0d2b3e 100%)",
+    iconPath: "M2 20c2-1 4-1 6 0s4 1 6 0 4-1 6 0M12 16V4m-4 4l4-4 4 4",
   },
   {
     title: "Câu Cá",
     desc: "Câu cá cùng ngư dân địa phương",
     bg: "linear-gradient(180deg, #3a7a5a 0%, #1a4a3a 100%)",
+    iconPath: "M18 4l-4 8h6l-4 8M6 4v16M6 12c3 0 5-2 5-4S9 4 6 4",
   },
   {
     title: "Du Thuyền Hoàng Hôn",
     desc: "Ngắm hoàng hôn trên thuyền gỗ",
     bg: "linear-gradient(180deg, #c97a4a 0%, #8a4a2a 100%)",
+    iconCircle: { cx: 12, cy: 12, r: 4 },
+    iconPath:
+      "M3 20h18M12 2v2m7.07 2.93l-1.41 1.41M22 12h-2M4 12H2m3.34-5.66L3.93 4.93",
   },
 ];
 
@@ -188,6 +194,24 @@ export default function ExperiencePage() {
                   className="absolute bottom-0 left-0 right-0 text-white z-[2]"
                   style={{ padding: "var(--space-6)" }}
                 >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    width="32"
+                    height="32"
+                    style={{ marginBottom: "var(--space-3)" }}
+                  >
+                    {a.iconCircle && (
+                      <circle
+                        cx={a.iconCircle.cx}
+                        cy={a.iconCircle.cy}
+                        r={a.iconCircle.r}
+                      />
+                    )}
+                    <path d={a.iconPath} />
+                  </svg>
                   <h3
                     className="font-heading font-medium"
                     style={{
