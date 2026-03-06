@@ -60,14 +60,27 @@ export default function VinhHyPage() {
       />
 
       {/* Intro */}
-      <section className="py-24 container-padding text-center">
-        <ScrollReveal className="max-w-[700px] mx-auto">
-          <h2 className="font-heading text-fluid-2xl font-normal text-ocean mb-4">
+      <section
+        className="container-padding text-center"
+        style={{ paddingBlock: "var(--space-24)" }}
+      >
+        <ScrollReveal className="mx-auto" style={{ maxWidth: "700px" }}>
+          <h2
+            className="font-heading font-normal"
+            style={{
+              fontSize: "var(--text-2xl)",
+              color: "var(--color-ocean)",
+              marginBottom: "var(--space-4)",
+            }}
+          >
             Viên Ngọc Của Ninh Thuận
           </h2>
           <p
-            className="text-fluid-base leading-relaxed"
-            style={{ color: "var(--color-text-light)" }}
+            style={{
+              fontSize: "var(--text-base)",
+              color: "var(--color-text-light)",
+              lineHeight: 1.8,
+            }}
           >
             Vĩnh Hy là một trong bốn vịnh đẹp nhất Việt Nam, nơi núi rừng ôm
             trọn lấy biển xanh. Với vẻ đẹp hoang sơ chưa bị thương mại hóa, Vĩnh
@@ -78,17 +91,26 @@ export default function VinhHyPage() {
 
       {/* Highlights */}
       <section
-        className="py-24 container-padding"
-        style={{ backgroundColor: "var(--color-ivory)" }}
+        className="container-padding"
+        style={{
+          paddingBlock: "var(--space-24)",
+          backgroundColor: "var(--color-ivory)",
+        }}
       >
-        <ScrollReveal className="text-center mb-12">
+        <ScrollReveal
+          className="text-center"
+          style={{ marginBottom: "var(--space-12)" }}
+        >
           <SectionHeading
             subtitle="Điểm Nổi Bật"
             title="Thiên Nhiên Vĩnh Hy"
             center
           />
         </ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-container mx-auto">
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-container mx-auto"
+          style={{ gap: "var(--space-6)" }}
+        >
           {HIGHLIGHTS.map((h, i) => (
             <ScrollReveal key={h.title} delay={i * 0.15}>
               <div
@@ -106,13 +128,24 @@ export default function VinhHyPage() {
                       "linear-gradient(to top, rgba(13,43,62,0.8) 0%, transparent 60%)",
                   }}
                 />
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-[2]">
-                  <h3 className="font-heading text-fluid-lg font-medium mb-2">
+                <div
+                  className="absolute bottom-0 left-0 right-0 text-white z-[2]"
+                  style={{ padding: "var(--space-6)" }}
+                >
+                  <h3
+                    className="font-heading font-medium"
+                    style={{
+                      fontSize: "var(--text-lg)",
+                      marginBottom: "var(--space-2)",
+                    }}
+                  >
                     {h.title}
                   </h3>
                   <p
-                    className="text-fluid-sm"
-                    style={{ color: "rgba(255,255,255,0.7)" }}
+                    style={{
+                      fontSize: "var(--text-sm)",
+                      color: "rgba(255,255,255,0.7)",
+                    }}
                   >
                     {h.desc}
                   </p>
@@ -124,33 +157,60 @@ export default function VinhHyPage() {
       </section>
 
       {/* Getting There */}
-      <section className="py-24 container-padding">
-        <ScrollReveal className="text-center mb-12">
+      <section
+        className="container-padding"
+        style={{ paddingBlock: "var(--space-24)" }}
+      >
+        <ScrollReveal
+          className="text-center"
+          style={{ marginBottom: "var(--space-12)" }}
+        >
           <SectionHeading
             subtitle="Di Chuyển"
             title="Đường Đến Vĩnh Hy"
             center
           />
         </ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-container mx-auto">
+        <div
+          className="grid grid-cols-1 md:grid-cols-3 max-w-container mx-auto"
+          style={{ gap: "var(--space-6)" }}
+        >
           {TRANSPORT.map((t, i) => (
             <ScrollReveal key={t.title} delay={i * 0.15}>
               <div
-                className="text-center py-8 px-6 rounded-sm"
-                style={{ border: "1px solid rgba(201, 168, 124, 0.3)" }}
+                className="text-center rounded-sm"
+                style={{
+                  paddingBlock: "var(--space-8)",
+                  paddingInline: "var(--space-6)",
+                  border: "1px solid rgba(201, 168, 124, 0.3)",
+                }}
               >
-                <h3 className="font-heading text-fluid-lg text-ocean font-medium mb-3">
+                <h3
+                  className="font-heading font-medium"
+                  style={{
+                    fontSize: "var(--text-lg)",
+                    color: "var(--color-ocean)",
+                    marginBottom: "var(--space-3)",
+                  }}
+                >
                   {t.title}
                 </h3>
                 <p
-                  className="font-heading text-fluid-xl mb-4"
-                  style={{ color: "var(--color-sand)" }}
+                  className="font-heading"
+                  style={{
+                    fontSize: "var(--text-xl)",
+                    color: "var(--color-sand)",
+                    marginBottom: "var(--space-4)",
+                  }}
                 >
                   {t.distance}
                 </p>
                 <p
-                  className="text-fluid-sm leading-relaxed"
-                  style={{ color: "var(--color-text-light)" }}
+                  style={{
+                    fontSize: "var(--text-sm)",
+                    color: "var(--color-text-light)",
+                    lineHeight: 1.6,
+                  }}
                 >
                   {t.desc}
                 </p>
@@ -173,7 +233,10 @@ export default function VinhHyPage() {
           className="absolute inset-0"
           style={{ backgroundColor: "rgba(13,43,62,0.5)" }}
         />
-        <div className="relative z-[2] text-center max-w-[700px] py-24 container-padding text-white">
+        <div
+          className="relative z-[2] text-center text-white container-padding"
+          style={{ maxWidth: "700px", paddingBlock: "var(--space-24)" }}
+        >
           <ScrollReveal>
             <SectionHeading
               subtitle="Ẩm Thực Địa Phương"
@@ -183,8 +246,11 @@ export default function VinhHyPage() {
               subtitleColor="text-sand"
             />
             <p
-              className="text-fluid-base leading-relaxed"
-              style={{ color: "rgba(255,255,255,0.8)" }}
+              style={{
+                fontSize: "var(--text-base)",
+                color: "rgba(255,255,255,0.8)",
+                lineHeight: 1.8,
+              }}
             >
               Ninh Thuận nổi tiếng với hải sản tươi sống từ biển Vĩnh Hy, nho
               Ninh Thuận ngọt thanh, thịt cừu Ninh Thuận thơm nức &mdash; và vô

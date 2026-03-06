@@ -37,21 +37,35 @@ export default function StoryPage() {
       />
 
       {/* Origin */}
-      <section className="py-24 container-padding">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-container mx-auto items-center">
+      <section
+        className="container-padding"
+        style={{ paddingBlock: "var(--space-24)" }}
+      >
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 max-w-container mx-auto items-center"
+          style={{ gap: "var(--space-8)" }}
+        >
           <ScrollReveal>
             <SectionHeading subtitle="Khởi Nguồn" title="Nơi Tất Cả Bắt Đầu" />
             <p
-              className="text-fluid-base leading-relaxed mb-6"
-              style={{ color: "var(--color-text-light)" }}
+              style={{
+                fontSize: "var(--text-base)",
+                color: "var(--color-text-light)",
+                lineHeight: 1.8,
+                marginBottom: "var(--space-6)",
+              }}
             >
               La Mer Collection ra đời từ một tình yêu sâu sắc dành cho Vĩnh Hy
               &mdash; vịnh biển nhỏ bé nằm giữa núi rừng và đại dương, nơi cuộc
               sống trôi chậm theo nhịp thở của sóng.
             </p>
             <p
-              className="text-fluid-base leading-relaxed mb-6"
-              style={{ color: "var(--color-text-light)" }}
+              style={{
+                fontSize: "var(--text-base)",
+                color: "var(--color-text-light)",
+                lineHeight: 1.8,
+                marginBottom: "var(--space-6)",
+              }}
             >
               Chúng tôi không xây dựng một khu resort biệt lập. Thay vào đó,
               chúng tôi tìm kiếm, trùng tu và tái sinh những ngôi nhà có lịch sử
@@ -84,7 +98,10 @@ export default function StoryPage() {
           className="absolute inset-0"
           style={{ backgroundColor: "rgba(13,43,62,0.55)" }}
         />
-        <div className="relative z-[2] text-center max-w-[700px] py-24 container-padding text-white">
+        <div
+          className="relative z-[2] text-center text-white container-padding"
+          style={{ maxWidth: "700px", paddingBlock: "var(--space-24)" }}
+        >
           <ScrollReveal>
             <SectionHeading
               subtitle="Di Sản"
@@ -94,8 +111,11 @@ export default function StoryPage() {
               subtitleColor="text-sand"
             />
             <p
-              className="text-fluid-base leading-relaxed"
-              style={{ color: "rgba(255,255,255,0.8)" }}
+              style={{
+                fontSize: "var(--text-base)",
+                color: "rgba(255,255,255,0.8)",
+                lineHeight: 1.8,
+              }}
             >
               Mỗi căn villa trong bộ sưu tập đều mang dấu ấn thời gian. Những
               ngôi nhà cổ của cư dân địa phương được trùng tu tỉ mỉ, giữ nguyên
@@ -107,21 +127,41 @@ export default function StoryPage() {
       </section>
 
       {/* Community */}
-      <section className="py-24 container-padding">
-        <ScrollReveal className="text-center mb-12">
+      <section
+        className="container-padding"
+        style={{ paddingBlock: "var(--space-24)" }}
+      >
+        <ScrollReveal
+          className="text-center"
+          style={{ marginBottom: "var(--space-12)" }}
+        >
           <SectionHeading
             subtitle="Cộng Đồng"
             title="Sống Cùng Vĩnh Hy"
             center
           />
         </ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-container mx-auto">
+        <div
+          className="grid grid-cols-1 md:grid-cols-3 max-w-container mx-auto"
+          style={{ gap: "var(--space-8)" }}
+        >
           {COMMUNITY_ITEMS.map((item, i) => (
             <ScrollReveal key={item.title} delay={i * 0.15}>
-              <div className="text-center py-8 px-6">
+              <div
+                className="text-center"
+                style={{
+                  paddingBlock: "var(--space-8)",
+                  paddingInline: "var(--space-6)",
+                }}
+              >
                 <div
-                  className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-white"
-                  style={{ background: item.iconBg }}
+                  className="rounded-full flex items-center justify-center mx-auto text-white"
+                  style={{
+                    width: "80px",
+                    height: "80px",
+                    background: item.iconBg,
+                    marginBottom: "var(--space-6)",
+                  }}
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -134,12 +174,22 @@ export default function StoryPage() {
                     <path d="M12 2v20M2 12h20" />
                   </svg>
                 </div>
-                <h3 className="font-heading text-fluid-lg text-ocean font-medium mb-4">
+                <h3
+                  className="font-heading font-medium"
+                  style={{
+                    fontSize: "var(--text-lg)",
+                    color: "var(--color-ocean)",
+                    marginBottom: "var(--space-4)",
+                  }}
+                >
                   {item.title}
                 </h3>
                 <p
-                  className="text-fluid-sm leading-relaxed"
-                  style={{ color: "var(--color-text-light)" }}
+                  style={{
+                    fontSize: "var(--text-sm)",
+                    color: "var(--color-text-light)",
+                    lineHeight: 1.8,
+                  }}
                 >
                   {item.desc}
                 </p>
@@ -151,18 +201,34 @@ export default function StoryPage() {
 
       {/* Philosophy */}
       <section
-        className="py-32 container-padding text-center"
-        style={{ backgroundColor: "var(--color-ivory)" }}
+        className="container-padding text-center"
+        style={{
+          paddingBlock: "var(--space-32)",
+          backgroundColor: "var(--color-ivory)",
+        }}
       >
         <ScrollReveal>
-          <blockquote className="font-heading text-fluid-xl italic font-normal text-ocean max-w-[800px] mx-auto leading-relaxed mb-6">
+          <blockquote
+            className="font-heading italic font-normal mx-auto"
+            style={{
+              fontSize: "var(--text-xl)",
+              color: "var(--color-ocean)",
+              maxWidth: "800px",
+              lineHeight: 1.6,
+              marginBottom: "var(--space-6)",
+            }}
+          >
             &ldquo;Chúng tôi tin rằng du lịch bền vững không phải là cách ly du
             khách khỏi cộng đồng, mà là kết nối họ &mdash; để mỗi chuyến đi đều
             để lại giá trị cho cả hai phía.&rdquo;
           </blockquote>
           <p
-            className="text-fluid-sm tracking-[0.15em] uppercase"
-            style={{ color: "var(--color-sand)" }}
+            className="uppercase"
+            style={{
+              fontSize: "var(--text-sm)",
+              color: "var(--color-sand)",
+              letterSpacing: "0.15em",
+            }}
           >
             La Mer Collection
           </p>

@@ -21,48 +21,114 @@ export default function ContactPage() {
         backgroundStyle="linear-gradient(135deg, #0d2b3e 0%, #1a4a63 60%, #c9a87c 100%)"
       />
 
-      <section className="py-24 container-padding">
-        <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-12 md:gap-16 max-w-container mx-auto">
+      <section
+        className="container-padding"
+        style={{ paddingBlock: "var(--space-24)" }}
+      >
+        <div
+          className="grid grid-cols-1 md:grid-cols-[3fr_2fr] max-w-container mx-auto"
+          style={{ gap: "var(--space-12)" }}
+        >
           {/* Form */}
           <ScrollReveal>
-            <h2 className="font-heading text-fluid-2xl font-normal text-ocean mb-4">
+            <h2
+              className="font-heading font-normal"
+              style={{
+                fontSize: "var(--text-2xl)",
+                color: "var(--color-ocean)",
+                marginBottom: "var(--space-4)",
+              }}
+            >
               Đặt Phòng
             </h2>
-            <p className="text-fluid-base text-[#6b6b6b] leading-relaxed mb-8">
+            <p
+              style={{
+                fontSize: "var(--text-base)",
+                color: "var(--color-text-light)",
+                lineHeight: 1.6,
+                marginBottom: "var(--space-8)",
+              }}
+            >
               Vui lòng điền thông tin bên dưới, đội ngũ của chúng tôi sẽ liên hệ
               lại trong vòng 24 giờ.
             </p>
 
             {submitted ? (
               <div className="py-12 text-center">
-                <p className="font-heading text-fluid-xl text-ocean">
+                <p
+                  className="font-heading"
+                  style={{
+                    fontSize: "var(--text-xl)",
+                    color: "var(--color-ocean)",
+                  }}
+                >
                   Cảm ơn bạn!
                 </p>
-                <p className="text-fluid-base text-[#6b6b6b] mt-2">
+                <p
+                  style={{
+                    fontSize: "var(--text-base)",
+                    color: "var(--color-text-light)",
+                    marginTop: "var(--space-2)",
+                  }}
+                >
                   Chúng tôi sẽ liên hệ lại sớm nhất.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <form
+                onSubmit={handleSubmit}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "var(--space-4)",
+                }}
+              >
+                <div
+                  className="grid grid-cols-1 md:grid-cols-2"
+                  style={{ gap: "var(--space-4)" }}
+                >
                   <FormField label="Họ tên" name="name" type="text" required />
                   <FormField label="Email" name="email" type="email" required />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div
+                  className="grid grid-cols-1 md:grid-cols-2"
+                  style={{ gap: "var(--space-4)" }}
+                >
                   <FormField label="Số điện thoại" name="phone" type="tel" />
                   <FormField label="Số khách" name="guests" type="number" />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div
+                  className="grid grid-cols-1 md:grid-cols-2"
+                  style={{ gap: "var(--space-4)" }}
+                >
                   <FormField label="Ngày đến" name="checkin" type="date" />
                   <FormField label="Ngày đi" name="checkout" type="date" />
                 </div>
-                <div className="flex flex-col mb-4">
-                  <label className="text-fluid-xs text-[#6b6b6b] tracking-[0.1em] uppercase mb-2">
+                <div
+                  className="flex flex-col"
+                  style={{ marginBottom: "var(--space-4)" }}
+                >
+                  <label
+                    className="uppercase"
+                    style={{
+                      fontSize: "var(--text-xs)",
+                      color: "var(--color-text-light)",
+                      letterSpacing: "0.1em",
+                      marginBottom: "var(--space-2)",
+                    }}
+                  >
                     Loại phòng
                   </label>
                   <select
                     name="room-type"
-                    className="font-body text-fluid-sm py-3 px-4 border border-sand/30 rounded-sm bg-white text-[#2c2c2c] focus:outline-none focus:border-sand transition-colors"
+                    className="font-body rounded-sm bg-white focus:outline-none transition-colors"
+                    style={{
+                      fontSize: "var(--text-sm)",
+                      paddingBlock: "var(--space-3)",
+                      paddingInline: "var(--space-4)",
+                      border: "1px solid rgba(201, 168, 124, 0.3)",
+                      color: "var(--color-text)",
+                    }}
                   >
                     {ROOM_TYPE_OPTIONS.map((o) => (
                       <option key={o.value} value={o.value}>
@@ -71,19 +137,47 @@ export default function ContactPage() {
                     ))}
                   </select>
                 </div>
-                <div className="flex flex-col mb-4">
-                  <label className="text-fluid-xs text-[#6b6b6b] tracking-[0.1em] uppercase mb-2">
+                <div
+                  className="flex flex-col"
+                  style={{ marginBottom: "var(--space-4)" }}
+                >
+                  <label
+                    className="uppercase"
+                    style={{
+                      fontSize: "var(--text-xs)",
+                      color: "var(--color-text-light)",
+                      letterSpacing: "0.1em",
+                      marginBottom: "var(--space-2)",
+                    }}
+                  >
                     Tin nhắn
                   </label>
                   <textarea
                     name="message"
                     rows={4}
-                    className="font-body text-fluid-sm py-3 px-4 border border-sand/30 rounded-sm bg-white text-[#2c2c2c] focus:outline-none focus:border-sand transition-colors resize-y min-h-[100px]"
+                    className="font-body rounded-sm bg-white focus:outline-none transition-colors resize-y"
+                    style={{
+                      fontSize: "var(--text-sm)",
+                      paddingBlock: "var(--space-3)",
+                      paddingInline: "var(--space-4)",
+                      border: "1px solid rgba(201, 168, 124, 0.3)",
+                      color: "var(--color-text)",
+                      minHeight: "100px",
+                    }}
                   />
                 </div>
                 <button
                   type="submit"
-                  className="inline-block text-fluid-xs font-medium tracking-[0.15em] uppercase py-4 px-8 bg-sand text-ocean border border-sand transition-all duration-[400ms] ease-smooth hover:bg-gold"
+                  className="inline-block font-medium uppercase border transition-all duration-[400ms] ease-smooth hover:bg-gold"
+                  style={{
+                    fontSize: "var(--text-xs)",
+                    letterSpacing: "0.15em",
+                    paddingBlock: "var(--space-4)",
+                    paddingInline: "var(--space-8)",
+                    backgroundColor: "var(--color-sand)",
+                    color: "var(--color-ocean)",
+                    borderColor: "var(--color-sand)",
+                  }}
                 >
                   Gửi Yêu Cầu
                 </button>
@@ -93,8 +187,21 @@ export default function ContactPage() {
 
           {/* Info */}
           <ScrollReveal delay={0.2}>
-            <div className="p-8 bg-ivory rounded-sm self-start">
-              <h3 className="font-heading text-fluid-xl text-ocean font-normal mb-8">
+            <div
+              className="rounded-sm self-start"
+              style={{
+                padding: "var(--space-8)",
+                backgroundColor: "var(--color-ivory)",
+              }}
+            >
+              <h3
+                className="font-heading font-normal"
+                style={{
+                  fontSize: "var(--text-xl)",
+                  color: "var(--color-ocean)",
+                  marginBottom: "var(--space-8)",
+                }}
+              >
                 Thông Tin Liên Hệ
               </h3>
               <InfoItem
@@ -109,11 +216,31 @@ export default function ContactPage() {
               />
               <InfoItem label="Zalo" value={SITE.zalo} />
               <InfoItem label="Địa chỉ" value={SITE.address} />
-              <div className="mt-8 pt-6 border-t border-sand/30">
-                <h4 className="font-heading text-fluid-lg text-ocean font-medium mb-3">
+              <div
+                style={{
+                  marginTop: "var(--space-8)",
+                  paddingTop: "var(--space-6)",
+                  borderTop: "1px solid rgba(201, 168, 124, 0.3)",
+                }}
+              >
+                <h4
+                  className="font-heading font-medium"
+                  style={{
+                    fontSize: "var(--text-lg)",
+                    color: "var(--color-ocean)",
+                    marginBottom: "var(--space-3)",
+                  }}
+                >
                   Giờ Làm Việc
                 </h4>
-                <p className="text-fluid-sm text-[#6b6b6b]">{SITE.hours}</p>
+                <p
+                  style={{
+                    fontSize: "var(--text-sm)",
+                    color: "var(--color-text-light)",
+                  }}
+                >
+                  {SITE.hours}
+                </p>
               </div>
             </div>
           </ScrollReveal>
@@ -122,17 +249,32 @@ export default function ContactPage() {
 
       {/* Map Placeholder */}
       <section
-        className="h-[300px] flex items-center justify-center text-center"
+        className="flex items-center justify-center text-center"
         style={{
+          height: "300px",
           background:
             "linear-gradient(135deg, #1a4a63 0%, #2c8fa0 40%, #0d2b3e 100%)",
         }}
       >
         <div>
-          <p className="font-heading text-fluid-2xl text-white font-normal mb-2">
+          <p
+            className="font-heading font-normal"
+            style={{
+              fontSize: "var(--text-2xl)",
+              color: "var(--color-white)",
+              marginBottom: "var(--space-2)",
+            }}
+          >
             Vĩnh Hy Bay
           </p>
-          <p className="text-fluid-sm text-sand tracking-[0.15em] uppercase">
+          <p
+            className="uppercase"
+            style={{
+              fontSize: "var(--text-sm)",
+              color: "var(--color-sand)",
+              letterSpacing: "0.15em",
+            }}
+          >
             Ninh Thuận, Việt Nam
           </p>
         </div>
@@ -153,15 +295,30 @@ function FormField({
   required?: boolean;
 }) {
   return (
-    <div className="flex flex-col mb-4">
-      <label className="text-fluid-xs text-[#6b6b6b] tracking-[0.1em] uppercase mb-2">
+    <div className="flex flex-col" style={{ marginBottom: "var(--space-4)" }}>
+      <label
+        className="uppercase"
+        style={{
+          fontSize: "var(--text-xs)",
+          color: "var(--color-text-light)",
+          letterSpacing: "0.1em",
+          marginBottom: "var(--space-2)",
+        }}
+      >
         {label}
       </label>
       <input
         type={type}
         name={name}
         required={required}
-        className="font-body text-fluid-sm py-3 px-4 border border-sand/30 rounded-sm bg-white text-[#2c2c2c] focus:outline-none focus:border-sand transition-colors"
+        className="font-body rounded-sm bg-white focus:outline-none transition-colors"
+        style={{
+          fontSize: "var(--text-sm)",
+          paddingBlock: "var(--space-3)",
+          paddingInline: "var(--space-4)",
+          border: "1px solid rgba(201, 168, 124, 0.3)",
+          color: "var(--color-text)",
+        }}
       />
     </div>
   );
@@ -177,19 +334,33 @@ function InfoItem({
   href?: string;
 }) {
   return (
-    <div className="mb-6">
-      <span className="block text-fluid-xs text-[#6b6b6b] tracking-[0.1em] uppercase mb-1">
+    <div style={{ marginBottom: "var(--space-6)" }}>
+      <span
+        className="block uppercase"
+        style={{
+          fontSize: "var(--text-xs)",
+          color: "var(--color-text-light)",
+          letterSpacing: "0.1em",
+          marginBottom: "var(--space-1)",
+          display: "block",
+        }}
+      >
         {label}
       </span>
       {href ? (
         <a
           href={href}
-          className="text-fluid-base text-ocean hover:text-sand transition-colors"
+          className="transition-colors hover:text-sand"
+          style={{ fontSize: "var(--text-base)", color: "var(--color-ocean)" }}
         >
           {value}
         </a>
       ) : (
-        <span className="text-fluid-base text-ocean">{value}</span>
+        <span
+          style={{ fontSize: "var(--text-base)", color: "var(--color-ocean)" }}
+        >
+          {value}
+        </span>
       )}
     </div>
   );

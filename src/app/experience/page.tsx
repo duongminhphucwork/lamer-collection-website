@@ -52,12 +52,23 @@ export default function ExperiencePage() {
       />
 
       {/* Dining */}
-      <section className="py-24 container-padding">
-        <ScrollReveal className="max-w-container mx-auto mb-12">
+      <section
+        className="container-padding"
+        style={{ paddingBlock: "var(--space-24)" }}
+      >
+        <ScrollReveal
+          className="max-w-container mx-auto"
+          style={{ marginBottom: "var(--space-12)" }}
+        >
           <SectionHeading subtitle="Ẩm Thực" title="Hương Vị Vĩnh Hy" />
           <p
-            className="text-fluid-base leading-relaxed max-w-[600px] mb-8"
-            style={{ color: "var(--color-text-light)" }}
+            style={{
+              fontSize: "var(--text-base)",
+              color: "var(--color-text-light)",
+              lineHeight: 1.8,
+              maxWidth: "600px",
+              marginBottom: "var(--space-8)",
+            }}
           >
             Nhà hàng và quán cà phê của La Mer mang đến những hương vị tươi ngon
             nhất từ biển cả &mdash; hải sản đánh bắt mỗi sáng, rau xanh từ vườn
@@ -66,8 +77,10 @@ export default function ExperiencePage() {
         </ScrollReveal>
         <ScrollReveal delay={0.2}>
           <div
-            className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory"
+            className="flex overflow-x-auto snap-x snap-mandatory"
             style={{
+              gap: "var(--space-4)",
+              paddingBottom: "var(--space-4)",
               scrollbarWidth: "thin" as const,
               scrollbarColor: "var(--color-sand) transparent",
             }}
@@ -97,10 +110,10 @@ export default function ExperiencePage() {
           style={{ backgroundColor: "rgba(13,43,62,0.5)" }}
         />
         <div
-          className="relative z-[2] py-24 container-padding"
-          style={{ maxWidth: "600px" }}
+          className="relative z-[2] container-padding"
+          style={{ maxWidth: "600px", paddingBlock: "var(--space-24)" }}
         >
-          <ScrollReveal direction="left" className="text-white">
+          <ScrollReveal className="text-white">
             <SectionHeading
               subtitle="Spa & Wellness"
               title="Thư Giãn Toàn Diện"
@@ -108,8 +121,12 @@ export default function ExperiencePage() {
               subtitleColor="text-sand"
             />
             <p
-              className="text-fluid-base leading-relaxed mb-8"
-              style={{ color: "rgba(255,255,255,0.8)" }}
+              style={{
+                fontSize: "var(--text-base)",
+                color: "rgba(255,255,255,0.8)",
+                lineHeight: 1.8,
+                marginBottom: "var(--space-8)",
+              }}
             >
               Spa tại La Mer kết hợp liệu pháp truyền thống Việt Nam với kỹ
               thuật hiện đại. Hãy để cơ thể hòa mình vào nhịp thở của sóng biển
@@ -117,7 +134,13 @@ export default function ExperiencePage() {
             </p>
             <Link
               href="#"
-              className="inline-block text-fluid-xs font-medium tracking-[0.15em] uppercase py-4 px-8 border border-white text-white transition-all duration-[400ms] ease-smooth hover:bg-white hover:text-ocean"
+              className="inline-block font-medium uppercase border border-white text-white transition-all duration-[400ms] ease-smooth hover:bg-white hover:text-ocean"
+              style={{
+                fontSize: "var(--text-xs)",
+                letterSpacing: "0.15em",
+                paddingBlock: "var(--space-4)",
+                paddingInline: "var(--space-8)",
+              }}
             >
               Đặt Lịch Spa
             </Link>
@@ -126,15 +149,24 @@ export default function ExperiencePage() {
       </section>
 
       {/* Activities */}
-      <section className="py-24 container-padding">
-        <ScrollReveal className="text-center mb-12">
+      <section
+        className="container-padding"
+        style={{ paddingBlock: "var(--space-24)" }}
+      >
+        <ScrollReveal
+          className="text-center"
+          style={{ marginBottom: "var(--space-12)" }}
+        >
           <SectionHeading
             subtitle="Hoạt Động"
             title="Khám Phá Vĩnh Hy"
             center
           />
         </ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-container mx-auto">
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-container mx-auto"
+          style={{ gap: "var(--space-6)" }}
+        >
           {ACTIVITIES.map((a, i) => (
             <ScrollReveal key={a.title} delay={i * 0.15}>
               <div
@@ -152,13 +184,24 @@ export default function ExperiencePage() {
                       "linear-gradient(to top, rgba(13,43,62,0.8) 0%, transparent 60%)",
                   }}
                 />
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-[2]">
-                  <h3 className="font-heading text-fluid-lg font-medium mb-2">
+                <div
+                  className="absolute bottom-0 left-0 right-0 text-white z-[2]"
+                  style={{ padding: "var(--space-6)" }}
+                >
+                  <h3
+                    className="font-heading font-medium"
+                    style={{
+                      fontSize: "var(--text-lg)",
+                      marginBottom: "var(--space-2)",
+                    }}
+                  >
                     {a.title}
                   </h3>
                   <p
-                    className="text-fluid-sm"
-                    style={{ color: "rgba(255,255,255,0.7)" }}
+                    style={{
+                      fontSize: "var(--text-sm)",
+                      color: "rgba(255,255,255,0.7)",
+                    }}
                   >
                     {a.desc}
                   </p>
