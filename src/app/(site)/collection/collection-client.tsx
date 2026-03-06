@@ -112,7 +112,7 @@ export default function CollectionClient({
           <p
             className="font-heading font-normal italic"
             style={{
-              fontSize: "var(--text-xl)",
+              fontSize: "var(--text-lg)",
               color: "var(--color-ocean)",
               lineHeight: 1.6,
               maxWidth: "800px",
