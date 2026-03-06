@@ -18,7 +18,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 const CATEGORY_DESCRIPTIONS: Record<string, string> = {
   heritage:
-    "Lấy cảm hứng từ kiến trúc truyền thống Việt Nam, mỗi căn Heritage Villa mang hồn cốt của Vĩnh Hy — mái ngói, tường đá, và không gian hòa mình vào thiên nhiên.",
+    "Những ngôi nhà cũ của người dân địa phương tại Vĩnh Hy được cải tạo thành không gian nghỉ dưỡng — giữ nguyên hồn cốt kiến trúc bản địa, mái ngói, tường đá, hòa quyện cùng thiên nhiên.",
   mediterranean:
     "Phong cách Địa Trung Hải giữa lòng vịnh biển — những đường cong mềm mại, tone màu ấm áp, và tầm nhìn trọn vẹn ra đại dương.",
   hotel:
