@@ -1,5 +1,21 @@
 import { defineType, defineField } from "sanity";
 
+// Which section keys use which optional fields
+const SECTIONS_WITH_IMAGE = ["origin", "experience", "location"];
+const SECTIONS_WITH_IMAGES = ["collection", "dining"];
+const SECTIONS_WITH_ITEMS = [
+  "collection",
+  "activities",
+  "community",
+  "highlights",
+  "transport",
+];
+
+function hideUnless(allowedKeys: string[]) {
+  return ({ parent }: { parent?: { key?: string } }) =>
+    !parent?.key || !allowedKeys.includes(parent.key);
+}
+
 /** Generic page content document — manages hero, intro text, and sections per page */
 export const pageContent = defineType({
   name: "pageContent",
@@ -81,6 +97,7 @@ export const pageContent = defineType({
               title: "Section Image",
               type: "image",
               options: { hotspot: true },
+              hidden: hideUnless(SECTIONS_WITH_IMAGE),
             }),
             defineField({
               name: "images",
@@ -88,6 +105,7 @@ export const pageContent = defineType({
               type: "array",
               of: [{ type: "image", options: { hotspot: true } }],
               description: "Multiple images for gallery/carousel sections",
+              hidden: hideUnless(SECTIONS_WITH_IMAGES),
             }),
             defineField({
               name: "items",
@@ -95,6 +113,7 @@ export const pageContent = defineType({
               type: "array",
               description:
                 "Repeatable items (activities, highlights, transport, etc.)",
+              hidden: hideUnless(SECTIONS_WITH_ITEMS),
               of: [
                 {
                   type: "object",
