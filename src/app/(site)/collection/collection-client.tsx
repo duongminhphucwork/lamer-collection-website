@@ -17,6 +17,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 const CATEGORY_DESCRIPTIONS: Record<string, string> = {
+  all: "Từ nhà cổ bản địa đến villa Địa Trung Hải, từ phòng nghỉ ven vịnh đến khu vườn riêng — La Mer là một bộ sưu tập, không phải một khu resort.",
   heritage:
     "Những mái nhà đã sống cùng Vĩnh Hy qua bao thế hệ — nay được thổi hồn mới mà vẫn giữ trọn ký ức của gỗ, của ngói, của biển.",
   mediterranean:
@@ -99,7 +100,7 @@ export default function CollectionClient({
         />
       </ScrollReveal>
 
-      {filter !== "all" && CATEGORY_DESCRIPTIONS[filter] && (
+      {CATEGORY_DESCRIPTIONS[filter] && (
         <div
           className="text-center"
           style={{
