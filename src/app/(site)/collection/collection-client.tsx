@@ -20,9 +20,9 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
   heritage:
     "Những mái nhà đã sống cùng Vĩnh Hy qua bao thế hệ — nay được thổi hồn mới mà vẫn giữ trọn ký ức của đá, của gỗ, của biển.",
   mediterranean:
-    "Gió Địa Trung Hải thổi qua vịnh biển Ninh Thuận — nơi những vòm cửa, sắc đất ấm và ánh nắng dẫn lối ra đại dương xanh thẳm.",
+    "Mang hơi thở Santorini đến bờ vịnh Vĩnh Hy — nơi đá trắng, ánh nắng vàng và sóng biển xanh viết nên một câu chuyện mới.",
   hotel:
-    "Tỉnh giấc cùng tiếng sóng, mở cửa là biển — không gian tối giản nhưng trọn vẹn, để thiên nhiên Vĩnh Hy tự kể câu chuyện của mình.",
+    "Phòng nghỉ nằm ngay mép vịnh, nơi mỗi ban công là một khán đài riêng — ngắm thuyền về bến lúc chiều tà, nghe sóng ru giữa đêm thanh.",
 };
 
 const CATEGORY_GRADIENTS: Record<string, string> = {
