@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 import { parseBody } from "next-sanity/webhook";
 
@@ -33,6 +33,9 @@ export async function POST(req: NextRequest) {
     if (!body?._type) {
       return new NextResponse("Bad request", { status: 400 });
     }
+
+    // Revalidate tag-based fetch cache (used by sanityFetch)
+    revalidateTag("pageContent");
 
     // Revalidate affected paths based on document type
     const paths = TYPE_TO_PATHS[body._type] || ["/"];
