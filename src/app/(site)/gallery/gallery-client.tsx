@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import HeroSection from "@/components/ui/hero-section";
 import FilterBar from "@/components/ui/filter-bar";
 import ScrollReveal from "@/components/shared/scroll-reveal";
@@ -50,6 +50,16 @@ export default function GalleryClient({
 
   const closeLightbox = useCallback(() => setLightboxIdx(null), []);
 
+  // Close lightbox on Escape key
+  useEffect(() => {
+    if (lightboxIdx === null) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [lightboxIdx, closeLightbox]);
+
   return (
     <>
       <HeroSection
@@ -82,9 +92,11 @@ export default function GalleryClient({
         >
           {filtered.map((item, i) => (
             <ScrollReveal key={item.title + i} delay={(i % 3) * 0.1}>
-              <div
+              <button
+                type="button"
                 onClick={() => setLightboxIdx(i)}
-                className={`group relative overflow-hidden cursor-pointer ${
+                aria-label={`Xem ảnh: ${item.title}`}
+                className={`group relative overflow-hidden cursor-pointer text-left w-full ${
                   item.variant === "tall"
                     ? "md:row-span-2"
                     : item.variant === "wide"
@@ -132,7 +144,7 @@ export default function GalleryClient({
                     {item.title}
                   </span>
                 </div>
-              </div>
+              </button>
             </ScrollReveal>
           ))}
         </div>
@@ -140,6 +152,9 @@ export default function GalleryClient({
 
       {lightboxIdx !== null && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={filtered[lightboxIdx].title}
           className="fixed inset-0 z-[200] flex items-center justify-center"
           style={{
             backgroundColor: "rgba(13,43,62,0.95)",

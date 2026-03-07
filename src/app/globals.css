@@ -94,6 +94,13 @@
     color: inherit;
   }
 
+  /* Global focus-visible styles for keyboard users */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--color-sand);
+    outline-offset: 2px;
+  }
+
   img {
     max-width: 100%;
     display: block;

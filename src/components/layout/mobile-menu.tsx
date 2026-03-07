@@ -11,6 +11,9 @@ interface MobileMenuProps {
 export default function MobileMenu({ open, pathname }: MobileMenuProps) {
   return (
     <div
+      role="dialog"
+      aria-modal={open}
+      aria-label="Menu"
       className={`fixed inset-0 flex flex-col items-center justify-center z-[99] ${
         open
           ? "opacity-100 pointer-events-auto"

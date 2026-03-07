@@ -22,6 +22,16 @@ export default function Navigation() {
     setMenuOpen(false);
   }, [pathname]);
 
+  // Close mobile menu on Escape key
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [menuOpen]);
+
   return (
     <>
       <nav
@@ -70,7 +80,8 @@ export default function Navigation() {
         <button
           className="flex lg:hidden flex-col"
           style={{ gap: "6px", padding: "var(--space-2)" }}
-          aria-label="Toggle menu"
+          aria-label={menuOpen ? "Đóng menu" : "Mở menu"}
+          aria-expanded={menuOpen}
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <span

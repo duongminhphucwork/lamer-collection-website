@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import ScrollReveal from "@/components/shared/scroll-reveal";
 import SectionHeading from "@/components/ui/section-heading";
@@ -6,6 +7,16 @@ import {
   getSection,
   type ContentItem,
 } from "@/sanity/fetch-page-content";
+
+export const metadata: Metadata = {
+  description:
+    "La Mer Collection - Bộ sưu tập nghỉ dưỡng sang trọng tại Vĩnh Hy Bay, Ninh Thuận. Heritage villas, Mediterranean villas và phòng khách sạn hướng biển.",
+  openGraph: {
+    title: "La Mer Collection | Vĩnh Hy Bay",
+    description:
+      "Bộ sưu tập nghỉ dưỡng sang trọng tại Vĩnh Hy Bay, Ninh Thuận.",
+  },
+};
 
 export default async function HomePage() {
   const cms = await fetchPageContent("home");

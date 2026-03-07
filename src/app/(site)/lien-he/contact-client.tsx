@@ -136,6 +136,7 @@ export default function ContactClient({
                   style={{ marginBottom: "var(--space-4)" }}
                 >
                   <label
+                    htmlFor="field-room-type"
                     className="uppercase"
                     style={{
                       fontSize: "var(--text-xs)",
@@ -147,8 +148,9 @@ export default function ContactClient({
                     Loại phòng
                   </label>
                   <select
+                    id="field-room-type"
                     name="room-type"
-                    className="font-body rounded-sm bg-white focus:outline-none transition-colors"
+                    className="font-body rounded-sm bg-white transition-colors focus:outline-2 focus:outline-sand"
                     style={{
                       fontSize: "var(--text-sm)",
                       paddingBlock: "var(--space-3)",
@@ -169,6 +171,7 @@ export default function ContactClient({
                   style={{ marginBottom: "var(--space-4)" }}
                 >
                   <label
+                    htmlFor="field-message"
                     className="uppercase"
                     style={{
                       fontSize: "var(--text-xs)",
@@ -180,9 +183,10 @@ export default function ContactClient({
                     Tin nhắn
                   </label>
                   <textarea
+                    id="field-message"
                     name="message"
                     rows={4}
-                    className="font-body rounded-sm bg-white focus:outline-none transition-colors resize-y"
+                    className="font-body rounded-sm bg-white transition-colors resize-y focus:outline-2 focus:outline-sand"
                     style={{
                       fontSize: "var(--text-sm)",
                       paddingBlock: "var(--space-3)",
@@ -329,9 +333,11 @@ function FormField({
   type: string;
   required?: boolean;
 }) {
+  const id = `field-${name}`;
   return (
     <div className="flex flex-col" style={{ marginBottom: "var(--space-4)" }}>
       <label
+        htmlFor={id}
         className="uppercase"
         style={{
           fontSize: "var(--text-xs)",
@@ -343,10 +349,11 @@ function FormField({
         {label}
       </label>
       <input
+        id={id}
         type={type}
         name={name}
         required={required}
-        className="font-body rounded-sm bg-white focus:outline-none transition-colors"
+        className="font-body rounded-sm bg-white transition-colors focus:outline-2 focus:outline-sand"
         style={{
           fontSize: "var(--text-sm)",
           paddingBlock: "var(--space-3)",

@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import { fetchPageContent } from "@/sanity/fetch-page-content";
 import { sanityFetch } from "@/sanity/client";
 import { allPropertiesQuery } from "@/sanity/queries/property-queries";
 import CollectionClient from "./collection-client";
+
+export const metadata: Metadata = {
+  title: "Bộ Sưu Tập",
+  description:
+    "Khám phá bộ sưu tập villa di sản, villa Địa Trung Hải và phòng khách sạn sang trọng tại La Mer Collection, Vĩnh Hy Bay.",
+};
 
 export default async function CollectionPage() {
   const [cms, properties] = await Promise.all([
