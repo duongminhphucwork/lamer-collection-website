@@ -20,7 +20,7 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
   heritage:
     "Những mái nhà đã sống cùng Vĩnh Hy qua bao thế hệ — nay được thổi hồn mới mà vẫn giữ trọn ký ức của gỗ, của ngói, của biển.",
   mediterranean:
-    "Mang hơi thở Santorini đến bờ vịnh Vĩnh Hy — tường vôi trắng, ô cửa vòm, và hương gió biển — như một ngôi làng ven Địa Trung Hải mọc lên bên bờ vịnh Vĩnh Hy.",
+    "Mang hơi thở Santorini đến bờ vịnh Vĩnh Hy — tường vôi trắng, ô cửa vòm, và hương gió biển — như một ngôi làng ven Địa Trung Hải mọc lên bên bờ vịnh.",
   hotel:
     "Phòng nghỉ nằm ngay mép vịnh, nơi mỗi ban công là một khán đài riêng — ngắm thuyền về bến lúc chiều tà, và thức dậy cùng ánh nắng đầu tiên trên vịnh.",
 };
