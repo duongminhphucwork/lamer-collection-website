@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 
 const DEFAULT_ACTIVITIES: ContentItem[] = [
   {
-    title: "Chèo Kayak",
-    description: "Khám phá vịnh trên thuyền kayak",
+    title: "Chèo SUP",
+    description: "Khám phá vịnh trên ván SUP",
     gradient: "linear-gradient(180deg, #2c8fa0 0%, #1a4a63 100%)",
     iconPath: "M3 17l2-2h14l2 2M5 15V9a7 7 0 0114 0v6",
   },
