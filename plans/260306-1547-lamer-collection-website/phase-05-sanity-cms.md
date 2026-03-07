@@ -1,9 +1,10 @@
 ---
 phase: 5
 title: "Sanity CMS Integration"
-status: pending
+status: in-progress
 priority: P1
 effort: 6h
+progress: 95%
 ---
 
 # Phase 5: Sanity CMS Integration
@@ -198,23 +199,23 @@ export default async function CollectionPage() {
 
 ## Todo List
 
-- [ ] Install Sanity dependencies
-- [ ] Create Sanity config + client
-- [ ] Create image URL builder
-- [ ] Create object schemas (localized-string, image-with-alt, seo, price-range)
-- [ ] Create document schemas (property, experience, gallery-item, site-settings)
-- [ ] Register all schemas
-- [ ] Setup Sanity Studio route
-- [ ] Write GROQ queries for all content types
-- [ ] Create sanityFetch wrapper with revalidation tags
-- [ ] Update Homepage to fetch from CMS
-- [ ] Update Collection page to fetch from CMS
-- [ ] Update Experience page to fetch from CMS
-- [ ] Update Gallery page to fetch from CMS
-- [ ] Update Contact page with site settings from CMS
-- [ ] Create webhook API route for revalidation
-- [ ] Seed initial content in Studio
-- [ ] Test CMS content flow end-to-end
+- [x] Install Sanity dependencies
+- [x] Create Sanity config + client
+- [x] Create image URL builder
+- [x] Create object schemas (localized-string, image-with-alt, seo, price-range)
+- [x] Create document schemas (property, experience, gallery-item, page-content, site-settings)
+- [x] Register all schemas
+- [x] Setup Sanity Studio route
+- [x] Write GROQ queries for all content types
+- [x] Create sanityFetch wrapper with revalidation tags
+- [x] Update Homepage to fetch from CMS
+- [x] Update Collection page to fetch from CMS
+- [x] Update Experience page to fetch from CMS
+- [x] Update Gallery page to fetch from CMS
+- [x] Update Contact page with site settings from CMS
+- [x] Create webhook API route for revalidation
+- [ ] Run seed script with Sanity API token
+- [ ] Manual e2e test (verify all pages render CMS content)
 
 ## Success Criteria
 
@@ -230,6 +231,24 @@ export default async function CollectionPage() {
 - **Sanity free tier limits**: Free plan supports 1 project, 2 datasets, 500k API requests/mo. Sufficient for branding site.
 - **Preview mode complexity**: Skip live preview for now; ISR with webhook revalidation is sufficient.
 - **Schema migrations**: Design schema carefully upfront; Sanity schema changes are non-destructive but field renames need data migration.
+
+## Completion Status
+
+**Session Work (260306):**
+
+- Created `page-content` document schema for managing hero text and page sections
+- Registered schema and created GROQ query
+- Built shared fetch helper (`fetchPageContent()`, `getSection()`)
+- Updated all 7 pages (homepage, collection, experience, story, vinh-hy, gallery, contact) to fetch from Sanity CMS
+- Split collection, gallery, contact pages into server/client components
+- Updated webhook revalidation to include `pageContent` type
+- Created seed script (`scripts/seed-sanity.ts`) for initial CMS content
+- Build passes successfully
+
+**Remaining:**
+
+- Run seed script with Sanity API token to populate initial content
+- Manual end-to-end test to verify all pages render CMS content correctly
 
 ## Next Steps
 

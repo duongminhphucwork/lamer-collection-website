@@ -2,22 +2,32 @@ interface HeroSectionProps {
   subtitle: string;
   title: string;
   backgroundStyle?: string;
+  backgroundImage?: string;
 }
 
 export default function HeroSection({
   subtitle,
   title,
   backgroundStyle,
+  backgroundImage,
 }: HeroSectionProps) {
   return (
     <section
       className="relative flex items-center justify-center overflow-hidden"
       style={{ height: "60vh", minHeight: "400px" }}
     >
-      <div
-        className="absolute inset-0"
-        style={{ background: backgroundStyle ?? "var(--color-ocean)" }}
-      />
+      {backgroundImage ? (
+        <img
+          src={backgroundImage}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      ) : (
+        <div
+          className="absolute inset-0"
+          style={{ background: backgroundStyle ?? "var(--color-ocean)" }}
+        />
+      )}
       <div
         className="absolute inset-0"
         style={{ backgroundColor: "var(--color-overlay)" }}

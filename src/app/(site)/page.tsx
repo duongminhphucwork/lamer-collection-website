@@ -336,6 +336,22 @@ export default async function HomePage() {
             "linear-gradient(135deg, #0d2b3e 0%, #1a4a63 50%, #0d2b3e 100%)",
         }}
       >
+        {location?.image?.asset?.url && (
+          <img
+            src={location.image.asset.url}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
+        {location?.image?.asset?.url && (
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(13,43,62,0.7) 0%, rgba(13,43,62,0.85) 100%)",
+            }}
+          />
+        )}
         <ScrollReveal
           style={{
             position: "relative",

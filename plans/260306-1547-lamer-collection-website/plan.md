@@ -42,16 +42,16 @@ Luxury coastal branding website for La Mer Collection - a unique resort concept 
 
 ## Phases
 
-| #   | Phase                                                                     | Status  | Effort |
-| --- | ------------------------------------------------------------------------- | ------- | ------ |
-| 1   | [Project Setup & Architecture](./phase-01-project-setup.md)               | pending | 3h     |
-| 2   | [HTML/CSS Prototype - Core Pages](./phase-02-prototype-core.md)           | pending | 8h     |
-| 3   | [HTML/CSS Prototype - Secondary Pages](./phase-03-prototype-secondary.md) | pending | 6h     |
-| 4   | [Next.js Conversion](./phase-04-nextjs-conversion.md)                     | pending | 6h     |
-| 5   | [Sanity CMS Integration](./phase-05-sanity-cms.md)                        | pending | 6h     |
-| 6   | [Animations & Polish](./phase-06-animations-polish.md)                    | pending | 5h     |
-| 7   | [Deployment & CI/CD](./phase-07-deployment.md)                            | pending | 4h     |
-| 8   | [Testing & QA](./phase-08-testing-qa.md)                                  | pending | 2h     |
+| #   | Phase                                                                     | Status          | Effort |
+| --- | ------------------------------------------------------------------------- | --------------- | ------ |
+| 1   | [Project Setup & Architecture](./phase-01-project-setup.md)               | pending         | 3h     |
+| 2   | [HTML/CSS Prototype - Core Pages](./phase-02-prototype-core.md)           | pending         | 8h     |
+| 3   | [HTML/CSS Prototype - Secondary Pages](./phase-03-prototype-secondary.md) | pending         | 6h     |
+| 4   | [Next.js Conversion](./phase-04-nextjs-conversion.md)                     | pending         | 6h     |
+| 5   | [Sanity CMS Integration](./phase-05-sanity-cms.md)                        | 95% in-progress | 6h     |
+| 6   | [Animations & Polish](./phase-06-animations-polish.md)                    | pending         | 5h     |
+| 7   | [Deployment & CI/CD](./phase-07-deployment.md)                            | pending         | 4h     |
+| 8   | [Testing & QA](./phase-08-testing-qa.md)                                  | pending         | 2h     |
 
 ## Site Map
 

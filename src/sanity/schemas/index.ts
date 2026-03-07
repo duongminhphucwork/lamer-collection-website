@@ -12,6 +12,7 @@ import { property } from "./documents/property";
 import { experience } from "./documents/experience";
 import { galleryItem } from "./documents/gallery-item";
 import { siteSettings } from "./documents/site-settings";
+import { pageContent } from "./documents/page-content";
 
 /** All Sanity schema types */
 export const schemaTypes: SchemaTypeDefinition[] = [
@@ -26,4 +27,5 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   experience,
   galleryItem,
   siteSettings,
+  pageContent,
 ];

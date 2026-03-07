@@ -119,7 +119,6 @@ export const COLLECTION_FILTERS = [
   { value: "all", label: "Tất Cả" },
   { value: "heritage", label: "Villa Di Sản" },
   { value: "mediterranean", label: "Villa Địa Trung Hải" },
-  { value: "vietnamese", label: "Villa Việt Nam" },
   { value: "hotel", label: "Phòng Khách Sạn" },
 ] as const;
 
@@ -201,6 +200,5 @@ export const ROOM_TYPE_OPTIONS = [
   { value: "", label: "-- Chọn loại phòng --" },
   { value: "heritage", label: "Villa Di Sản" },
   { value: "mediterranean", label: "Villa Địa Trung Hải" },
-  { value: "vietnamese", label: "Villa Việt Nam" },
   { value: "hotel", label: "Phòng Khách Sạn" },
 ] as const;

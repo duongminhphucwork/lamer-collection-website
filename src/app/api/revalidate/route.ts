@@ -8,6 +8,15 @@ const TYPE_TO_PATHS: Record<string, string[]> = {
   experience: ["/", "/experience"],
   galleryItem: ["/gallery"],
   siteSettings: ["/", "/lien-he"],
+  pageContent: [
+    "/",
+    "/collection",
+    "/experience",
+    "/story",
+    "/vinh-hy",
+    "/gallery",
+    "/lien-he",
+  ],
 };
 
 /** Sanity webhook handler for on-demand ISR revalidation */
