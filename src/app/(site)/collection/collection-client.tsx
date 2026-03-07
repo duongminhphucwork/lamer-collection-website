@@ -18,11 +18,11 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 const CATEGORY_DESCRIPTIONS: Record<string, string> = {
   heritage:
-    "Những mái nhà đã sống cùng Vĩnh Hy qua bao thế hệ — nay được thổi hồn mới mà vẫn giữ trọn ký ức của đá, của gỗ, của biển.",
+    "Những mái nhà đã sống cùng Vĩnh Hy qua bao thế hệ — nay được thổi hồn mới mà vẫn giữ trọn ký ức của gỗ, của ngói, của biển.",
   mediterranean:
-    "Mang hơi thở Santorini đến bờ vịnh Vĩnh Hy — nơi đá trắng, ánh nắng vàng và sóng biển xanh viết nên một câu chuyện mới.",
+    "Mang hơi thở Santorini đến bờ vịnh Vĩnh Hy — nơi đá trắng, ánh nắng vàng và sóng biển xanh cùng tồn tại trong một khung hình.",
   hotel:
-    "Phòng nghỉ nằm ngay mép vịnh, nơi mỗi ban công là một khán đài riêng — ngắm thuyền về bến lúc chiều tà, nghe sóng ru giữa đêm thanh.",
+    "Phòng nghỉ nằm ngay mép vịnh, nơi mỗi ban công là một khán đài riêng — ngắm thuyền về bến lúc chiều tà, thấy đèn làng chài lên đèn lúc tối.",
 };
 
 const CATEGORY_GRADIENTS: Record<string, string> = {
