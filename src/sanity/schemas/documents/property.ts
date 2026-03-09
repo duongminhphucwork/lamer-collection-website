@@ -61,6 +61,14 @@ export const property = defineType({
               validation: (rule) => rule.required(),
             }),
             defineField({
+              name: "slug",
+              title: "Slug",
+              type: "string",
+              description:
+                "URL-friendly name (e.g., oc, so, ca-co). Must be unique within this property.",
+              validation: (rule) => rule.required().regex(/^[a-z0-9-]+$/),
+            }),
+            defineField({
               name: "description",
               title: "Description",
               type: "string",

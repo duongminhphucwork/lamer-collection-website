@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import HeroSection from "@/components/ui/hero-section";
 import FilterBar from "@/components/ui/filter-bar";
 import ImageCard from "@/components/ui/image-card";
 import CtaBanner from "@/components/ui/cta-banner";
+import CollectionFilters, {
+  PRICE_STEPS,
+} from "@/components/ui/collection-filters";
 import ScrollReveal from "@/components/shared/scroll-reveal";
 import { PROPERTIES, COLLECTION_FILTERS } from "@/lib/constants";
 import type { SanityProperty } from "./page";
@@ -49,10 +52,13 @@ export default function CollectionClient({
   properties: SanityProperty[];
 }) {
   const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
+  const [capacity, setCapacity] = useState(0);
+  const [priceMinIdx, setPriceMinIdx] = useState(0);
+  const [priceMaxIdx, setPriceMaxIdx] = useState(10);
 
   const hasCmsData = properties.length > 0;
 
-  // Use CMS data if available, otherwise fall back to hardcoded
   const items = hasCmsData
     ? properties.map((p) => ({
         key: p._id,
@@ -65,7 +71,9 @@ export default function CollectionClient({
         gradient: CATEGORY_GRADIENTS[p.category] || CATEGORY_GRADIENTS.hotel,
         image: p.thumbnail?.asset?.url || null,
         guests: p.maxCapacity,
+        minPrice: p.minPrice || 0,
         featured: p.featured || false,
+        href: p.slug?.current ? `/collection/${p.slug.current}` : undefined,
       }))
     : PROPERTIES.map((p) => ({
         key: p.title,
@@ -76,11 +84,28 @@ export default function CollectionClient({
         gradient: p.gradient,
         image: "image" in p ? (p as { image: string }).image : null,
         guests: p.guests,
+        minPrice: 0,
         featured: p.featured || false,
+        href: undefined as string | undefined,
       }));
 
-  const filtered =
-    filter === "all" ? items : items.filter((p) => p.category === filter);
+  const filtered = useMemo(() => {
+    const pMin = PRICE_STEPS[priceMinIdx];
+    const pMax = PRICE_STEPS[priceMaxIdx];
+    const searchLower = search.toLowerCase().trim();
+
+    return items
+      .filter((p) => filter === "all" || p.category === filter)
+      .filter(
+        (p) => !searchLower || p.title.toLowerCase().includes(searchLower),
+      )
+      .filter((p) => capacity === 0 || p.guests >= capacity)
+      .filter((p) => {
+        if (pMin === 0 && pMax >= 10000000) return true;
+        if (!p.minPrice) return true;
+        return p.minPrice >= pMin && p.minPrice <= pMax;
+      });
+  }, [items, filter, search, capacity, priceMinIdx, priceMaxIdx]);
 
   return (
     <>
@@ -125,6 +150,33 @@ export default function CollectionClient({
         </div>
       )}
 
+      <ScrollReveal>
+        <CollectionFilters
+          search={search}
+          onSearchChange={setSearch}
+          capacity={capacity}
+          onCapacityChange={setCapacity}
+          priceMinIdx={priceMinIdx}
+          priceMaxIdx={priceMaxIdx}
+          onPriceMinChange={setPriceMinIdx}
+          onPriceMaxChange={setPriceMaxIdx}
+        />
+      </ScrollReveal>
+
+      {/* Results count */}
+      <p
+        className="font-heading italic"
+        style={{
+          textAlign: "center",
+          fontSize: "var(--text-sm)",
+          color: "var(--color-text-light)",
+          padding: "0 0 var(--space-4)",
+          letterSpacing: "0.03em",
+        }}
+      >
+        Hiển thị {filtered.length} chỗ nghỉ
+      </p>
+
       <section
         style={{
           padding: "var(--space-8) var(--container-padding) var(--space-24)",
@@ -132,28 +184,42 @@ export default function CollectionClient({
           marginInline: "auto",
         }}
       >
-        <div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-          style={{ gap: "var(--space-6)" }}
-        >
-          {filtered.map((p, i) => (
-            <ScrollReveal
-              key={p.key}
-              delay={(i % 3) * 0.1}
-              className={p.featured ? "row-span-2" : ""}
-            >
-              <ImageCard
-                gradient={p.gradient}
-                image={p.image}
-                category={p.categoryLabel}
-                title={p.title}
-                description={p.description}
-                details={{ guests: p.guests, area: "" }}
-                featured={p.featured}
-              />
-            </ScrollReveal>
-          ))}
-        </div>
+        {filtered.length > 0 ? (
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            style={{ gap: "var(--space-6)" }}
+          >
+            {filtered.map((p, i) => (
+              <ScrollReveal
+                key={p.key}
+                delay={(i % 3) * 0.1}
+                className={p.featured ? "row-span-2" : ""}
+              >
+                <ImageCard
+                  gradient={p.gradient}
+                  image={p.image}
+                  category={p.categoryLabel}
+                  title={p.title}
+                  description={p.description}
+                  details={{ guests: p.guests, area: "" }}
+                  featured={p.featured}
+                  href={p.href}
+                />
+              </ScrollReveal>
+            ))}
+          </div>
+        ) : (
+          <div
+            className="text-center font-heading italic"
+            style={{
+              padding: "var(--space-16) 0",
+              fontSize: "var(--text-lg)",
+              color: "var(--color-text-light)",
+            }}
+          >
+            Không tìm thấy kết quả phù hợp. Hãy thử thay đổi bộ lọc.
+          </div>
+        )}
       </section>
 
       <CtaBanner

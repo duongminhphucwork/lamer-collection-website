@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homestay Làng Chài | La Mer Collection</title>
+    <meta
+      name="description"
+      content="Homestay Làng Chài - Phòng khách sạn view biển tại La Mer Collection, Vĩnh Hy Bay."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/tokens.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/navigation.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+    <link rel="stylesheet" href="../css/pages/collection.css" />
+    <link rel="stylesheet" href="../css/pages/collection-detail.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="nav scrolled" aria-label="Main navigation">
+      <a href="../index.html" class="nav__logo">La Mer</a>
+      <div class="nav__links">
+        <a href="../index.html" class="nav__link">Trang Chủ</a>
+        <a href="collection.html" class="nav__link nav__link--active"
+          >Bộ Sưu Tập</a
+        >
+        <a href="experience.html" class="nav__link">Trải Nghiệm</a>
+        <a href="story.html" class="nav__link">Câu Chuyện</a>
+        <a href="vinh-hy.html" class="nav__link">Vĩnh Hy</a>
+        <a href="gallery.html" class="nav__link">Thư Viện</a>
+        <a href="lien-he.html" class="nav__link">Liên Hệ</a>
+      </div>
+      <button class="nav__hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div class="nav__overlay">
+      <a href="../index.html" class="nav__overlay-link">Trang Chủ</a>
+      <a href="collection.html" class="nav__overlay-link">Bộ Sưu Tập</a>
+      <a href="experience.html" class="nav__overlay-link">Trải Nghiệm</a>
+      <a href="story.html" class="nav__overlay-link">Câu Chuyện</a>
+      <a href="vinh-hy.html" class="nav__overlay-link">Vĩnh Hy</a>
+      <a href="gallery.html" class="nav__overlay-link">Thư Viện</a>
+      <a href="lien-he.html" class="nav__overlay-link">Liên Hệ</a>
+    </div>
+
+    <!-- Image Gallery -->
+    <div style="height: var(--nav-height)"></div>
+    <div class="detail-gallery">
+      <div class="detail-gallery__track" id="galleryTrack">
+        <div
+          class="detail-gallery__slide"
+          style="
+            background: linear-gradient(
+              135deg,
+              #3a6b82 0%,
+              #0d2b3e 60%,
+              #1a4a63 100%
+            );
+          "
+        ></div>
+        <div
+          class="detail-gallery__slide"
+          style="
+            background: linear-gradient(
+              135deg,
+              #0d2b3e 0%,
+              #2a5570 50%,
+              #1a4a63 100%
+            );
+          "
+        ></div>
+        <div
+          class="detail-gallery__slide"
+          style="
+            background: linear-gradient(
+              135deg,
+              #1a4a63 0%,
+              #3a6b82 60%,
+              #0d2b3e 100%
+            );
+          "
+        ></div>
+      </div>
+      <button
+        class="detail-gallery__arrow detail-gallery__arrow--prev"
+        aria-label="Ảnh trước"
+      >
+        &#8249;
+      </button>
+      <button
+        class="detail-gallery__arrow detail-gallery__arrow--next"
+        aria-label="Ảnh tiếp"
+      >
+        &#8250;
+      </button>
+      <div class="detail-gallery__nav" id="galleryNav">
+        <button
+          class="detail-gallery__dot is-active"
+          aria-label="Ảnh 1"
+        ></button>
+        <button class="detail-gallery__dot" aria-label="Ảnh 2"></button>
+        <button class="detail-gallery__dot" aria-label="Ảnh 3"></button>
+      </div>
+    </div>
+
+    <!-- Back Link -->
+    <a href="collection.html" class="detail-back">&larr; Bộ Sưu Tập</a>
+
+    <!-- Detail Content -->
+    <div class="detail-content">
+      <!-- Header -->
+      <div class="detail-header reveal">
+        <span class="detail-header__badge">Phòng Khách Sạn</span>
+        <h1 class="detail-header__title">Homestay Làng Chài</h1>
+        <p class="detail-header__desc">
+          Nằm ngay bên làng chài Vĩnh Hy, Homestay Làng Chài mang đến trải
+          nghiệm nghỉ dưỡng gần gũi với đời sống ngư dân. Mỗi phòng được thiết
+          kế theo phong cách biển cả, với tầm nhìn ra vịnh hoặc núi rừng, tạo
+          nên không gian thư giãn lý tưởng cho kỳ nghỉ của bạn.
+        </p>
+      </div>
+
+      <!-- Info Grid -->
+      <div class="detail-info reveal">
+        <div class="detail-info__item">
+          <span class="detail-info__label">Số phòng</span>
+          <span class="detail-info__value">6 phòng</span>
+        </div>
+        <div class="detail-info__item">
+          <span class="detail-info__label">View</span>
+          <span class="detail-info__value">Biển & Núi</span>
+        </div>
+        <div class="detail-info__item">
+          <span class="detail-info__label">Giá từ</span>
+          <span class="detail-info__value">1.200.000đ</span>
+        </div>
+      </div>
+
+      <!-- Room Grid -->
+      <div class="room-grid reveal">
+        <h2 class="room-grid__title">Các Phòng</h2>
+        <div class="room-grid__list">
+          <!-- Room 1 -->
+          <a href="collection-room-detail.html" class="room-card">
+            <div
+              class="room-card__image"
+              style="
+                background: linear-gradient(135deg, #1a4a63 0%, #2c5f7a 100%);
+              "
+            ></div>
+            <div class="room-card__body">
+              <h3 class="room-card__name">Cá Cờ</h3>
+              <div class="room-card__badges">
+                <span class="room-card__badge">View Biển</span>
+                <span class="room-card__badge">Ban Công</span>
+              </div>
+              <p class="room-card__capacity">Tối đa 2 khách</p>
+              <p class="room-card__price">
+                Từ 1.500.000đ
+                <span class="room-card__price-unit">/ đêm</span>
+              </p>
+            </div>
+          </a>
+
+          <!-- Room 2 -->
+          <a href="#" class="room-card">
+            <div
+              class="room-card__image"
+              style="
+                background: linear-gradient(135deg, #0d2b3e 0%, #1a4a63 100%);
+              "
+            ></div>
+            <div class="room-card__body">
+              <h3 class="room-card__name">Cá Ngựa</h3>
+              <div class="room-card__badges">
+                <span class="room-card__badge">View Biển</span>
+              </div>
+              <p class="room-card__capacity">Tối đa 2 khách</p>
+              <p class="room-card__price">
+                Từ 1.500.000đ
+                <span class="room-card__price-unit">/ đêm</span>
+              </p>
+            </div>
+          </a>
+
+          <!-- Room 3 -->
+          <a href="#" class="room-card">
+            <div
+              class="room-card__image"
+              style="
+                background: linear-gradient(135deg, #2a5570 0%, #3a6b82 100%);
+              "
+            ></div>
+            <div class="room-card__body">
+              <h3 class="room-card__name">Sao Biển</h3>
+              <div class="room-card__badges">
+                <span class="room-card__badge">View Núi</span>
+                <span class="room-card__badge">Sân Vườn</span>
+              </div>
+              <p class="room-card__capacity">Tối đa 3 khách</p>
+              <p class="room-card__price">
+                Từ 1.200.000đ
+                <span class="room-card__price-unit">/ đêm</span>
+              </p>
+            </div>
+          </a>
+
+          <!-- Room 4 -->
+          <a href="#" class="room-card">
+            <div
+              class="room-card__image"
+              style="
+                background: linear-gradient(135deg, #3a6b82 0%, #0d2b3e 100%);
+              "
+            ></div>
+            <div class="room-card__body">
+              <h3 class="room-card__name">San Hô</h3>
+              <div class="room-card__badges">
+                <span class="room-card__badge">View Biển</span>
+                <span class="room-card__badge">Tầng Cao</span>
+              </div>
+              <p class="room-card__capacity">Tối đa 2 khách</p>
+              <p class="room-card__price">
+                Từ 1.800.000đ
+                <span class="room-card__price-unit">/ đêm</span>
+              </p>
+            </div>
+          </a>
+
+          <!-- Room 5 -->
+          <a href="#" class="room-card">
+            <div
+              class="room-card__image"
+              style="
+                background: linear-gradient(135deg, #1a3a4f 0%, #2c5f7a 100%);
+              "
+            ></div>
+            <div class="room-card__body">
+              <h3 class="room-card__name">Rùa Biển</h3>
+              <div class="room-card__badges">
+                <span class="room-card__badge">View Núi</span>
+              </div>
+              <p class="room-card__capacity">Tối đa 2 khách</p>
+              <p class="room-card__price">
+                Từ 1.200.000đ
+                <span class="room-card__price-unit">/ đêm</span>
+              </p>
+            </div>
+          </a>
+
+          <!-- Room 6 -->
+          <a href="#" class="room-card">
+            <div
+              class="room-card__image"
+              style="
+                background: linear-gradient(135deg, #0a1f2e 0%, #1a4a63 100%);
+              "
+            ></div>
+            <div class="room-card__body">
+              <h3 class="room-card__name">Cá Hề</h3>
+              <div class="room-card__badges">
+                <span class="room-card__badge">View Biển</span>
+                <span class="room-card__badge">Gia Đình</span>
+              </div>
+              <p class="room-card__capacity">Tối đa 4 khách</p>
+              <p class="room-card__price">
+                Từ 2.000.000đ
+                <span class="room-card__price-unit">/ đêm</span>
+              </p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+      <div class="reveal">
+        <h2 class="cta-banner__title">Liên Hệ Để Đặt Phòng</h2>
+        <p class="cta-banner__text">
+          Đội ngũ của chúng tôi sẵn sàng hỗ trợ bạn lựa chọn không gian nghỉ
+          dưỡng phù hợp nhất.
+        </p>
+        <a href="lien-he.html" class="btn btn--white">Liên Hệ Ngay</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer__grid">
+        <div>
+          <p class="footer__brand-name">La Mer Collection</p>
+          <p class="footer__brand-desc">
+            Sống Trong Lòng Vịnh &mdash; Bộ sưu tập nghỉ dưỡng độc đáo tại Vĩnh
+            Hy, Ninh Thuận, Việt Nam.
+          </p>
+        </div>
+        <div>
+          <h4 class="footer__heading">Liên Kết</h4>
+          <a href="../index.html" class="footer__link">Trang Chủ</a>
+          <a href="collection.html" class="footer__link">Bộ Sưu Tập</a>
+          <a href="experience.html" class="footer__link">Trải Nghiệm</a>
+          <a href="story.html" class="footer__link">Câu Chuyện</a>
+          <a href="lien-he.html" class="footer__link">Liên Hệ</a>
+        </div>
+        <div>
+          <h4 class="footer__heading">Liên Hệ</h4>
+          <a href="tel:+84259123456" class="footer__link">+84 259 123 456</a>
+          <a href="mailto:hello@lamercollection.vn" class="footer__link"
+            >hello@lamercollection.vn</a
+          >
+          <p class="footer__link">Vĩnh Hy, Ninh Hải, Ninh Thuận, Việt Nam</p>
+        </div>
+      </div>
+      <hr class="footer__divider" />
+      <p class="footer__copyright">
+        &copy; 2026 La Mer Collection. All rights reserved.
+      </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/navigation.js"></script>
+    <script src="../js/scroll-animations.js"></script>
+    <script>
+      /* Gallery scroll */
+      (function () {
+        var track = document.getElementById("galleryTrack");
+        var dots = document.querySelectorAll(".detail-gallery__dot");
+        var prevBtn = document.querySelector(".detail-gallery__arrow--prev");
+        var nextBtn = document.querySelector(".detail-gallery__arrow--next");
+        var slides = document.querySelectorAll(".detail-gallery__slide");
+        var currentIndex = 0;
+
+        function scrollToSlide(index) {
+          if (index < 0) index = slides.length - 1;
+          if (index >= slides.length) index = 0;
+          currentIndex = index;
+          slides[index].scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "start",
+          });
+          dots.forEach(function (d, i) {
+            d.classList.toggle("is-active", i === index);
+          });
+        }
+
+        prevBtn.addEventListener("click", function () {
+          scrollToSlide(currentIndex - 1);
+        });
+
+        nextBtn.addEventListener("click", function () {
+          scrollToSlide(currentIndex + 1);
+        });
+
+        dots.forEach(function (dot, i) {
+          dot.addEventListener("click", function () {
+            scrollToSlide(i);
+          });
+        });
+
+        var scrollTimeout;
+        track.addEventListener("scroll", function () {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(function () {
+            var slideWidth = slides[0].offsetWidth;
+            var newIndex = Math.round(track.scrollLeft / slideWidth);
+            if (newIndex !== currentIndex) {
+              currentIndex = newIndex;
+              dots.forEach(function (d, i) {
+                d.classList.toggle("is-active", i === currentIndex);
+              });
+            }
+          }, 100);
+        });
+      })();
+    </script>
+  </body>
+</html>

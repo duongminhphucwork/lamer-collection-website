@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bộ Sưu Tập | La Mer Collection</title>
+    <meta
+      name="description"
+      content="Khám phá bộ sưu tập villa và phòng nghỉ tại La Mer Collection, Vĩnh Hy Bay."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/tokens.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/navigation.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+    <link rel="stylesheet" href="../css/pages/collection.css" />
+    <link rel="stylesheet" href="../css/pages/collection-detail.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="nav scrolled" aria-label="Main navigation">
+      <a href="../index.html" class="nav__logo">La Mer</a>
+      <div class="nav__links">
+        <a href="../index.html" class="nav__link">Trang Chủ</a>
+        <a href="collection.html" class="nav__link nav__link--active"
+          >Bộ Sưu Tập</a
+        >
+        <a href="experience.html" class="nav__link">Trải Nghiệm</a>
+        <a href="story.html" class="nav__link">Câu Chuyện</a>
+        <a href="vinh-hy.html" class="nav__link">Vĩnh Hy</a>
+        <a href="gallery.html" class="nav__link">Thư Viện</a>
+        <a href="lien-he.html" class="nav__link">Liên Hệ</a>
+      </div>
+      <button class="nav__hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div class="nav__overlay">
+      <a href="../index.html" class="nav__overlay-link">Trang Chủ</a>
+      <a href="collection.html" class="nav__overlay-link">Bộ Sưu Tập</a>
+      <a href="experience.html" class="nav__overlay-link">Trải Nghiệm</a>
+      <a href="story.html" class="nav__overlay-link">Câu Chuyện</a>
+      <a href="vinh-hy.html" class="nav__overlay-link">Vĩnh Hy</a>
+      <a href="gallery.html" class="nav__overlay-link">Thư Viện</a>
+      <a href="lien-he.html" class="nav__overlay-link">Liên Hệ</a>
+    </div>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+      <div
+        class="page-hero__bg"
+        style="
+          background: linear-gradient(
+            135deg,
+            #0d2b3e 0%,
+            #1a4a63 50%,
+            #0a1f2e 100%
+          );
+        "
+      ></div>
+      <div class="page-hero__overlay"></div>
+      <div class="page-hero__content">
+        <p class="page-hero__subtitle">The Collection</p>
+        <h1 class="page-hero__title">Bộ Sưu Tập</h1>
+      </div>
+    </section>
+
+    <!-- Search & Filters -->
+    <div class="filter-section reveal">
+      <!-- Category Tabs -->
+      <div class="filter-nav">
+        <button class="filter-nav__pill is-active" data-filter="all">
+          Tất Cả
+        </button>
+        <button class="filter-nav__pill" data-filter="heritage">
+          Villa Di Sản
+        </button>
+        <button class="filter-nav__pill" data-filter="mediterranean">
+          Villa Địa Trung Hải
+        </button>
+        <button class="filter-nav__pill" data-filter="hotel">
+          Phòng Khách Sạn
+        </button>
+      </div>
+
+      <!-- Category Description -->
+      <p class="filter-description" id="categoryDesc">
+        Khám phá bộ sưu tập villa và phòng nghỉ độc đáo tại Vĩnh Hy Bay — nơi
+        kiến trúc hòa quyện cùng thiên nhiên vịnh biển.
+      </p>
+
+      <!-- Search bar (own row) -->
+      <div class="filter-search">
+        <span class="filter-search__icon">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <circle cx="6.5" cy="6.5" r="5.5" />
+            <line x1="10.5" y1="10.5" x2="15" y2="15" />
+          </svg>
+        </span>
+        <input
+          type="text"
+          class="filter-search__input"
+          id="searchInput"
+          placeholder="Tìm kiếm theo tên..."
+          aria-label="Tìm kiếm chỗ nghỉ"
+        />
+      </div>
+
+      <!-- Filters row: capacity + price -->
+      <div class="filter-controls">
+        <!-- Capacity stepper -->
+        <div class="filter-stepper">
+          <span class="filter-stepper__label">Số khách</span>
+          <div class="filter-stepper__controls">
+            <button
+              class="filter-stepper__btn"
+              id="capacityMinus"
+              aria-label="Giảm số khách"
+            >
+              <svg width="12" height="2" viewBox="0 0 12 2">
+                <line
+                  x1="0"
+                  y1="1"
+                  x2="12"
+                  y2="1"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                />
+              </svg>
+            </button>
+            <span class="filter-stepper__value" id="capacityValue">—</span>
+            <button
+              class="filter-stepper__btn"
+              id="capacityPlus"
+              aria-label="Tăng số khách"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12">
+                <line
+                  x1="6"
+                  y1="0"
+                  x2="6"
+                  y2="12"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                />
+                <line
+                  x1="0"
+                  y1="6"
+                  x2="12"
+                  y2="6"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <span class="filter-controls__divider"></span>
+
+        <!-- Price range slider -->
+        <div class="filter-range">
+          <span class="filter-range__label">Mức giá</span>
+          <div class="filter-range__body">
+            <span class="filter-range__value" id="priceMinLabel">0đ</span>
+            <div class="filter-range__track-wrap">
+              <input
+                type="range"
+                class="filter-range__input filter-range__input--min"
+                id="priceMin"
+                min="0"
+                max="10"
+                value="0"
+                step="1"
+              />
+              <input
+                type="range"
+                class="filter-range__input filter-range__input--max"
+                id="priceMax"
+                min="0"
+                max="10"
+                value="10"
+                step="1"
+              />
+              <div class="filter-range__track"></div>
+              <div class="filter-range__fill" id="rangeFill"></div>
+            </div>
+            <span class="filter-range__value" id="priceMaxLabel">10tr+</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Count -->
+      <p class="filter-results-count" id="resultsCount">Hiển thị 38 chỗ nghỉ</p>
+    </div>
+
+    <!-- Property Grid -->
+    <div class="property-grid">
+      <div class="property-grid__inner">
+        <!-- Card 1 - Featured -->
+        <a href="collection-detail-villa.html" class="card-link">
+          <div
+            class="card card--featured reveal"
+            data-category="heritage"
+            data-name="Heritage Grand Villa"
+            data-view="sea"
+            data-capacity="4"
+            data-price="high"
+          >
+            <div
+              class="card__image"
+              style="
+                background: linear-gradient(180deg, #1a4a63 0%, #0d2b3e 80%);
+              "
+            ></div>
+            <div class="card__overlay">
+              <span class="card__category">Villa Di Sản</span>
+              <h3 class="card__title">Heritage Grand Villa</h3>
+              <p class="card__desc">Không gian 200m2, kiến trúc cổ Chăm Pa</p>
+              <div class="card__details">
+                <span class="card__detail">4 khách</span>
+                <span class="card__detail">200m&sup2;</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 2 -->
+        <a href="collection-detail-villa.html" class="card-link">
+          <div
+            class="card reveal"
+            data-delay="100"
+            data-category="mediterranean"
+            data-name="Azure Villa"
+            data-view="sea"
+            data-capacity="2"
+            data-price="mid"
+          >
+            <div
+              class="card__image"
+              style="
+                background: linear-gradient(180deg, #c9a87c 0%, #b8945a 100%);
+              "
+            ></div>
+            <div class="card__overlay">
+              <span class="card__category">Villa Địa Trung Hải</span>
+              <h3 class="card__title">Azure Villa</h3>
+              <p class="card__desc">Phong cách Santorini bên bờ vịnh</p>
+              <div class="card__details">
+                <span class="card__detail">2 khách</span>
+                <span class="card__detail">120m&sup2;</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 3 -->
+        <a href="collection-detail-villa.html" class="card-link">
+          <div
+            class="card reveal"
+            data-delay="200"
+            data-category="heritage"
+            data-name="Nhà Vườn Villa"
+            data-view="garden"
+            data-capacity="4"
+            data-price="mid"
+          >
+            <div
+              class="card__image"
+              style="
+                background: linear-gradient(180deg, #2c5f7a 0%, #1a4a63 100%);
+              "
+            ></div>
+            <div class="card__overlay">
+              <span class="card__category">Villa Di Sản</span>
+              <h3 class="card__title">Nhà Vườn Villa</h3>
+              <p class="card__desc">Nhà vườn truyền thống giữa rừng dừa</p>
+              <div class="card__details">
+                <span class="card__detail">4 khách</span>
+                <span class="card__detail">150m&sup2;</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 4 -->
+        <a href="collection-detail-hotel.html" class="card-link">
+          <div
+            class="card reveal"
+            data-delay="100"
+            data-category="hotel"
+            data-name="Homestay Làng Chài"
+            data-view="sea"
+            data-capacity="2"
+            data-price="low"
+          >
+            <div
+              class="card__image"
+              style="
+                background: linear-gradient(180deg, #3a6b82 0%, #0d2b3e 100%);
+              "
+            ></div>
+            <div class="card__overlay">
+              <span class="card__category">Phòng Khách Sạn</span>
+              <h3 class="card__title">Homestay Làng Chài</h3>
+              <p class="card__desc">Phòng nghỉ ven biển, gần làng chài</p>
+              <div class="card__details">
+                <span class="card__detail">2 khách</span>
+                <span class="card__detail">45m&sup2;</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 5 -->
+        <a href="collection-detail-villa.html" class="card-link">
+          <div
+            class="card reveal"
+            data-delay="200"
+            data-category="heritage"
+            data-name="Heritage Pool Villa"
+            data-view="mountain"
+            data-capacity="6"
+            data-price="high"
+          >
+            <div
+              class="card__image"
+              style="
+                background: linear-gradient(180deg, #1a3a4f 0%, #0d2b3e 100%);
+              "
+            ></div>
+            <div class="card__overlay">
+              <span class="card__category">Villa Di Sản</span>
+              <h3 class="card__title">Heritage Pool Villa</h3>
+              <p class="card__desc">Villa với hồ bơi riêng, view núi rừng</p>
+              <div class="card__details">
+                <span class="card__detail">6 khách</span>
+                <span class="card__detail">250m&sup2;</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 6 -->
+        <a href="collection-detail-villa.html" class="card-link">
+          <div
+            class="card reveal"
+            data-delay="300"
+            data-category="mediterranean"
+            data-name="Côte d'Azur Suite"
+            data-view="sea"
+            data-capacity="2"
+            data-price="mid"
+          >
+            <div
+              class="card__image"
+              style="
+                background: linear-gradient(180deg, #d4b088 0%, #c9a87c 100%);
+              "
+            ></div>
+            <div class="card__overlay">
+              <span class="card__category">Villa Địa Trung Hải</span>
+              <h3 class="card__title">Côte d'Azur Suite</h3>
+              <p class="card__desc">Thiết kế Pháp hiện đại, hồ bơi chung</p>
+              <div class="card__details">
+                <span class="card__detail">2 khách</span>
+                <span class="card__detail">90m&sup2;</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 7 -->
+        <a href="collection-detail-hotel.html" class="card-link">
+          <div
+            class="card reveal"
+            data-delay="100"
+            data-category="hotel"
+            data-name="Ocean Suite"
+            data-view="sea"
+            data-capacity="2"
+            data-price="mid"
+          >
+            <div
+              class="card__image"
+              style="
+                background: linear-gradient(180deg, #2a5570 0%, #1a4a63 100%);
+              "
+            ></div>
+            <div class="card__overlay">
+              <span class="card__category">Phòng Khách Sạn</span>
+              <h3 class="card__title">Ocean Suite</h3>
+              <p class="card__desc">Phòng suite hướng biển, ban công riêng</p>
+              <div class="card__details">
+                <span class="card__detail">2 khách</span>
+                <span class="card__detail">65m&sup2;</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 8 -->
+        <a href="collection-detail-hotel.html" class="card-link">
+          <div
+            class="card reveal"
+            data-delay="200"
+            data-category="hotel"
+            data-name="Garden Room"
+            data-view="garden"
+            data-capacity="2"
+            data-price="low"
+          >
+            <div
+              class="card__image"
+              style="
+                background: linear-gradient(180deg, #4a8a6a 0%, #2c5f4a 100%);
+              "
+            ></div>
+            <div class="card__overlay">
+              <span class="card__category">Phòng Khách Sạn</span>
+              <h3 class="card__title">Garden Room</h3>
+              <p class="card__desc">Phòng vườn yên tĩnh, gần spa</p>
+              <div class="card__details">
+                <span class="card__detail">2 khách</span>
+                <span class="card__detail">45m&sup2;</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+      <div class="reveal">
+        <h2 class="cta-banner__title">Liên Hệ Để Đặt Phòng</h2>
+        <p class="cta-banner__text">
+          Đội ngũ của chúng tôi sẵn sàng hỗ trợ bạn lựa chọn không gian nghỉ
+          dưỡng phù hợp nhất.
+        </p>
+        <a href="lien-he.html" class="btn btn--white">Liên Hệ Ngay</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer__grid">
+        <div>
+          <p class="footer__brand-name">La Mer Collection</p>
+          <p class="footer__brand-desc">
+            Sống Trong Lòng Vịnh &mdash; Bộ sưu tập nghỉ dưỡng độc đáo tại Vĩnh
+            Hy, Ninh Thuận, Việt Nam.
+          </p>
+        </div>
+        <div>
+          <h4 class="footer__heading">Liên Kết</h4>
+          <a href="../index.html" class="footer__link">Trang Chủ</a>
+          <a href="collection.html" class="footer__link">Bộ Sưu Tập</a>
+          <a href="experience.html" class="footer__link">Trải Nghiệm</a>
+          <a href="story.html" class="footer__link">Câu Chuyện</a>
+          <a href="lien-he.html" class="footer__link">Liên Hệ</a>
+        </div>
+        <div>
+          <h4 class="footer__heading">Liên Hệ</h4>
+          <a href="tel:+84259123456" class="footer__link">+84 259 123 456</a>
+          <a href="mailto:hello@lamercollection.vn" class="footer__link"
+            >hello@lamercollection.vn</a
+          >
+          <p class="footer__link">Vĩnh Hy, Ninh Hải, Ninh Thuận, Việt Nam</p>
+        </div>
+      </div>
+      <hr class="footer__divider" />
+      <p class="footer__copyright">
+        &copy; 2026 La Mer Collection. All rights reserved.
+      </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/navigation.js"></script>
+    <script src="../js/scroll-animations.js"></script>
+    <script>
+      /* Collection Filter */
+      (function () {
+        var pills = document.querySelectorAll(".filter-nav__pill");
+        var cards = document.querySelectorAll(".property-grid .card");
+        var searchInput = document.getElementById("searchInput");
+        var resultsCount = document.getElementById("resultsCount");
+        var categoryDesc = document.getElementById("categoryDesc");
+
+        /* Capacity stepper */
+        var capacityValue = document.getElementById("capacityValue");
+        var capacityMinus = document.getElementById("capacityMinus");
+        var capacityPlus = document.getElementById("capacityPlus");
+        var currentCapacity = 0; /* 0 = tất cả */
+
+        /* Price range */
+        var priceMin = document.getElementById("priceMin");
+        var priceMax = document.getElementById("priceMax");
+        var priceMinLabel = document.getElementById("priceMinLabel");
+        var priceMaxLabel = document.getElementById("priceMaxLabel");
+        var rangeFill = document.getElementById("rangeFill");
+
+        var activeCategory = "all";
+
+        /* Price steps: 0, 500k, 1tr, 1.5tr, 2tr, 3tr, 4tr, 5tr, 6tr, 8tr, 10tr+ */
+        var priceSteps = [
+          0, 500, 1000, 1500, 2000, 3000, 4000, 5000, 6000, 8000, 10000,
+        ];
+
+        function formatPrice(val) {
+          if (val === 0) return "0đ";
+          if (val >= 10000) return "10tr+";
+          if (val >= 1000) return val / 1000 + "tr";
+          return val + "k";
+        }
+
+        function updateRangeFill() {
+          var min = parseInt(priceMin.value);
+          var max = parseInt(priceMax.value);
+          var total = parseInt(priceMin.max);
+          rangeFill.style.left = (min / total) * 100 + "%";
+          rangeFill.style.width = ((max - min) / total) * 100 + "%";
+          priceMinLabel.textContent = formatPrice(priceSteps[min]);
+          priceMaxLabel.textContent = formatPrice(priceSteps[max]);
+        }
+
+        /* Category descriptions */
+        var descriptions = {
+          all: "Khám phá bộ sưu tập villa và phòng nghỉ độc đáo tại Vĩnh Hy Bay — nơi kiến trúc hòa quyện cùng thiên nhiên vịnh biển.",
+          heritage:
+            "Những căn villa mang hồn cốt di sản Chăm Pa — nơi lịch sử ngàn năm được tái sinh trong từng đường nét kiến trúc.",
+          mediterranean:
+            "Phong cách Địa Trung Hải giữa lòng vịnh Vĩnh Hy — sắc trắng tinh khôi hòa cùng nắng vàng và biển xanh.",
+          hotel:
+            "Những căn phòng ấm cúng mang tên sinh vật biển — mỗi phòng là một câu chuyện riêng của đại dương.",
+        };
+
+        function applyFilters() {
+          var searchTerm = searchInput.value.toLowerCase().trim();
+          var pMin = priceSteps[parseInt(priceMin.value)];
+          var pMax = priceSteps[parseInt(priceMax.value)];
+          var visibleCount = 0;
+
+          cards.forEach(function (card) {
+            var category = card.getAttribute("data-category");
+            var name = (card.getAttribute("data-name") || "").toLowerCase();
+            var capacity = parseInt(card.getAttribute("data-capacity") || "0");
+            var price = card.getAttribute("data-price") || "";
+            var show = true;
+
+            /* Category */
+            if (activeCategory !== "all" && category !== activeCategory)
+              show = false;
+
+            /* Search */
+            if (searchTerm && name.indexOf(searchTerm) === -1) show = false;
+
+            /* Capacity: filter cards with capacity >= selected */
+            if (currentCapacity > 0 && capacity < currentCapacity) show = false;
+
+            /* Price range: map card price tag to numeric range */
+            if (pMin > 0 || pMax < 10000) {
+              var cardPrice = 0;
+              if (price === "low") cardPrice = 1500;
+              else if (price === "mid") cardPrice = 3000;
+              else if (price === "high") cardPrice = 5000;
+              if (cardPrice < pMin || cardPrice > pMax) show = false;
+            }
+
+            if (show) {
+              card.classList.remove("is-hidden");
+              visibleCount++;
+            } else {
+              card.classList.add("is-hidden");
+            }
+          });
+
+          resultsCount.textContent = "Hiển thị " + visibleCount + " chỗ nghỉ";
+        }
+
+        /* Category pills */
+        pills.forEach(function (pill) {
+          pill.addEventListener("click", function () {
+            pills.forEach(function (p) {
+              p.classList.remove("is-active");
+            });
+            pill.classList.add("is-active");
+            activeCategory = pill.getAttribute("data-filter");
+            categoryDesc.textContent =
+              descriptions[activeCategory] || descriptions.all;
+            applyFilters();
+          });
+        });
+
+        /* Capacity stepper */
+        function updateCapacityDisplay() {
+          capacityValue.textContent =
+            currentCapacity === 0 ? "—" : currentCapacity;
+          capacityMinus.disabled = currentCapacity <= 0;
+          capacityPlus.disabled = currentCapacity >= 10;
+        }
+
+        capacityPlus.addEventListener("click", function () {
+          if (currentCapacity === 0) currentCapacity = 1;
+          else if (currentCapacity < 10) currentCapacity++;
+          updateCapacityDisplay();
+          applyFilters();
+        });
+
+        capacityMinus.addEventListener("click", function () {
+          if (currentCapacity > 1) currentCapacity--;
+          else currentCapacity = 0;
+          updateCapacityDisplay();
+          applyFilters();
+        });
+
+        /* Price range sliders */
+        priceMin.addEventListener("input", function () {
+          if (parseInt(priceMin.value) > parseInt(priceMax.value)) {
+            priceMin.value = priceMax.value;
+          }
+          updateRangeFill();
+          applyFilters();
+        });
+
+        priceMax.addEventListener("input", function () {
+          if (parseInt(priceMax.value) < parseInt(priceMin.value)) {
+            priceMax.value = priceMin.value;
+          }
+          updateRangeFill();
+          applyFilters();
+        });
+
+        searchInput.addEventListener("input", applyFilters);
+
+        /* Init */
+        updateRangeFill();
+        updateCapacityDisplay();
+      })();
+    </script>
+  </body>
+</html>

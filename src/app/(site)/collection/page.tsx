@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { fetchPageContent } from "@/sanity/fetch-page-content";
 import { sanityFetch } from "@/sanity/client";
-import { allPropertiesQuery } from "@/sanity/queries/property-queries";
+import { allPropertiesWithFiltersQuery } from "@/sanity/queries/property-queries";
 import CollectionClient from "./collection-client";
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export default async function CollectionPage() {
   const [cms, properties] = await Promise.all([
     fetchPageContent("collection"),
     sanityFetch<SanityProperty[]>({
-      query: allPropertiesQuery,
+      query: allPropertiesWithFiltersQuery,
       tags: ["property"],
     }).catch(() => []),
   ]);
