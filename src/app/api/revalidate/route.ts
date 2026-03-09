@@ -35,7 +35,8 @@ export async function POST(req: NextRequest) {
     }
 
     // Revalidate tag-based fetch cache (used by sanityFetch)
-    revalidateTag("pageContent", "max");
+    revalidateTag("pageContent", { expire: 0 });
+    revalidateTag("property", { expire: 0 });
 
     // Revalidate affected paths based on document type
     const paths = TYPE_TO_PATHS[body._type] || ["/"];
