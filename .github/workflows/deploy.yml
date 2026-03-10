@@ -33,6 +33,7 @@ jobs:
             cd /opt/lamer-website/repo
             git pull origin main
             bun install --frozen-lockfile
+            rm -rf .next/cache
             bun run build
             cp -r .next/static .next/standalone/.next/static
             [ -d public ] && cp -r public .next/standalone/public
