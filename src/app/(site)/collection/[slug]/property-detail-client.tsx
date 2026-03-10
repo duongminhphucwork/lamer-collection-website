@@ -34,6 +34,12 @@ export default function PropertyDetailClient({
   const room0 = property.rooms?.[0];
   const slug = property.slug.current;
 
+  // For villas (single room), use room images if property-level images are empty
+  const galleryImages =
+    property.images && property.images.length > 0
+      ? property.images
+      : room0?.images;
+
   // Gather unique view types for hotel info
   const viewTypes = isHotel
     ? [
@@ -53,7 +59,7 @@ export default function PropertyDetailClient({
 
   return (
     <>
-      <PropertyGallery images={property.images} propertyName={property.name} />
+      <PropertyGallery images={galleryImages} propertyName={property.name} />
 
       <BackLink href="/collection" label="Bộ Sưu Tập" />
 
