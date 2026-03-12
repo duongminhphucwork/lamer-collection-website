@@ -3,7 +3,7 @@ export const SITE = {
   tagline: "Sống Trong Lòng Vịnh",
   description:
     "La Mer Collection - Sống Trong Lòng Vịnh. Bộ sưu tập nghỉ dưỡng tại Vĩnh Hy, Ninh Thuận.",
-  url: "https://lamercollection.vn",
+  url: "https://lamercollection.com",
   locale: "vi_VN",
   phone: "+84 259 123 456",
   email: "hello@lamercollection.vn",
