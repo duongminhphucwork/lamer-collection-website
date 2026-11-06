@@ -2,807 +2,216 @@
 
 ## Overview
 
-La Mer Collection website is deployed on a Hetzner VPS with manual SSH deployment via GitHub Actions CI/CD pipeline. This guide covers setup, deployment process, and troubleshooting.
+La Mer Collection website is deployed on **Vercel** with automatic deployments from GitHub. Every push to the `main` branch triggers a build on Vercel's infrastructure (Turbopack) and, on success, promotes it to production. There is no server to manage — no SSH, Nginx, systemd, or manual SSL.
+
+> Migrated from a self-managed Hetzner VPS on 2026-11-06. The old SSH/`deploy.yml` pipeline has been removed.
 
 ---
 
-## Server Infrastructure
+## Architecture at a Glance
 
-### Hardware Specifications
-
-- **Provider:** Hetzner Cloud
-- **Plan:** CPX22 (2 vCPU, 4GB RAM, 40GB SSD)
-- **Region:** Singapore
-- **IP Address:** 5.223.53.106
-- **OS:** Ubuntu 22.04 LTS
-
-### Network Configuration
-
-- **Domain:** lamercollection.com (registered at Namecheap)
-- **DNS:** Points to 5.223.53.106
-- **SSL:** Let's Encrypt with auto-renewal (certbot)
-- **Port 80:** HTTP (redirects to HTTPS)
-- **Port 443:** HTTPS (production traffic)
-- **Port 22:** SSH (GitHub Actions only)
+- **Host:** Vercel (Hobby plan)
+- **Framework:** Next.js 16 (App Router) — declared in `vercel.json` as `{ "framework": "nextjs" }`
+- **Build:** `next build` (Turbopack, the Next.js 16 default)
+- **Package manager:** Bun (Vercel auto-detects `bun.lock`)
+- **CMS:** Sanity (content fetched server-side via GROQ)
+- **Production URL:** `lamer-collection-website.vercel.app`
+- **Custom domain:** `lamercollection.com` (DNS at Namecheap)
+- **HTTPS:** issued and renewed automatically by Vercel
 
 ---
 
-## Installation & Setup (First Time)
+## First-Time Setup
 
-### 1. SSH into VPS
+Already done once; documented for reference / disaster recovery.
 
-```bash
-ssh root@5.223.53.106
-```
-
-### 2. Update System
+### 1. Link the project
 
 ```bash
-apt update
-apt upgrade -y
-apt install -y git nginx certbot python3-certbot-nginx nodejs npm
+npm i -g vercel
+vercel login                       # Continue with GitHub
+vercel link --yes --project lamer-collection-website
 ```
 
-### 3. Install Bun (Package Manager)
+This creates/links the Vercel project and connects the GitHub repo. From then on, pushes to `main` auto-deploy.
+
+### 2. Set environment variables
+
+Push the required variables to all environments (values live in local `.env.local`):
+
+| Variable                        | Example / Value | Sensitive |
+| ------------------------------- | --------------- | --------- |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | `o2kvv3c9`      | no        |
+| `NEXT_PUBLIC_SANITY_DATASET`    | `production`    | no        |
+| `SANITY_API_TOKEN`              | `sk...`         | **yes**   |
+| `SANITY_REVALIDATE_SECRET`      | random string   | **yes**   |
 
 ```bash
-curl -fsSL https://bun.sh/install | bash
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+# Example for one variable (repeat per env: production / preview / development)
+printf '%s' "<value>" | vercel env add NEXT_PUBLIC_SANITY_DATASET production
 ```
 
-### 4. Create Application Directory
+Or add them in the Vercel dashboard: Project → Settings → Environment Variables.
 
-```bash
-mkdir -p /opt/lamer-website
-cd /opt/lamer-website
-mkdir repo
-```
-
-### 5. Clone Repository
-
-```bash
-cd /opt/lamer-website/repo
-git clone https://github.com/duongminhphucwork/lamer-collection-website.git .
-```
-
-### 6. Setup Environment File
-
-```bash
-# Create .env file with secrets
-cat > /opt/lamer-website/.env << EOF
-SANITY_PROJECT_ID=o2kvv3c9
-SANITY_DATASET=production
-SANITY_API_TOKEN=sk...    # Get from Sanity dashboard
-SANITY_REVALIDATE_SECRET=... # Generate random secret
-EOF
-
-chmod 600 /opt/lamer-website/.env
-```
-
-### 7. Install Dependencies & Build
-
-```bash
-cd /opt/lamer-website/repo
-bun install
-bun run build
-```
-
-### 8. Setup Nginx Configuration
-
-```bash
-# Copy Nginx config from repo
-cp nginx/sites-available/lamercollection.com /etc/nginx/sites-available/
-ln -s /etc/nginx/sites-available/lamercollection.com /etc/nginx/sites-enabled/
-
-# Test Nginx config
-nginx -t
-
-# Restart Nginx
-systemctl restart nginx
-```
-
-### 9. Setup SSL Certificate
-
-```bash
-certbot certonly --nginx -d lamercollection.com -d www.lamercollection.com
-
-# Auto-renewal (runs daily)
-systemctl enable certbot.timer
-systemctl start certbot.timer
-```
-
-### 10. Create systemd Service
-
-```bash
-cat > /etc/systemd/system/lamer-web.service << EOF
-[Unit]
-Description=La Mer Collection Website
-After=network.target
-
-[Service]
-Type=simple
-User=root
-WorkingDirectory=/opt/lamer-website/repo
-EnvironmentFile=/opt/lamer-website/.env
-ExecStart=/root/.bun/bin/bun .next/standalone/server.js
-Restart=on-failure
-RestartSec=10
-StandardOutput=journal
-StandardError=journal
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-systemctl daemon-reload
-systemctl enable lamer-web
-systemctl start lamer-web
-```
-
-### 11. Verify Deployment
-
-```bash
-# Check service status
-systemctl status lamer-web
-
-# Check logs
-journalctl -u lamer-web -n 50
-
-# Test endpoint
-curl http://localhost:3000
-
-# Check Nginx
-curl https://lamercollection.com
-```
-
----
-
-## GitHub Actions CI/CD Pipeline
-
-### Configuration Location
-
-File: `.github/workflows/deploy.yml`
-
-### Pipeline Stages
-
-#### Stage 1: Checkout & Setup
-
-```yaml
-- uses: actions/checkout@v3
-- uses: oven-sh/setup-bun@v1
-```
-
-#### Stage 2: Install & Type Check
-
-```bash
-bun install
-bun run type-check  # Runs: tsc --noEmit
-```
-
-#### Stage 3: Build
-
-```bash
-bun run build
-# Generates:
-# - .next/standalone/
-# - .next/static/
-# - public/
-```
-
-#### Stage 4: Deploy to VPS
-
-```bash
-ssh -i $SSH_KEY root@5.223.53.106 << 'EOF'
-  cd /opt/lamer-website/repo
-  git pull origin main
-  bun install
-  rm -rf .next/cache
-  bun run build
-  cp -r .next/static/* /opt/lamer-website/.next/static/
-  systemctl restart lamer-web
-EOF
-```
-
-#### Stage 5: Health Check
-
-```bash
-curl https://lamercollection.com
-# Expected: HTTP 200 + HTML response
-```
-
-### GitHub Actions Secrets
-
-Store these in repository settings (Settings → Secrets and variables → Actions):
-
-| Secret Name              | Value            | Example                      |
-| ------------------------ | ---------------- | ---------------------------- |
-| VPS_HOST                 | IP address       | 5.223.53.106                 |
-| VPS_USER                 | SSH user         | root                         |
-| VPS_SSH_KEY              | Private SSH key  | (copy ~/.ssh/id_rsa content) |
-| SANITY_API_TOKEN         | CMS editor token | sk...                        |
-| SANITY_REVALIDATE_SECRET | Webhook secret   | random-string                |
-
-### Setup SSH Key for GitHub Actions
-
-**On VPS:**
-
-```bash
-# Generate SSH key (if not exists)
-ssh-keygen -t ed25519 -f ~/.ssh/github_actions -C "github-actions"
-
-# Copy private key
-cat ~/.ssh/github_actions
-```
-
-**In GitHub:**
-
-1. Go to repository Settings → Secrets and variables → Actions
-2. Create secret `VPS_SSH_KEY`
-3. Paste the private key content
+> `NEXT_PUBLIC_SITE_URL` appears in `.env.example` but is **not read** by the code (the canonical URL is hardcoded in `src/app/layout.tsx` and `src/lib/constants.ts`). It is optional.
 
 ---
 
 ## Deployment Process
 
-### Automatic Deployment (git push)
+### Automatic (normal path)
 
 ```bash
-# 1. Make changes locally
 git add .
-git commit -m "feat: add property detail page"
-
-# 2. Push to main branch
+git commit -m "feat: ..."
 git push origin main
-
-# 3. GitHub Actions automatically:
-#    - Runs type check
-#    - Builds Next.js
-#    - SSHs to VPS
-#    - Deploys new code
-#    - Runs health check
-
-# 4. Monitor deployment
-# Go to GitHub → Actions tab → see progress
 ```
 
-### Manual Deployment (Emergency)
+Vercel then automatically: installs deps (`bun install`), runs `next build` (Turbopack), and promotes the result to production. Watch progress in the Vercel dashboard (Deployments) or:
 
 ```bash
-ssh root@5.223.53.106
+vercel ls lamer-collection-website        # recent deployments + status
+vercel inspect <deployment-url> --logs    # build logs for one deployment
+```
 
-cd /opt/lamer-website/repo
-git pull origin main
-bun install
-bun run build
-cp -r .next/static/* /opt/lamer-website/.next/static/
-systemctl restart lamer-web
+### Manual (rarely needed)
 
-# Verify
-curl https://lamercollection.com
+```bash
+vercel --prod --yes    # builds on Vercel and promotes to production
+```
+
+Note: `vercel --prod` still builds on Vercel's servers, not locally — it is just a manual trigger.
+
+### Rollback
+
+Promote a previous good deployment from the dashboard (Deployments → ⋯ → Promote to Production), or:
+
+```bash
+vercel rollback <previous-deployment-url>
 ```
 
 ---
 
-## Environment Variables
+## Fonts — IMPORTANT
 
-### Server-side (.env on VPS)
+Fonts are **self-hosted via Fontsource**, not `next/font/google`:
+
+- `@fontsource-variable/inter` (body, variable font)
+- `@fontsource/cormorant-garamond` (headings, incl. italic + Vietnamese subset)
+
+Imported in `src/app/layout.tsx`; the CSS variables `--font-heading` / `--font-body` are defined in `src/app/globals.css`.
+
+**Do not switch back to `next/font/google`.** It fetches fonts from Google _at build time_, which fails on Vercel's build environment (the fetch returns empty/invalid → `@next/font` loader crashes). This failure occurs with **both** Turbopack and webpack and does not reproduce locally. Self-hosting removes the build-time network dependency entirely.
+
+---
+
+## Custom Domain (lamercollection.com)
+
+The domain is registered at **Namecheap** and keeps Namecheap DNS (because it hosts **email forwarding** — MX `eforward*.registrar-servers.com` + SPF/Google-verification TXT that must stay intact).
+
+**Do NOT switch nameservers to Vercel** (that would drop the email/TXT records). Instead, point only the website records in Namecheap → Advanced DNS:
+
+| Type  | Host  | Value                                                   | Note                               |
+| ----- | ----- | ------------------------------------------------------- | ---------------------------------- |
+| A     | `@`   | Vercel apex IP (see dashboard; typically `76.76.21.21`) | replaces old VPS IP `5.223.53.106` |
+| CNAME | `www` | `cname.vercel-dns.com`                                  | replaces old `www` A record        |
+
+Leave MX and TXT records untouched. After DNS propagates, Vercel auto-issues HTTPS.
+
+Add the domain to the project (already done) and check status:
 
 ```bash
-SANITY_PROJECT_ID=o2kvv3c9
-SANITY_DATASET=production
-SANITY_API_TOKEN=sk...              # Sensitive
-SANITY_REVALIDATE_SECRET=secret123  # Sensitive
+vercel domains add lamercollection.com lamer-collection-website
+vercel domains inspect lamercollection.com    # shows required config / verification
 ```
 
-These variables are loaded by systemd from `/opt/lamer-website/.env` and available to the Node.js process.
+Always confirm the exact A record value against Project → Settings → Domains in the dashboard.
 
-### Client-side (Used in browser)
+---
 
-None - all CMS queries are server-side via GROQ.
+## Environment Variables (reference)
 
-### Build-time (GitHub Actions)
+- **Server-side (runtime on Vercel):** `SANITY_API_TOKEN`, `SANITY_REVALIDATE_SECRET`.
+- **Public (inlined at build):** `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`.
+- Never commit `.env.local`; it is gitignored. The real secrets live only there and in Vercel's env settings.
+
+---
+
+## ISR Webhook Revalidation
+
+When content changes in Sanity, a webhook calls the site so pages regenerate.
+
+### Sanity webhook setup
+
+1. Go to [sanity.io/manage](https://sanity.io/manage) → project `o2kvv3c9`
+2. API → Webhooks → Create webhook:
+   - **Name:** Revalidate Website
+   - **URL:** `https://lamercollection.com/api/revalidate` (or the `*.vercel.app` URL until the domain is live)
+   - **Trigger:** all document types
+   - **HTTP method:** POST
+   - **HTTP header:** `x-sanity-revalidate-secret` = your `SANITY_REVALIDATE_SECRET`
+3. Publish any document in Studio to test.
+
+### Handler
+
+File: `src/app/api/revalidate/route.ts` — validates the secret header, then revalidates affected tags/paths. Returns 401 if the secret is missing/wrong.
+
+### Manual revalidation
 
 ```bash
-SANITY_PROJECT_ID=o2kvv3c9
-SANITY_DATASET=production
-# (No SANITY_API_TOKEN needed at build time - only runtime)
+curl -X POST https://lamercollection.com/api/revalidate \
+  -H "Content-Type: application/json" \
+  -H "x-sanity-revalidate-secret: YOUR_SECRET" \
+  -d '{"type": "property"}'
 ```
 
 ---
 
 ## Monitoring & Health Checks
 
-### systemd Service Monitoring
-
-Check service status:
-
-```bash
-systemctl status lamer-web
-```
-
-View logs:
-
-```bash
-journalctl -u lamer-web -f  # Follow logs
-journalctl -u lamer-web -n 100  # Last 100 lines
-journalctl -u lamer-web --since "2 hours ago"  # Last 2 hours
-```
-
-Restart service:
-
-```bash
-systemctl restart lamer-web
-```
-
-### Nginx Monitoring
-
-Check Nginx status:
-
-```bash
-systemctl status nginx
-nginx -t  # Test configuration
-```
-
-View access logs:
-
-```bash
-tail -f /var/log/nginx/access.log
-```
-
-View error logs:
-
-```bash
-tail -f /var/log/nginx/error.log
-```
-
-### Automatic Health Check (GitHub Actions)
-
-The deploy workflow includes a health check:
-
-```bash
-curl -f https://lamercollection.com || exit 1
-```
-
-If this fails, GitHub will send an email notification.
-
-### Manual Health Check
-
-```bash
-# Direct server
-curl http://localhost:3000
-
-# Via Nginx (production)
-curl https://lamercollection.com
-
-# Check response headers
-curl -I https://lamercollection.com
-# Should show: HTTP/1.1 200 OK, Content-Type: text/html
-```
-
----
-
-## ISR Webhook Revalidation
-
-### Sanity Webhook Setup
-
-1. Go to [sanity.io/manage](https://sanity.io/manage)
-2. Select project `o2kvv3c9`
-3. Go to API → Webhooks
-4. Create new webhook:
-   - **Name:** Revalidate Website
-   - **URL:** https://lamercollection.com/api/revalidate
-   - **Trigger:** All document types
-   - **HTTP Method:** POST
-   - **HTTP Headers:** Add header
-     - **Name:** x-sanity-revalidate-secret
-     - **Value:** (your SANITY_REVALIDATE_SECRET)
-
-5. Test webhook by publishing any document in Studio
-
-### Webhook Handler
-
-File: `src/app/api/revalidate/route.ts`
-
-```typescript
-export async function POST(req: Request) {
-  // 1. Validate secret header
-  const secret = req.headers.get("x-sanity-revalidate-secret");
-  if (secret !== process.env.SANITY_REVALIDATE_SECRET) {
-    return new Response("Unauthorized", { status: 401 });
-  }
-
-  // 2. Parse webhook body
-  const { type, documentId } = await req.json();
-
-  // 3. Revalidate affected paths
-  revalidateTag("pageContent"); // Next.js 16: requires 2nd arg
-  revalidatePath("/");
-
-  // 4. Return success
-  return new Response(JSON.stringify({ success: true, revalidated: ["/"] }), {
-    status: 200,
-  });
-}
-```
-
----
-
-## SSL Certificate Management
-
-### Current Certificate
-
-```bash
-# Check certificate validity
-openssl x509 -in /etc/letsencrypt/live/lamercollection.com/fullchain.pem -text -noout
-
-# Or use certbot
-certbot certificates
-```
-
-### Manual Renewal
-
-```bash
-certbot renew --force-renewal
-systemctl restart nginx
-```
-
-### Auto-Renewal Check
-
-```bash
-systemctl status certbot.timer
-systemctl list-timers certbot.timer
-```
+- **Deployments & logs:** Vercel dashboard → Deployments, or `vercel inspect <url> --logs`.
+- **Runtime logs:** Vercel dashboard → project → Logs (or `vercel logs <url>`).
+- **Quick check:** `curl -I https://lamercollection.com` → expect `HTTP 200`.
+- **Build failures** email the account owner automatically.
 
 ---
 
 ## Troubleshooting
 
-### Issue: Website shows 502 Bad Gateway
+### Build fails with a `next/font` / Turbopack font error
 
-**Diagnosis:**
+Cause: something reintroduced `next/font/google`. Fix: use the self-hosted Fontsource fonts (see **Fonts** above). Do not re-add `next/font/google`.
 
-```bash
-# Check if app is running
-systemctl status lamer-web
+### `STATIC_BUILD_NO_OUT_DIR` / site treated as static
 
-# Check app logs
-journalctl -u lamer-web -n 50
-```
+Cause: Vercel did not detect Next.js. Fix: ensure `vercel.json` contains `{ "framework": "nextjs" }`.
 
-**Solution:**
+### New CMS content not showing
 
-```bash
-# Restart the service
-systemctl restart lamer-web
+Check the Sanity webhook history (dashboard → Webhooks), confirm the URL and secret, or trigger a manual revalidation (see above).
 
-# If that fails, check if port 3000 is in use
-lsof -i :3000
+### Custom domain not resolving / no HTTPS
 
-# Kill conflicting process if needed
-kill -9 <PID>
-
-# Restart again
-systemctl start lamer-web
-```
-
-### Issue: New content from CMS not showing
-
-**Diagnosis:**
-
-```bash
-# Check webhook was sent (Sanity dashboard → Webhooks → History)
-# Check revalidate endpoint in app logs
-journalctl -u lamer-web | grep revalidate
-```
-
-**Solution:**
-
-```bash
-# Manual revalidation (trigger ISR regeneration)
-curl -X POST https://lamercollection.com/api/revalidate \
-  -H "Content-Type: application/json" \
-  -H "x-sanity-revalidate-secret: YOUR_SECRET" \
-  -d '{"type": "property"}'
-
-# Or clear cache and rebuild
-cd /opt/lamer-website/repo
-rm -rf .next/cache
-bun run build
-systemctl restart lamer-web
-```
-
-### Issue: Nginx returns 404 or 503
-
-**Diagnosis:**
-
-```bash
-# Check Nginx is running
-systemctl status nginx
-
-# Test config
-nginx -t
-
-# Check upstream (app server)
-curl http://localhost:3000
-```
-
-**Solution:**
-
-```bash
-# Restart Nginx
-systemctl restart nginx
-
-# Check if app is still running
-systemctl status lamer-web
-
-# View Nginx error logs
-tail -f /var/log/nginx/error.log
-```
-
-### Issue: High memory usage causing crashes
-
-**Diagnosis:**
-
-```bash
-# Check memory
-free -h
-ps aux | grep node
-
-# Check total memory used by app
-ps aux | grep .next/standalone
-```
-
-**Solution:**
-
-```bash
-# If consistently > 3.5GB, increase VPS size or optimize:
-# 1. Clear .next/cache
-rm -rf /opt/lamer-website/repo/.next/cache
-
-# 2. Restart app
-systemctl restart lamer-web
-
-# 3. Monitor memory
-watch -n 1 free -h
-```
-
-### Issue: SSL Certificate expired
-
-**Diagnosis:**
-
-```bash
-certbot certificates
-# Check expiry date
-```
-
-**Solution:**
-
-```bash
-# Renew immediately
-certbot renew --force-renewal
-
-# Restart Nginx
-systemctl restart nginx
-
-# Verify
-curl -I https://lamercollection.com
-```
-
-### Issue: Deployment fails in GitHub Actions
-
-**Diagnosis:**
-
-1. Check GitHub Actions logs (Actions tab)
-2. Look for error at which step:
-   - Type check: `tsc --noEmit`
-   - Build: `bun run build`
-   - Deploy: SSH connection or remote commands
-
-**Solution by Error Type:**
-
-**Type check failure:**
-
-```bash
-# Run locally first
-bun run type-check
-
-# Fix TypeScript errors in code
-# Commit and push
-```
-
-**Build failure:**
-
-```bash
-# Build locally
-bun run build
-
-# Check for missing dependencies
-bun install
-
-# Verify .next/standalone exists
-ls -la .next/standalone/
-```
-
-**SSH connection failure:**
-
-```bash
-# Check GitHub Secrets
-# Verify VPS_HOST, VPS_USER, VPS_SSH_KEY
-
-# Test SSH manually
-ssh -i $SSH_KEY root@5.223.53.106 echo "test"
-```
-
-**Remote build failure:**
-
-```bash
-# SSH to VPS and check disk space
-df -h
-# If < 5GB free, clean old builds
-rm -rf /opt/lamer-website/repo/.next
-
-# Check Bun is installed
-which bun
-/root/.bun/bin/bun --version
-```
+Run `vercel domains inspect lamercollection.com`. Verify the Namecheap A (`@`) and CNAME (`www`) records match the dashboard, and that MX/TXT were left intact. DNS can take minutes to hours to propagate.
 
 ---
 
-## Database & Backups
+## Backups
 
-### CMS Backup (Sanity)
-
-- **Who:** Sanity.io automatically
-- **Frequency:** Real-time with version history
-- **Retention:** Unlimited (all versions accessible)
-- **Restore:** Use Sanity Studio to revert to previous version
-
-### Code Backup (Git)
-
-- **Who:** GitHub
-- **Frequency:** Every commit
-- **Retention:** Indefinite
-- **Restore:** `git reset --hard <commit-hash>`
-
-### No Database
-
-- This project uses Sanity CMS instead of a traditional database
-- No separate PostgreSQL/MongoDB to back up
-
----
-
-## Performance Tuning
-
-### Nginx Caching Headers
-
-Already configured in `/etc/nginx/sites-available/lamercollection.com`:
-
-```nginx
-# Static assets: 1 hour
-location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-  expires 1h;
-  add_header Cache-Control "public, immutable";
-}
-
-# HTML: No caching (ISR handles freshness)
-location / {
-  proxy_pass http://app_server;
-}
-```
-
-### Gzip Compression
-
-```nginx
-gzip on;
-gzip_types text/html text/css application/javascript;
-gzip_min_length 1000;
-gzip_vary on;
-```
-
-### Next.js Optimization
-
-- `bun run build` creates optimized standalone bundle
-- `.next/static/` contains optimized CSS/JS
-- Images are optimized via `next/image` component
-
----
-
-## Upgrading Dependencies
-
-### Next.js Upgrade
-
-```bash
-# Locally
-npm install next@latest
-bun run type-check
-bun run build
-
-# Test locally, then commit and push
-```
-
-### Node.js Upgrade
-
-```bash
-# On VPS, check current version
-node --version
-
-# Don't manually upgrade; ensure systemd uses Bun instead of Node
-# (Current setup uses `/root/.bun/bin/bun .next/standalone/server.js`)
-```
-
----
-
-## Security Best Practices
-
-### SSH Keys
-
-- Rotate SSH keys annually
-- Keep private key secure in GitHub Secrets
-- Never commit private keys to repository
-
-### Environment Variables
-
-- Store all secrets in GitHub Secrets and `/opt/lamer-website/.env`
-- Never commit `.env` to git
-- Rotate SANITY_REVALIDATE_SECRET if exposed
-
-### Firewall (UFW)
-
-```bash
-# Current rules (should be in place)
-ufw allow 22    # SSH (for GitHub Actions)
-ufw allow 80    # HTTP (redirects to HTTPS)
-ufw allow 443   # HTTPS (production traffic)
-ufw default deny incoming
-ufw default allow outgoing
-ufw enable
-```
-
-### HTTPS Only
-
-- Nginx redirects all HTTP to HTTPS
-- HSTS header forces browser to use HTTPS
-- SSL certificate auto-renews via certbot
-
----
-
-## Disaster Recovery Plan
-
-### If VPS is Lost/Corrupted
-
-1. Create new VPS at Hetzner (same size)
-2. Get new IP, update DNS at Namecheap
-3. Follow "Installation & Setup" section above
-4. CMS data is safe in Sanity (restored automatically)
-
-### If Deployment Fails
-
-1. Check GitHub Actions logs for error
-2. Fix issue locally, commit, and push again
-3. Or manually SSH to VPS and rollback:
-   ```bash
-   cd /opt/lamer-website/repo
-   git reset --hard <previous-commit>
-   bun run build
-   systemctl restart lamer-web
-   ```
-
-### If CMS Content is Lost
-
-- Use Sanity Studio to revert to previous version
-- All changes are version-controlled in Sanity
+- **CMS (Sanity):** automatic, real-time version history; restore via Studio.
+- **Code (Git/GitHub):** every commit; restore with `git reset --hard <commit>`.
+- **No traditional database** — content lives in Sanity.
 
 ---
 
 ## References
 
-- **GitHub Actions:** https://docs.github.com/en/actions
-- **Next.js Deployment:** https://nextjs.org/docs/app/building-your-application/deploying
-- **Sanity Webhooks:** https://www.sanity.io/docs/webhooks
-- **Certbot Auto-renewal:** https://certbot.eff.org/instructions/ubuntu-jammy/nginx
-- **systemd Service:** https://www.freedesktop.org/software/systemd/man/systemd.service.html
+- Vercel deployments: https://vercel.com/docs/deployments
+- Vercel custom domains: https://vercel.com/docs/projects/domains
+- Fontsource: https://fontsource.org/
+- Next.js on Vercel: https://nextjs.org/docs/app/building-your-application/deploying
+- Sanity webhooks: https://www.sanity.io/docs/webhooks
 
 ---
 
-**Last Updated:** March 2026 | **Status:** Production | **Uptime Target:** 99.9%
+**Last Updated:** November 2026 | **Host:** Vercel | **Status:** Production
