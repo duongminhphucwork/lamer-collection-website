@@ -17,6 +17,9 @@
     --color-overlay-dark: rgba(13, 43, 62, 0.8);
 
     /* Typography */
+    /* Font families — provided by self-hosted Fontsource packages (see layout.tsx) */
+    --font-heading: "Cormorant Garamond";
+    --font-body: "Inter Variable";
     --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
     --text-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
     --text-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);

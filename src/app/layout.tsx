@@ -1,22 +1,18 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
 import { SITE } from "@/lib/constants";
+// Self-hosted fonts via Fontsource — no build-time fetch to Google Fonts.
+// Inter is a variable font (full weight range); Cormorant Garamond is static,
+// so we load the weights/styles actually used for headings (incl. italic).
+import "@fontsource-variable/inter";
+import "@fontsource/cormorant-garamond/400.css";
+import "@fontsource/cormorant-garamond/500.css";
+import "@fontsource/cormorant-garamond/600.css";
+import "@fontsource/cormorant-garamond/700.css";
+import "@fontsource/cormorant-garamond/400-italic.css";
+import "@fontsource/cormorant-garamond/500-italic.css";
+import "@fontsource/cormorant-garamond/600-italic.css";
+import "@fontsource/cormorant-garamond/700-italic.css";
 import "./globals.css";
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-heading",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin", "vietnamese"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-body",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -56,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="vi" className={`${cormorant.variable} ${inter.variable}`}>
+    <html lang="vi">
       <body className="font-body">
         <script
           type="application/ld+json"
