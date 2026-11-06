@@ -40,19 +40,17 @@
 - **Rationale:** Pure CSS transitions avoid Framer Motion SSR hydration issues
 - **Decision:** Preferred stability over complex animation framework
 
-### Phase 7: Deployment ✓ (Completed)
+### Phase 7: Deployment ✓ (Completed - Vercel, migrated 2026-11-06)
 
-- **Timeline:** Early March 2026
+- **Timeline:** Early March 2026 (VPS); November 6, 2026 (Vercel migration)
 - **Deliverables:**
-  - Hetzner VPS setup (CPX22, Singapore, 5.223.53.106)
-  - Nginx reverse proxy + Let's Encrypt SSL
-  - UFW firewall configuration (SSH, HTTP, HTTPS)
-  - systemd service (lamer-web) with auto-restart
-  - GitHub Actions CI/CD pipeline
-  - Zero-downtime deployments (git push → SSH deploy → restart)
-  - Health checks + monitoring
+  - Vercel (Hobby plan, free tier) setup
+  - Auto-deploy from GitHub (push main → build & deploy)
+  - Automatic SSL certificate management
+  - Global CDN + Edge caching
+  - Serverless function scaling (zero cold starts)
   - ISR webhook revalidation (Sanity → /api/revalidate)
-  - Standalone Next.js (no Docker due to OOM)
+  - Zero infrastructure management needed
 
 ### Phase 8: SEO & Accessibility ✓ (Completed)
 
@@ -278,7 +276,7 @@
 - [ ] Refactor CollectionFilters (currently 300+ lines, split into subcomponents)
 - [ ] Extract utility functions from components (formatPrice, formatDate)
 - [ ] Add logging/monitoring (Sentry integration)
-- [ ] Cache strategy documentation (ISR, browser cache, Nginx cache)
+- [ ] Cache strategy documentation (ISR, browser cache, Vercel Edge cache)
 - [ ] Type safety: some any types in API responses
 
 ### Priority: Low
@@ -298,9 +296,9 @@
    - Reason: Sanity v5 compatibility required React 19+
    - Impact: Requires Node.js 20+, some older packages incompatible
 
-2. **Standalone Next.js** over Docker
-   - Reason: Previous Docker build caused OOM on 4GB RAM
-   - Impact: No container orchestration, manual systemd management
+2. **Vercel hosting** (migrated from a self-managed VPS, 2026-11-06)
+   - Reason: Zero-ops, native Next.js support, free Hobby tier, automatic HTTPS + CDN
+   - Impact: No server/Nginx/systemd to manage; builds run on Vercel (Turbopack)
 
 3. **Sanity v5 CMS** over custom database
    - Reason: Content-first architecture, flexible schemas for nested properties/rooms
@@ -316,8 +314,8 @@
 
 ### Known Constraints
 
-- **VPS Memory:** 4GB RAM limits concurrent users (500-1000 with ISR caching)
-- **Build Time:** ~3-5 minutes for 108 pages (38 properties + 90 rooms)
+- **Vercel Hobby Tier:** Free but non-commercial; upgrade to Pro (~$20/mo) if commercial scale grows
+- **Build Time:** ~1-2 minutes for 108 pages (Turbopack is fast)
 - **ISR Window:** 60 seconds before content becomes stale
 - **Image Optimization:** Next.js Image requires loader config for external CDN
 
@@ -328,8 +326,8 @@
 | Role                   | Responsibility                                | Current Owner           |
 | ---------------------- | --------------------------------------------- | ----------------------- |
 | **Product Owner**      | Feature prioritization, roadmap               | duongminhphucwork       |
-| **Frontend Developer** | React components, CMS integration             | duongminhphucwork       |
-| **DevOps**             | VPS, Nginx, CI/CD, monitoring                 | duongminhphucwork       |
+| **Frontend Developer** | React components, CMS integration, git push   | duongminhphucwork       |
+| **DevOps**             | Vercel deployments, env vars, monitoring      | duongminhphucwork       |
 | **Content Manager**    | Property data, CMS updates                    | (External content team) |
 | **QA / Testing**       | Responsive design, performance, accessibility | Needed for Phase 10+    |
 
@@ -396,12 +394,12 @@
 
 ### Infrastructure Costs
 
-- **VPS (Hetzner CPX22):** €15/month
+- **Hosting (Vercel Hobby):** Free (non-commercial); Pro $20/month if needed
 - **Domain (Namecheap):** €10/year
-- **SSL (Let's Encrypt):** Free (auto-renew via certbot)
+- **SSL (Vercel):** Free (auto-managed)
 - **CMS (Sanity):** Free (within usage limits) / $99+/month for premium
-- **CDN (Optional Cloudflare):** Free (basic) / $20+/month (premium)
-- **Total Monthly:** ~€15-50
+- **CDN (Vercel):** Included (no extra cost)
+- **Total Monthly:** Free (Hobby) → ~€20/month + €0.83/year (Pro + domain)
 
 ### Third-Party Services (Future)
 
@@ -453,8 +451,8 @@
 1. Sanity CMS choice - flexible for nested property/rooms
 2. CSS Variables + Tailwind - easy theming
 3. Next.js ISR - no need for continuous rebuilds
-4. GitHub Actions CI/CD - simple and reliable
-5. Hetzner VPS - cost-effective and performant
+4. Vercel deployment - zero ops overhead, instant auto-deploy
+5. Turbopack builds - 5-10x faster than webpack
 
 ### What Could Be Better
 
@@ -479,9 +477,9 @@
 - **Live Site:** https://lamercollection.com
 - **CMS:** https://lamercollection.sanity.studio
 - **GitHub:** https://github.com/duongminhphucwork/lamer-collection-website
-- **Server:** 5.223.53.106 (Hetzner CPX22)
+- **Host:** Vercel (Hobby plan, migrated 2026-11-06)
 - **Email Contact:** duongminhphuc@example.com
 
 ---
 
-**Last Updated:** March 11, 2026 | **Next Review:** March 31, 2026 | **Status:** Live
+**Last Updated:** November 6, 2026 (Vercel migration) | **Next Review:** December 6, 2026 | **Status:** Live on Vercel

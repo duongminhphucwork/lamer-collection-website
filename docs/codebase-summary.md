@@ -94,21 +94,12 @@ scripts/                              # One-off data scripts
 ├── import-room-photos.ts             # Batch upload room images
 └── update-categories.ts              # Heritage/mediterranean migration
 
-.github/
-└── workflows/
-    └── deploy.yml                    # CI/CD pipeline (lint → build → deploy)
-
-nginx/                                # Nginx reverse proxy config
-├── nginx.conf                        # Main config
-├── sites-available/                  # Virtual hosts
-│   └── lamercollection.com           # Domain config
-└── snippets/                         # SSL, gzip, security headers
-
 Config Files (root)
 ├── package.json                      # Dependencies, scripts
 ├── tsconfig.json                     # TypeScript config
 ├── tailwind.config.js                # Tailwind CSS config
-├── next.config.mjs                   # Next.js config (output: standalone)
+├── next.config.mjs                   # Next.js config
+├── vercel.json                       # Vercel deployment config
 ├── .env.example                      # Environment template
 ├── .env.local                        # Local env (git-ignored, with SANITY_API_TOKEN)
 ├── .eslintrc.json                    # ESLint rules
@@ -357,16 +348,16 @@ Footer (CMS siteSettings)
 
 ## Key Technologies & Why
 
-| Tech             | Purpose                                                  | Trade-offs                             |
-| ---------------- | -------------------------------------------------------- | -------------------------------------- |
-| **Next.js 16**   | Framework with ISR, Image optimization, built-in routing | Requires Node.js 20+                   |
-| **React 19**     | UI library, state management, hooks                      | Sanity v5 requires React 19+           |
-| **TypeScript**   | Type safety, IDE autocompletion, refactoring safety      | Compilation step slows feedback        |
-| **Tailwind CSS** | Utility-first CSS, design tokens via CSS vars            | Large CSS bundle if not optimized      |
-| **Sanity v5**    | Flexible CMS, GROQ queries, embedded Studio              | API rate limits, requires editor token |
-| **Bun**          | 3x faster package manager, better lock file              | Smaller ecosystem than npm             |
-| **Hetzner VPS**  | Cost-effective, full control, no cold starts             | Manual DevOps, less managed services   |
-| **Nginx**        | Lightweight reverse proxy, SSL termination               | More config than Vercel                |
+| Tech             | Purpose                                                  | Trade-offs                              |
+| ---------------- | -------------------------------------------------------- | --------------------------------------- |
+| **Next.js 16**   | Framework with ISR, Image optimization, built-in routing | Requires Node.js 20+                    |
+| **React 19**     | UI library, state management, hooks                      | Sanity v5 requires React 19+            |
+| **TypeScript**   | Type safety, IDE autocompletion, refactoring safety      | Compilation step slows feedback         |
+| **Tailwind CSS** | Utility-first CSS, design tokens via CSS vars            | Large CSS bundle if not optimized       |
+| **Sanity v5**    | Flexible CMS, GROQ queries, embedded Studio              | API rate limits, requires editor token  |
+| **Bun**          | 3x faster package manager, better lock file              | Smaller ecosystem than npm              |
+| **Vercel**       | Zero-ops hosting, auto-scaling, global CDN               | Vendor lock-in, Pro tier for commercial |
+| **Turbopack**    | 5-10x faster Next.js builds                              | Still maturing (default in Next.js 16)  |
 
 ---
 
@@ -383,18 +374,18 @@ Footer (CMS siteSettings)
 
 - **Component:** `<Image>` from `next/image`
 - **Features:** WebP conversion, responsive srcSet, lazy loading
-- **CDN:** Nginx cache headers (gzip, browser cache 1 hour)
+- **CDN:** Vercel Edge Network (automatic image optimization + caching)
 
 ### Code Splitting
 
-- **Bundling:** Bun bundles code efficiently
+- **Bundling:** Turbopack (Next.js 16 default) bundles code efficiently
 - **Lazy Loading:** React.lazy() for heavy components (Lightbox)
 - **Result:** ~150KB gzipped JS per page
 
 ### Caching Strategy
 
 - **Browser:** 1 hour for CSS, JS, images
-- **Nginx:** 24 hours for static assets
+- **Vercel Edge:** static assets served from CDN (immutable, fingerprinted)
 - **ISR:** 60s revalidation window
 
 ---
@@ -441,10 +432,11 @@ See `package.json` for full dependency list.
 ### Deploying to Production
 
 1. Push to `main` branch
-2. GitHub Actions runs CI/CD pipeline
-3. SSH to VPS → git pull → bun build → restart
-4. Health check confirms deployment success
+2. Vercel auto-detects push
+3. Vercel builds with Turbopack (`next build`)
+4. Vercel deploys to Edge + Serverless Functions
+5. HTTPS live within ~2 minutes
 
 ---
 
-**Last Updated:** March 2026 | **Framework Version:** Next.js 16 | **Status:** Production
+**Last Updated:** November 6, 2026 (Vercel migration) | **Framework Version:** Next.js 16 | **Status:** Production on Vercel

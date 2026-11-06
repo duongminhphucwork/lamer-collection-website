@@ -8,60 +8,61 @@
 │  (Desktop, Tablet, Mobile - iOS Safari, Chrome, Firefox, etc)   │
 └────────────────────────────┬──────────────────────────────────┘
                              │
-                    HTTPS (TLS 1.3)
+                    HTTPS (TLS 1.3, auto-renewed)
                              │
          ┌───────────────────┴───────────────────┐
          │                                       │
-┌────────▼──────────────┐            ┌──────────▼─────────┐
-│   NGINX REVERSE      │            │  GitHub Actions    │
-│   PROXY (Port 443)   │            │  CI/CD Pipeline    │
-│ - SSL Termination   │            │ - Type Check       │
-│ - Gzip Compression  │            │ - Build            │
-│ - Cache Headers     │            │ - Deploy via SSH   │
-│ - Static Assets     │            │ - Health Check     │
-└────────┬──────────────┘            └────────────────────┘
+┌────────▼──────────────────────┐    ┌──────────▼──────────┐
+│   VERCEL EDGE NETWORK         │    │  GitHub / Vercel   │
+│   (Global CDN + Cache)        │    │  Auto-Deploy       │
+│ - SSL Termination             │    │ - Push main branch │
+│ - Static asset serving        │    │ - Turbopack build  │
+│ - Request routing             │    │ - Auto-deploy prod │
+└────────┬──────────────────────┘    └────────────────────┘
          │
-         │ HTTP (Port 3000)
+         │ HTTP to Serverless Functions
          │
-┌────────▼──────────────────────────────────────┐
-│     HETZNER VPS (5.223.53.106)                │
-│     CPX22: 2 vCPU, 4GB RAM, Singapore        │
-│     systemd service: lamer-web               │
-└────────┬──────────────────────────────────────┘
+┌────────▼──────────────────────────────────────────┐
+│     VERCEL SERVERLESS FUNCTIONS (Hobby plan)      │
+│     - Next.js 16 App Router                       │
+│     - Automatic scaling, zero cold starts         │
+│     - Built-in CDN caching                        │
+└────────┬──────────────────────────────────────────┘
          │
-    ┌────┴─────┬──────────────┬──────────────┐
-    │           │              │              │
-┌───▼───┐  ┌────▼──────┐  ┌────▼──────┐  ┌──▼────────┐
-│ Node  │  │ .next/    │  │node_      │  │.env       │
-│.js    │  │standalone │  │modules    │  │(secrets)  │
-│server │  │(app code) │  │(deps)     │  │           │
-└───────┘  └───────────┘  └───────────┘  └───────────┘
+    ┌────┴─────────────────────────┐
+    │                              │
+┌───▼──────────────┐      ┌────────▼────────────┐
+│ Next.js Runtime  │      │ Environment Vars    │
+│ - Pages, API     │      │ (Vercel dashboard)  │
+│ - ISR cache      │      │ - API tokens        │
+│ - Image opt      │      │ - Secrets           │
+└──────────────────┘      └─────────────────────┘
 ```
 
 ---
 
 ## Architecture Layers
 
-### 1. Edge Layer (CDN / Reverse Proxy)
+### 1. Edge Layer (Vercel CDN)
 
-- **Component:** Nginx
-- **Responsibility:** TLS termination, request routing, static asset serving, compression
+- **Component:** Vercel Edge Network (global CDN)
+- **Responsibility:** TLS termination, request routing, static asset serving, caching
 - **Features:**
-  - SSL certificate (Let's Encrypt, auto-renewed via certbot)
+  - SSL certificate (auto-managed, auto-renewed)
   - Gzip compression for HTML/CSS/JS
-  - Browser cache headers (1 hour for assets)
-  - Rate limiting (optional)
-  - DDoS protection via UFW firewall
+  - Browser cache headers (optimized per content type)
+  - DDoS protection and rate limiting (built-in)
+  - Global edge locations for low latency
 
-### 2. Application Server Layer
+### 2. Application Layer (Vercel Serverless)
 
-- **Component:** Node.js + Next.js standalone
+- **Component:** Vercel Serverless Functions (Node.js runtime)
 - **Responsibility:** Server-side rendering, API routes, ISR revalidation
 - **Runtime:**
-  - Process: `node .next/standalone/server.js`
-  - Port: 3000 (internal, proxied via Nginx)
-  - Memory: ~500MB typical
-  - Process Manager: systemd `lamer-web` service
+  - Framework: Next.js 16 (App Router)
+  - Memory: Allocated per request (scales automatically)
+  - Process Manager: Vercel (no manual process management)
+  - Cold starts: Minimized by Vercel infrastructure
 
 ### 3. Framework Layer (Next.js)
 
@@ -110,18 +111,18 @@
 User Browser Request
        │
        ▼
-Nginx (Check Cache)
+Vercel Edge Network (CDN)
        │
-       ├─ Cache HIT (< 1 hour old)
-       │  └─► Return cached HTML + assets
+       ├─ Cache HIT (static / ISR fresh)
+       │  └─► Return cached HTML + assets from edge
        │
-       └─ Cache MISS or EXPIRED
+       └─ Cache MISS or ISR EXPIRED
           │
           ▼
-    Node.js App Server
+    Vercel Serverless Function (Next.js)
           │
           ├─ Static Page?
-          │  └─► Return pre-built HTML from .next/standalone
+          │  └─► Return pre-built HTML
           │
           ├─ ISR Dynamic Page?
           │  └─► Check ISR cache
@@ -144,7 +145,7 @@ Sanity API
        │ (Webhook trigger on publish)
        ▼
 POST /api/revalidate
-(with SANITY_REVALIDATE_SECRET header)
+(verified via Sanity signed secret / SANITY_REVALIDATE_SECRET)
        │
        ▼
 Next.js revalidateTag('pageContent')
@@ -169,27 +170,21 @@ Return fresh HTML + cache for next hour
 Developer
        │ (git push to main)
        ▼
-GitHub Actions
+GitHub → Vercel Webhook
        │
        ├─ Step 1: Checkout code
-       ├─ Step 2: Setup Bun
-       ├─ Step 3: bun install
-       ├─ Step 4: bun run type-check (tsc --noEmit)
-       ├─ Step 5: bun run build
-       │  └─ Generate .next/standalone + static assets
-       └─ Step 6: SSH to VPS
+       ├─ Step 2: Install deps (bun install)
+       ├─ Step 3: Type check (tsc --noEmit)
+       ├─ Step 4: Build with Turbopack (next build)
+       │  └─ Generate optimized .next output
+       └─ Step 5: Deploy to Edge + Serverless
           │
-          ├─ git pull origin main
-          ├─ bun install
-          ├─ rm -rf .next/cache (clear ISR cache)
-          ├─ bun run build
-          ├─ cp .next/static to /opt/lamer-website/.next/static
-          └─ systemctl restart lamer-web
+          ├─ CDN cache invalidated
+          ├─ Serverless functions updated
+          └─ Health check: automatic
              │
              ▼
-          Health check: curl localhost:3000
-             │
-             └─ Success? → Website live
+          Website live (typically < 2 minutes)
 ```
 
 ### Component Rendering Flow
@@ -301,7 +296,7 @@ GalleryItem (N items)
 3. Extract affected page slugs from document type
 4. Call revalidateTag('pageContent') - Next.js 16 API
 5. Return JSON { success: true, revalidated: [] }
-6. Nginx caches the response
+6. Vercel Edge serves the regenerated page on the next request
 
 // Affected routes:
 - Property changed → /collection/[slug] revalidated
@@ -312,12 +307,12 @@ GalleryItem (N items)
 
 ### Cache Strategy
 
-| Layer       | TTL        | Key Factors                        |
-| ----------- | ---------- | ---------------------------------- |
-| **Browser** | 1 hour     | Cache-Control headers from Nginx   |
-| **Nginx**   | 24 hours   | Static assets (.js, .css, images)  |
-| **ISR**     | 60 seconds | Next.js revalidateTag() on webhook |
-| **Sanity**  | N/A        | Always fresh (useCdn: false)       |
+| Layer           | TTL        | Key Factors                              |
+| --------------- | ---------- | ---------------------------------------- |
+| **Browser**     | 1 hour     | Cache-Control headers                    |
+| **Vercel Edge** | immutable  | Static assets (.js, .css, images) at CDN |
+| **ISR**         | 60 seconds | Next.js revalidateTag() on webhook       |
+| **Sanity**      | N/A        | Always fresh (useCdn: false)             |
 
 ---
 
@@ -359,35 +354,35 @@ User visits /collection/luxury-villa
 
 ### HTTPS / TLS
 
-- **Protocol:** TLS 1.3 (Nginx)
-- **Certificate:** Let's Encrypt (auto-renewed via certbot)
+- **Protocol:** TLS 1.3 (Vercel Edge)
+- **Certificate:** Managed by Vercel (auto-renewed)
 - **HSTS:** Enabled (strict-transport-security)
 
 ### Authentication
 
-- **CMS Access:** Sanity editor token (only in .env.local)
+- **CMS Access:** Sanity editor token (only in `.env.local`)
 - **Webhook:** SANITY_REVALIDATE_SECRET header validation
-- **SSH Deploy:** GitHub Actions SSH key (stored in Secrets)
+- **Deployment:** GitHub token (auto-linked with Vercel)
 
-### Firewall (UFW)
+### Network Security (Vercel)
 
-```
-Allow: SSH (22/tcp) - from GitHub Actions IPs only
-Allow: HTTP (80/tcp) - Nginx redirect to HTTPS
-Allow: HTTPS (443/tcp) - Public access
-Deny: All else
-```
+- No exposed SSH or server ports
+- DDoS protection built-in
+- Rate limiting and firewall rules managed by Vercel
+- Only HTTP(S) ports exposed publicly
 
 ### Environment Variables
 
 ```bash
-# Server (.env file)
-SANITY_PROJECT_ID=o2kvv3c9
-SANITY_DATASET=production
-SANITY_API_TOKEN=sk...        # Sensitive: systemd EnvironmentFile
-SANITY_REVALIDATE_SECRET=...  # Sensitive: webhook validation
+# Production (Vercel dashboard → Settings → Environment Variables)
+NEXT_PUBLIC_SANITY_PROJECT_ID=o2kvv3c9
+NEXT_PUBLIC_SANITY_DATASET=production
+SANITY_API_TOKEN=sk...              # Sensitive
+SANITY_REVALIDATE_SECRET=...        # Sensitive
 
-# Local (.env.local - git-ignored)
+# Local development (.env.local - git-ignored)
+NEXT_PUBLIC_SANITY_PROJECT_ID=o2kvv3c9
+NEXT_PUBLIC_SANITY_DATASET=production
 SANITY_API_TOKEN=...
 SANITY_REVALIDATE_SECRET=...
 ```
@@ -407,32 +402,15 @@ SANITY_REVALIDATE_SECRET=...
 
 **If deployment breaks:**
 
-```bash
-# 1. SSH to VPS
-ssh root@5.223.53.106
-
-# 2. Check systemd logs
-journalctl -u lamer-web -n 50
-
-# 3. Rollback to previous commit
-cd /opt/lamer-website/repo
-git log --oneline | head -5
-git reset --hard <previous-commit-hash>
-git clean -fd
-
-# 4. Rebuild and restart
-bun install
-bun run build
-systemctl restart lamer-web
-
-# 5. Verify
-curl localhost:3000
-```
+1. Go to Vercel dashboard → Deployments
+2. Find previous good deployment
+3. Click ⋯ → Promote to Production (or use CLI: `vercel rollback <deployment-url>`)
+4. Verify site is live and working
 
 **If CMS content is wrong:**
 
-- Use Sanity Studio to revert to previous version
-- Or rollback to previous git commit if code changed
+- Use Sanity Studio to revert to previous version (built-in versioning)
+- Or push new code commit to trigger fresh deployment
 
 ---
 
@@ -442,116 +420,81 @@ curl localhost:3000
 
 - **Endpoint:** GET / (home page)
 - **Expected:** HTTP 200 + HTML content
-- **Frequency:** Every 5 minutes (GitHub Actions)
-- **Action on failure:** Alert via GitHub Secrets notification
+- **Frequency:** Vercel monitors all deployments
+- **Action on failure:** Vercel notifies via dashboard + email
 
 ### Logging
 
-- **Application:** systemd journalctl (stored in /var/log/)
-- **Nginx:** /var/log/nginx/access.log, error.log
-- **Retention:** 2 weeks (logrotate)
+- **Deployment logs:** Vercel dashboard → Deployments → click deployment → Logs
+- **Runtime errors:** Vercel dashboard → Functions
+- **Build output:** Vercel dashboard → Deployments → Build Logs
+- **Retention:** Vercel archives logs; no manual setup needed
 
 ### Metrics to Track
 
 - **Core Web Vitals:** Lighthouse score > 90
 - **Response time:** < 200ms (p95)
 - **Error rate:** < 0.1%
-- **Uptime:** > 99.9%
+- **Uptime:** Vercel SLA 99.9%
+- **Build time:** < 2 minutes (Turbopack)
 
 ---
 
 ## Deployment Architecture Details
 
-### Directory Structure on VPS
+### Vercel Configuration
 
-```
-/opt/lamer-website/
-├── repo/                      # Git repository
-│   ├── .next/standalone/     # Next.js standalone runtime
-│   ├── public/               # Static assets
-│   ├── package.json
-│   └── .git/
-├── .env                       # Environment file (secrets)
-└── systemd service logs/     # Via journalctl
-```
+The site is deployed on Vercel (Hobby plan, free tier). Configuration is managed via:
 
-### systemd Service Configuration
+1. **vercel.json** (repo root)
 
-```ini
-[Unit]
-Description=La Mer Collection Website
-After=network.target
+   ```json
+   {
+     "framework": "nextjs"
+   }
+   ```
 
-[Service]
-Type=simple
-User=root
-WorkingDirectory=/opt/lamer-website/repo
-EnvironmentFile=/opt/lamer-website/.env
-ExecStart=/usr/bin/node .next/standalone/server.js
-Restart=on-failure
-RestartSec=10
-StandardOutput=journal
-StandardError=journal
+   This ensures Vercel recognizes the project as Next.js and uses the correct build process.
 
-[Install]
-WantedBy=multi-user.target
-```
+2. **Environment Variables** (Vercel dashboard)
+   - Set in Project → Settings → Environment Variables
+   - Applied to production, preview, and development environments
+   - Secrets never stored in code or `.env` file
 
-### Nginx Configuration
+3. **Deployment Trigger**
+   - Automatic: push to `main` branch triggers build and deploy
+   - Manual: `vercel --prod --yes` (builds on Vercel and promotes)
 
-```nginx
-upstream app_server {
-    server 127.0.0.1:3000;
-}
+### Build Process (Vercel)
 
-server {
-    listen 80;
-    server_name lamercollection.com www.lamercollection.com;
-    return 301 https://$server_name$request_uri;
-}
+- **Build Command:** `next build` (Turbopack, Next.js 16 default)
+- **Package Manager:** Bun (auto-detected from `bun.lock`)
+- **Build Time:** ~1-2 minutes (Turbopack is 5-10x faster than webpack)
+- **Output:** Optimized `.next/` directory
+- **Deployment:** Vercel Edge Network + Serverless Functions
 
-server {
-    listen 443 ssl http2;
-    server_name lamercollection.com www.lamercollection.com;
+### Migration Note (VPS → Vercel, 2026-11-06)
 
-    ssl_certificate /etc/letsencrypt/live/lamercollection.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/lamercollection.com/privkey.pem;
-    ssl_protocols TLSv1.3;
-    ssl_prefer_server_ciphers on;
+The project previously ran on a Hetzner VPS (5.223.53.106) with Nginx + systemd. During the migration to Vercel these artifacts were removed from the repo:
 
-    gzip on;
-    gzip_types text/html text/css application/javascript;
-    gzip_min_length 1000;
-
-    location / {
-        proxy_pass http://app_server;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-        expires 1h;
-        add_header Cache-Control "public, immutable";
-    }
-}
-```
+- `nginx/nginx.conf` - old reverse proxy config (removed)
+- `.github/workflows/deploy.yml` - old SSH deploy pipeline (removed)
+- `next.config.mjs` `output: "standalone"` (removed)
 
 ---
 
 ## Technology Justification Matrix
 
-| Decision               | Alternatives Considered       | Trade-off                                       |
-| ---------------------- | ----------------------------- | ----------------------------------------------- |
-| **Next.js 16**         | Nuxt, Remix, Astro            | More ecosystem, wider support                   |
-| **React 19**           | Vue 3, Svelte                 | Sanity v5 requires React 19+                    |
-| **Sanity v5**          | Contentful, Strapi, Hygraph   | Better for nested content (rooms in properties) |
-| **Tailwind CSS**       | CSS-in-JS, BEM, SCSS          | Utility-first is faster for prototyping         |
-| **Standalone Next.js** | Docker, Vercel                | Self-hosted, no serverless cold starts          |
-| **Bun**                | npm, pnpm, yarn               | 3x faster, but smaller ecosystem                |
-| **Hetzner VPS**        | AWS EC2, Linode, DigitalOcean | Cost-effective, good Singapore region           |
-| **Nginx**              | Apache, Caddy                 | Lightweight, proven, easy config                |
+| Decision               | Alternatives Considered         | Trade-off                                       |
+| ---------------------- | ------------------------------- | ----------------------------------------------- |
+| **Next.js 16**         | Nuxt, Remix, Astro              | More ecosystem, wider support                   |
+| **React 19**           | Vue 3, Svelte                   | Sanity v5 requires React 19+                    |
+| **Sanity v5**          | Contentful, Strapi, Hygraph     | Better for nested content (rooms in properties) |
+| **Tailwind CSS**       | CSS-in-JS, BEM, SCSS            | Utility-first is faster for prototyping         |
+| **Vercel Serverless**  | AWS Lambda, Netlify, Cloudflare | Zero ops overhead, auto-scaling, free tier      |
+| **Bun**                | npm, pnpm, yarn                 | 3x faster, but smaller ecosystem                |
+| **Vercel CDN**         | Cloudflare, AWS CloudFront      | Built-in, auto SSL, global edge locations       |
+| **GitHub Auto-Deploy** | GitLab CI, Jenkins              | Simple, integrated with repo, no extra config   |
 
 ---
 
@@ -573,4 +516,4 @@ server {
 
 ---
 
-**Last Updated:** March 2026 | **Architecture Version:** 1.0 | **Status:** Production
+**Last Updated:** November 6, 2026 (Vercel migration) | **Architecture Version:** 2.0 | **Status:** Production on Vercel

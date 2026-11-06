@@ -81,18 +81,18 @@ Create a world-class digital experience for La Mer Collection properties that:
 
 ### Reliability
 
-- 99.9% uptime SLA (Hetzner VPS)
-- Automated health checks + systemd auto-restart
-- Zero-downtime deployments via CI/CD
-- Automated SSL renewal (Let's Encrypt certbot)
+- 99.9% uptime SLA (Vercel infrastructure)
+- Automated health checks and error tracking
+- Zero-downtime deployments (push to main → auto-deploy)
+- Automated SSL renewal (Vercel managed)
 
 ### Security
 
-- HTTPS everywhere (Let's Encrypt SSL)
+- HTTPS everywhere (Vercel managed SSL)
 - Sanity API token rotation (editor tokens only in .env.local)
-- UFW firewall (SSH + Nginx only)
+- Environment variables stored in Vercel project settings (not in code)
 - No database credentials in code
-- Content Security Policy headers via Nginx
+- No exposed server infrastructure (serverless model)
 
 ### Maintainability
 
@@ -115,9 +115,9 @@ Create a world-class digital experience for La Mer Collection properties that:
 | Language        | TypeScript                   | Type safety, developer productivity                     |
 | Styling         | Tailwind CSS + CSS Variables | Design token consistency, rapid development             |
 | CMS             | Sanity v5                    | Flexible schemas, GROQ queries, embedded Studio         |
-| Hosting         | Hetzner VPS (standalone)     | Cost-effective, full control, no serverless cold starts |
+| Hosting         | Vercel (Hobby plan, free)    | Zero infrastructure management, auto-scaling, free tier |
 | Package Manager | Bun                          | 3x faster than npm, better lock file                    |
-| CI/CD           | GitHub Actions + SSH deploy  | Simple, direct control, no middleware                   |
+| CI/CD           | GitHub + Vercel auto-deploy  | Push to main → auto-build & deploy, no SSH needed       |
 
 ### Data Model
 
@@ -182,11 +182,13 @@ SiteSettings (singleton)
 - Solution: useInView hook + CSS transitions (custom useInView hook in components/)
 - Trade-off: Less complex animations, but better reliability
 
-### Why Standalone Next.js (Not Docker)?
+### Why Vercel (Not Self-Hosted)?
 
-- Previous Docker build caused OOM on 4GB RAM VPS
-- Standalone output is lighter: just .next/standalone + node_modules
-- Simpler deployment: systemd service, not container orchestration
+- Removes infrastructure management burden (no VPS, Nginx, systemd, SSL renewal)
+- Serverless deployment: push to main → instant auto-build & deploy
+- Built-in CDN + Edge caching for global performance
+- Free Hobby tier; scales to Pro (~$20/mo) if commercial use grows
+- Turbopack for 5-10x faster builds than webpack
 
 ### Why CSS Variables (Not Tailwind Gradients)?
 
@@ -203,10 +205,10 @@ SiteSettings (singleton)
 
 ### Why ISR + Webhook (Not Continuous Rebuilds)?
 
-- Rebuilds take 3min+ on VPS (slow developer feedback)
-- ISR: static pages served instantly, revalidate on CMS publish
+- Vercel builds are fast (~1min with Turbopack); ISR saves recompile cost
+- Static pages served instantly, revalidate on CMS publish
 - Webhook: automated revalidation (no manual triggers)
-- Fallback: manual revalidation if webhook fails
+- Fallback: manual revalidation via `/api/revalidate` if webhook fails
 
 ---
 
@@ -224,8 +226,8 @@ SiteSettings (singleton)
 - **Lighthouse Score:** > 90 (mobile & desktop)
 - **Core Web Vitals:** All green (LCP < 2.5s, CLS < 0.1, FID < 100ms)
 - **Page Load Time:** < 2s on 4G
-- **Deployment Time:** < 5min (git push → live)
-- **Uptime:** 99.9% (Hetzner + systemd)
+- **Deployment Time:** < 2min (git push → live via Vercel)
+- **Uptime:** 99.9% (Vercel SLA)
 
 ### Content KPIs
 
@@ -270,9 +272,9 @@ SiteSettings (singleton)
 - [ ] Core Web Vitals all green
 - [ ] Mobile responsive tested on iOS Safari
 - [ ] Contact form submissions working
-- [ ] DNS pointing to 5.223.53.106
-- [ ] SSL certificate valid
-- [ ] CI/CD pipeline passing all checks
+- [ ] DNS pointing to Vercel (A `@` → 216.198.79.1, CNAME `www` → cname.vercel-dns.com)
+- [ ] SSL certificate valid (auto-renewed by Vercel)
+- [ ] Auto-deploy pipeline active (push to main)
 - [ ] Uptime monitoring configured
 
 ### Post-Launch Maintenance
@@ -280,7 +282,7 @@ SiteSettings (singleton)
 - [ ] Weekly content audits (broken links, outdated info)
 - [ ] Monthly SEO performance review
 - [ ] Quarterly performance optimization review
-- [ ] Automated SSL renewal (certbot timer active)
+- [ ] Vercel deployment monitoring (auto-alerts on build failures)
 - [ ] Backup strategy for CMS data (Sanity provides built-in versioning)
 
 ---
@@ -300,13 +302,13 @@ SiteSettings (singleton)
 
 ## Team & Responsibilities
 
-| Role               | Responsibility                                          |
-| ------------------ | ------------------------------------------------------- |
-| Product Owner      | Define features, prioritize roadmap                     |
-| Frontend Developer | Implement React components, CMS integration, deployment |
-| Content Manager    | Create/update property info, images, CMS content        |
-| DevOps             | Manage VPS, SSL, Nginx config, monitoring               |
-| QA                 | Test responsive design, SEO, performance                |
+| Role               | Responsibility                                           |
+| ------------------ | -------------------------------------------------------- |
+| Product Owner      | Define features, prioritize roadmap                      |
+| Frontend Developer | Implement React components, CMS integration, git push    |
+| Content Manager    | Create/update property info, images, CMS content         |
+| DevOps             | Monitor Vercel deployments, manage environment variables |
+| QA                 | Test responsive design, SEO, performance                 |
 
 ---
 
@@ -315,9 +317,9 @@ SiteSettings (singleton)
 - **Live Site:** https://lamercollection.com
 - **CMS Dashboard:** https://lamercollection.sanity.studio
 - **GitHub Repo:** https://github.com/duongminhphucwork/lamer-collection-website
-- **Server IP:** 5.223.53.106 (Hetzner Singapore)
-- **CI/CD:** GitHub Actions (`.github/workflows/deploy.yml`)
+- **Host:** Vercel (Hobby plan, migrated 2026-11-06)
+- **Deployment:** Auto-triggered by push to main branch
 
 ---
 
-**Last Updated:** March 2026 | **Version:** 1.0 | **Status:** Live
+**Last Updated:** November 6, 2026 (Vercel migration) | **Version:** 1.1 | **Status:** Live on Vercel
