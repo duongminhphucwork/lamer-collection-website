@@ -13,3 +13,5 @@ next-env.d.ts
 .claude/
 repomix-output.xml
 *.xlsx
+.vercel
+.env*
